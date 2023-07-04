@@ -55,8 +55,8 @@
                         <h:outputText value="#{Employee.identification}"/>
                     </p:column>
 
-                    <p:column headerText="Email" sortBy="#{Employee.mail}" filterBy="#{Employee.mail}" filterMatchMode="contains">
-                        <h:outputText value="#{Employee.mail}"/>
+                    <p:column headerText="Email" sortBy="#{Employee.email}" filterBy="#{Employee.email}" filterMatchMode="contains">
+                        <h:outputText value="#{Employee.email}"/>
                     </p:column>
 
                     <p:column headerText="Phone" sortBy="#{Employee.phone}" filterBy="#{Employee.phone}" filterMatchMode="contains">
@@ -92,8 +92,8 @@
                         <h:outputText value="#{Employee.identification}"/>
                     </p:column>
 
-                    <p:column headerText="Email" sortBy="#{Employee.mail}" filterBy="#{Employee.mail}" filterMatchMode="contains">
-                        <h:outputText value="#{Employee.mail}"/>
+                    <p:column headerText="Email" sortBy="#{Employee.email}" filterBy="#{Employee.email}" filterMatchMode="contains">
+                        <h:outputText value="#{Employee.email}"/>
                     </p:column>
 
                     <p:column headerText="Phone" sortBy="#{Employee.phone}" filterBy="#{Employee.phone}" filterMatchMode="contains">
@@ -117,14 +117,6 @@
                                          styleClass="edit-button rounded-button ui-button-success" process="@this">
                             <f:setPropertyActionListener value="#{Employee}" target="#{employeeController.selectedEmployee}"/>
                             <p:resetInput target=":form:manage-user-content"/>
-                        </p:commandButton>
-                    </p:column>
-
-                    <p:column>
-                        <p:commandButton icon="pi pi-shield" update=":form:manage-user-content" actionListener="#{employeeController.deleteUser}"
-                                         oncomplete="PF('manageUserDialog2').show()" process="manage-user-content @this">
-                            <f:setPropertyActionListener value="#{Employee}" target="#{employeeController.selectedEmployee}"/>
-                            <p:resetInput target=":form:manage-user-content2"/>
                         </p:commandButton>
                     </p:column>
 
@@ -171,8 +163,8 @@
                                     <p:inputText id="identification" value="#{employeeController.selectedEmployee.identification}"/>
                                 </div>
                                 <div class="p-field">
-                                    <p:outputLabel for="mail">Mail</p:outputLabel>
-                                    <p:inputText id="mail" value="#{employeeController.selectedEmployee.mail}"/>
+                                    <p:outputLabel for="email">Email</p:outputLabel>
+                                    <p:inputText id="email" value="#{employeeController.selectedEmployee.email}"/>
                                 </div>
                                 <div class="p-field">
                                     <p:outputLabel for="phone">Phone</p:outputLabel>

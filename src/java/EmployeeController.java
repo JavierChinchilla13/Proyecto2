@@ -1,4 +1,3 @@
-
 import com.mycompany.edu.ulatina.hth_db_connetion.EmployeeService;
 import com.mycompany.edu.ulatina.hth_db_connetion.EmployeeTO;
 import java.io.Serializable;
@@ -191,7 +190,7 @@ public class EmployeeController implements Serializable{
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Identification is empty"));
             flag = false;
         } 
-        if (this.selectedEmployee.getMail() == null || this.selectedEmployee.getMail().equals("")) {
+        if (this.selectedEmployee.getEmail()== null || this.selectedEmployee.getEmail().equals("")) {
             //ERROR
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Mail is empty"));
             flag = false;
@@ -246,7 +245,7 @@ public class EmployeeController implements Serializable{
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Identification is empty"));
             flag = false;
         } 
-        if (this.selectedEmployee.getMail() == null || this.selectedEmployee.getMail().equals("")) {
+        if (this.selectedEmployee.getEmail()== null || this.selectedEmployee.getEmail().equals("")) {
             //ERROR
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Mail is empty"));
             flag = false;
@@ -270,7 +269,7 @@ public class EmployeeController implements Serializable{
 
         if (flag) {
 
-            this.service.update(selectedEmployee, selectedEmployee.getFirstName(), this.selectedEmployee.getLastName(), this.selectedEmployee.getIdentification(), this.selectedEmployee.getMail(), this.selectedEmployee.getPhone(), this.selectedEmployee.getType(), this.selectedEmployee.getStatus(), this.selectedEmployee.getPassword());
+            this.service.update(selectedEmployee, selectedEmployee.getFirstName(), this.selectedEmployee.getLastName(), this.selectedEmployee.getIdentification(), this.selectedEmployee.getEmail(), this.selectedEmployee.getPhone(), this.selectedEmployee.getType(), this.selectedEmployee.getStatus(), this.selectedEmployee.getPassword());
             //---this.servicioUsuario.listarUsuarios();
             //this.listaUsuarios.add(selectedEmployee);//para simular       
             this.esNuevo = false;
@@ -286,7 +285,7 @@ public class EmployeeController implements Serializable{
 
         if (flag) {
 
-            this.service.update(selectedEmployee, this.selectedEmployee.getFirstName(), this.selectedEmployee.getLastName(), this.selectedEmployee.getIdentification(), this.selectedEmployee.getMail(), this.selectedEmployee.getPhone(), this.selectedEmployee.getType(), 6, this.selectedEmployee.getPassword());
+            this.service.update(selectedEmployee, this.selectedEmployee.getFirstName(), this.selectedEmployee.getLastName(), this.selectedEmployee.getIdentification(), this.selectedEmployee.getEmail(), this.selectedEmployee.getPhone(), this.selectedEmployee.getType(), 6, this.selectedEmployee.getPassword());
             //---this.servicioUsuario.listarUsuarios();
             //this.listaUsuarios.add(selectedEmployee);//para simular       
             this.esNuevo = false;
