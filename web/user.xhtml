@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        Hello from Facelets
+        <h3>Welcome to HTH,  #{employeeController.firstName}</h3>
+        <p:growl id="message" showDetail="true"/>
+        <h:form id="form">
+            <p:growl id="message" showDetail="true"/>
+            <div class="card">
+                 
+                <p:tabMenu activeIndex="#{param.i}">
+                    <p:menuitem value="Home" outcome="landingPage" icon="pi pi-fw pi-home">
+                        <f:param name="i" value="0"/>
+                    </p:menuitem>
+                    <p:menuitem value="User" outcome="user" icon="pi pi-fw pi-calendar">
+                        <f:param name="i" value="1"/>
+                    </p:menuitem>
+                    <p:menuitem value="Projects" outcome="projects" icon="pi pi-fw pi-calendar">
+                        <f:param name="i" value="1"/>
+                    </p:menuitem>
+                                   
+                </p:tabMenu>
+
+                <br/>
+
+                <p:commandButton value="Nuevo usuario" icon="pi pi-plus" rendered="#{employeeController.isAdmin}" actionListener="#{employeeController.openNew}"
+                                 update=":form:manage-user-content" oncomplete="PF('manageUserDialog').show()"
+                                 styleClass="ui-button-success" style="margin-right: .5rem">
+                    <p:resetInput target=":form:manage-user-content"/>
+                </p:commandButton>
+                
+                <p:dataTable var="Employee" value="#{employeeController.activeEmployees}" rendered="#{employeeController.isManager || employeeController.isEmployee}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
+                             {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados">
+                    <f:facet name="header"> Employee List </f:facet>
+
+                    
+
+                    <p:column headerText="FirstName" sortBy="#{Employee.firstName}" filterBy="#{Employee.firstName}" filterMatchMode="contains">
+                        <h:outputText value="#{Employee.firstName}"/>
+                    </p:column>
+
+                    <p:column headerText="LastName" sortBy="#{Employee.lastName}" filterBy="#{Employee.lastName}" filterMatchMode="contains">
+                        <h:outputText value="#{Employee.lastName}"/>
+                    </p:column>
+
+                    <p:column headerText="Identification" sortBy="#{Employee.identification}" filterBy="#{Employee.identification}" filterMatchMode="contains">
+                        <h:outputText value="#{Employee.identification}"/>
+                    </p:column>
+
+                    <p:column headerText="Email" sortBy="#{Employee.mail}" filterBy="#{Employee.mail}" filterMatchMode="contains">
+                        <h:outputText value="#{Employee.mail}"/>
+                    </p:column>
+
+                    <p:column headerText="Phone" sortBy="#{Employee.phone}" filterBy="#{Employee.phone}" filterMatchMode="contains">
+                        <h:outputText value="#{Employee.phone}"/>
+                    </p:column>
+
+                    <p:column headerText="Type" sortBy="#{Employee.type}" filterBy="#{Employee.type}" filterMatchMode="contains">
+                        <h:outputText value="#{Employee.type}"/>
+                    </p:column>          
+
+                </p:dataTable>
+
+
+
+                <p:dataTable id="Employees" var="Employee" value="#{employeeController.employees}" rendered="#{employeeController.isAdmin}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
+                             {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados"  >
+                    <f:facet name="header"> Employee List </f:facet>
+
+                    <p:column headerText="ID" sortBy="#{Employee.id}" filterBy="#{Employee.id}">
+                        <h:outputText value="#{Employee.id}"/>
+                    </p:column>
+
+                    <p:column headerText="FirstName" sortBy="#{Employee.firstName}" filterBy="#{Employee.firstName}" filterMatchMode="contains">
+                        <h:outputText value="#{Employee.firstName}"/>
+                    </p:column>
+
+                    <p:column headerText="LastName" sortBy="#{Employee.lastName}" filterBy="#{Employee.lastName}" filterMatchMode="contains">
+                        <h:outputText value="#{Employee.lastName}"/>
+                    </p:column>
+
+                    <p:column headerText="Identification" sortBy="#{Employee.identification}" filterBy="#{Employee.identification}" filterMatchMode="contains">
+                        <h:outputText value="#{Employee.identification}"/>
+                    </p:column>
+
+                    <p:column headerText="Email" sortBy="#{Employee.mail}" filterBy="#{Employee.mail}" filterMatchMode="contains">
+                        <h:outputText value="#{Employee.mail}"/>
+                    </p:column>
+
+                    <p:column headerText="Phone" sortBy="#{Employee.phone}" filterBy="#{Employee.phone}" filterMatchMode="contains">
+                        <h:outputText value="#{Employee.phone}"/>
+                    </p:column>
+
+                    <p:column headerText="Type" sortBy="#{Employee.type}" filterBy="#{Employee.type}" filterMatchMode="contains">
+                        <h:outputText value="#{Employee.type}"/>
+                    </p:column>
+
+                    <p:column headerText="Status" sortBy="#{Employee.status}" filterBy="#{Employee.status}" filterMatchMode="contains">
+                        <h:outputText value="#{Employee.status}"/>
+                    </p:column>
+
+                    <p:column headerText="Password" sortBy="#{Employee.password}" filterBy="#{Employee.password}" filterMatchMode="contains">
+                        <h:outputText value="#{Employee.password}"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton icon="pi pi-pencil" update=":form:manage-user-content" 
+                                         oncomplete="PF('manageUserDialog').show()"
+                                         styleClass="edit-button rounded-button ui-button-success" process="@this">
+                            <f:setPropertyActionListener value="#{Employee}" target="#{employeeController.selectedEmployee}"/>
+                            <p:resetInput target=":form:manage-user-content"/>
+                        </p:commandButton>
+                    </p:column>
+
+                    <p:column>
+                        <p:commandButton icon="pi pi-shield" update=":form:manage-user-content" actionListener="#{employeeController.deleteUser}"
+                                         oncomplete="PF('manageUserDialog2').show()" process="manage-user-content @this">
+                            <f:setPropertyActionListener value="#{Employee}" target="#{employeeController.selectedEmployee}"/>
+                            <p:resetInput target=":form:manage-user-content2"/>
+                        </p:commandButton>
+                    </p:column>
+
+                </p:dataTable>
+                <p:dialog header="Suspend User?" showEffect="fade" modal="true"
+                          widgetVar="manageUserDialog2" responsive="true">
+                    <p:outputPanel id="manage-user-content2" class="ui-fluid"> 
+                        <p:outputPanel>
+                            <p:growl id="message" showDetail="true"/>
+                            <p:commandButton value="Confirm" action="#{employeeController.deleteUser}" update="message" styleClass="mr-2" icon="pi pi-check">
+                                <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
+                            </p:commandButton>
+
+                            <p:commandButton value="No" action="#{confirmView.delete}" update="message" styleClass="ui-button-danger" icon="pi pi-times">
+                                <p:confirm header="Confirmation" message="Do you want to delete this record?" icon="pi pi-info-circle"/>
+                            </p:commandButton>
+
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
+                            </p:confirmDialog>
+
+                        </p:outputPanel>
+                    </p:outputPanel>
+                </p:dialog>
+
+
+
+                <p:dialog header="User detail" showEffect="fade" modal="true"
+                          widgetVar="manageUserDialog" responsive="true">
+                    <p:outputPanel id="manage-user-content" class="ui-fluid">
+
+                        <p:outputPanel>
+                            <div class="p-field">
+                                <p:outputLabel for="name">Name</p:outputLabel>
+                                <p:inputText id="name" value="#{employeeController.selectedEmployee.firstName}"/>
+                            </div>
+                            <div class="p-field">
+                                <p:outputLabel for="lastName">LastName</p:outputLabel>
+                                    <p:inputText id="lastName" value="#{employeeController.selectedEmployee.lastName}"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="identification">identification</p:outputLabel>
+                                    <p:inputText id="identification" value="#{employeeController.selectedEmployee.identification}"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="mail">Mail</p:outputLabel>
+                                    <p:inputText id="mail" value="#{employeeController.selectedEmployee.mail}"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="phone">Phone</p:outputLabel>
+                                    <p:inputText id="phone" value="#{employeeController.selectedEmployee.phone}"/>
+                                </div>
+                                
+                                <div class="p-field">
+                                    <p:outputLabel for="type">Type</p:outputLabel>
+                                    <p:inputText id="type" value="#{employeeController.selectedEmployee.type}"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="status">Status</p:outputLabel>
+                                    <p:inputText id="status" value="#{employeeController.selectedEmployee.status}"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="pass">Password</p:outputLabel>
+                                    <p:inputText id="pass" value="#{employeeController.selectedEmployee.password}"/>
+                                </div>
+                  
+                            </p:outputPanel>
+
+                        
+
+                    </p:outputPanel>
+                    <f:facet name="footer">
+                        <p:commandButton value="Save" icon="pi pi-check"   actionListener="#{employeeController.saveUser}"
+                                         update="form manage-user-content" process="manage-user-content @this"/>
+                        
+                        <p:commandButton value="Update" icon="pi pi-check"   actionListener="#{employeeController.updateUser}"
+                                         update="form manage-user-content" process="manage-user-content @this"/>
+                        
+                        <p:commandButton value="Suspend" icon="pi pi-check"   actionListener="#{employeeController.deleteUser}"
+                                         update="form manage-user-content" process="manage-user-content @this"/>
+
+                        <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageUserDialog').hide()"
+                                         class="ui-button-secondary"/>
+                    </f:facet>
+
+                </p:dialog>
+
+            </div>           
+        </h:form>
+    </h:body>
+</html>
+
