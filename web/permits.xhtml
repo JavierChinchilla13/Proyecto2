@@ -34,6 +34,36 @@
                 </p:tabMenu>
 
                 <br/>
+                
+                
+                <p:commandButton value="Ask for permit" icon="pi pi-plus" rendered="#{employeeController.isAdmin}" actionListener="#{employeeController.openNew}"
+                                 update=":form:manage-user-content" oncomplete="PF('manageUserDialog').show()"
+                                 styleClass="ui-button-success" style="margin-right: .5rem">
+                    <p:resetInput target=":form:manage-user-content"/>
+                </p:commandButton>
+                
+                
+
+                <p:dialog header="User detail" showEffect="fade" modal="true"
+                          widgetVar="manageUserDialog" responsive="true">
+                    <p:outputPanel id="manage-user-content" class="ui-fluid">
+
+                        <div class="field col-12 md:col-4">
+                            <p:outputLabel for="range" value="Range Selection"/>
+                            <p:datePicker id="range" selectionMode="range" value="#{calendarView.range}" readonlyInput="true"/>
+                        </div>
+                        <div class="p-field">
+                            <p:outputLabel for="description">Description</p:outputLabel>
+                            <p:inputText id="description" value="#{employeeController.selectedPermit.description}"/>
+                        </div>
+
+
+                    </p:outputPanel>
+                </p:dialog>
+
+                
+                
+                
             </div>           
         </h:form>
     </h:body>

@@ -16,7 +16,7 @@
             <div class="card">
                  
                 <p:tabMenu activeIndex="#{param.i}">
-                   <p:menuitem value="Home" outcome="landingPage" icon="pi pi-fw pi-home">
+                    <p:menuitem value="Home" outcome="landingPage" icon="pi pi-fw pi-home">
                         <f:param name="i" value="0"/>
                     </p:menuitem>
                     <p:menuitem value="Users" outcome="user" icon="pi pi-fw pi-calendar">
@@ -28,12 +28,15 @@
                     <p:menuitem value="Vacations" outcome="vacations" icon="pi pi-fw pi-calendar">
                         <f:param name="i" value="3"/>
                     </p:menuitem>
+                    <p:menuitem value="Permits" outcome="permits" icon="pi pi-fw pi-calendar">
+                        <f:param name="i" value="4"/>
+                    </p:menuitem>
                                    
                 </p:tabMenu>
 
                 <br/>
 
-                <p:commandButton value="Nuevo usuario" icon="pi pi-plus" rendered="#{employeeController.isAdmin}" actionListener="#{employeeController.openNew}"
+                <p:commandButton value="New user" icon="pi pi-plus" rendered="#{employeeController.isAdmin}" actionListener="#{employeeController.openNew}"
                                  update=":form:manage-user-content" oncomplete="PF('manageUserDialog').show()"
                                  styleClass="ui-button-success" style="margin-right: .5rem">
                     <p:resetInput target=":form:manage-user-content"/>
