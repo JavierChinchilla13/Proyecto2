@@ -35,8 +35,7 @@ public class EmployeeController implements Serializable{
     private final EmployeeService service = new EmployeeService();
     private boolean esNuevo;
     private EmployeeTO selectedEmployee = new EmployeeTO();
-    private PermitTO selectedPermit = new PermitTO();
-    private final PermitService pService = new PermitService();
+    
 
     
     
@@ -76,25 +75,7 @@ public class EmployeeController implements Serializable{
         }catch(Exception e){
             e.printStackTrace();
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving th list of employees"));
-            if (this.selectedEmployee.getType() == 1){
-                
-                
-            }
-            if (this.selectedEmployee.getType() == 2){
-                
-            }
-            if (this.selectedEmployee.getType() == 3){
-                
-            }
-            if (this.selectedEmployee.getStatus() == 4 ) {
-                
-            }
-            if (this.selectedEmployee.getStatus() == 5 ) {
-                
-            }
-            if (this.selectedEmployee.getStatus() == 6 ) {
-                
-            }
+            
 
         }
         List<EmployeeTO> list = new ArrayList<>();
@@ -177,22 +158,12 @@ public class EmployeeController implements Serializable{
         this.isEmployee = isEmployee;
     }
     
-    public PermitTO getSelectedPermit() {
-        return selectedPermit;
-    }
-
-    public void setSelectedPermit(PermitTO selectedPermit) {
-        this.selectedPermit = selectedPermit;
-    }
     
     public EmployeeService getService() {
         return service;
     }
 
-    public PermitService getpService() {
-        return pService;
-    }
-
+    
     
     
 
@@ -400,29 +371,7 @@ public class EmployeeController implements Serializable{
         }
     }
      
-     public void savePermit() throws Exception {
-
-        boolean flag = true;
-        
-        if (this.selectedPermit.getDate() == null || this.selectedPermit.getDate().equals("")) {
-            //ERROR
-            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Date is empty"));
-            flag = false;
-        }
-        
-        
-        
-        if (flag){
-            System.out.println("Saving permit");
-            this.pService.insert(this.selectedPermit);
-            //---this.servicioUsuario.listarUsuarios();
-            //this.listaUsuarios.add(selectedEmployee);//para simular       
-            this.esNuevo = false;
-            this.selectedPermit = new PermitTO();
-            PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
-        }
-
-    }
+     
      
 
     public class ConfirmView {

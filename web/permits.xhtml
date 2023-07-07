@@ -36,7 +36,7 @@
                 <br/>
                 
                 
-                <p:commandButton value="Ask for permit" icon="pi pi-plus" rendered="#{employeeController.isAdmin}" actionListener="#{employeeController.openNew}"
+                <p:commandButton value="Ask for permit" icon="pi pi-plus" actionListener="#{permitController.openNew}"
                                  update=":form:manage-user-content" oncomplete="PF('manageUserDialog').show()"
                                  styleClass="ui-button-success" style="margin-right: .5rem">
                     <p:resetInput target=":form:manage-user-content"/>
@@ -44,21 +44,29 @@
                 
                 
 
-                <p:dialog header="User detail" showEffect="fade" modal="true"
+                <p:dialog header="Permit" showEffect="fade" modal="true"
                           widgetVar="manageUserDialog" responsive="true">
                     <p:outputPanel id="manage-user-content" class="ui-fluid">
-
-                        <div class="field col-12 md:col-4">
+                        
+                        <p:outputPanel>
+                            
+                            <div class="field col-12 md:col-4">
                             <p:outputLabel for="range" value="Range Selection"/>
                             <p:datePicker id="range" selectionMode="range" value="#{calendarView.range}" readonlyInput="true"/>
                         </div>
                         <div class="p-field">
                             <p:outputLabel for="description">Description</p:outputLabel>
-                            <p:inputText id="description" value="#{employeeController.selectedPermit.description}"/>
+                            <p:inputText id="description" value="#{permitController.selectedPermit.description}"/>
                         </div>
-
+                        </p:outputPanel>
 
                     </p:outputPanel>
+                    <f:facet name="footer">
+                        <p:commandButton value="Save" icon="pi pi-check"   actionListener="#{permitController.saveUser}"
+                                         update="form manage-user-content" process="manage-user-content @this"/>
+                        
+                    </f:facet>
+                    
                 </p:dialog>
 
                 
