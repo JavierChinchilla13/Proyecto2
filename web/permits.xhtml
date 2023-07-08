@@ -8,6 +8,7 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
+        
         <h3>Welcome to HTH,  #{employeeController.firstName}</h3>
         <p:growl id="message" showDetail="true"/>
         <h:form id="form">
@@ -36,40 +37,70 @@
                 <br/>
                 
                 
-                <p:commandButton value="Ask for permit" icon="pi pi-plus" actionListener="#{permitController.openNew}"
+                <p:commandButton value="Request permit" icon="pi pi-plus" actionListener="#{permitController.openNew}"
                                  update=":form:manage-user-content" oncomplete="PF('manageUserDialog').show()"
                                  styleClass="ui-button-success" style="margin-right: .5rem">
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
+                
+                 
+                <p:dataTable var="Permit" value="#{permitController.searchByEmployee(employeeController.id)}"  paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
+                             {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados">
+                    <f:facet name="header"> My permits </f:facet>
+
+                    
+
+                    <p:column headerText="FirstName" sortBy="#{Permit.id}" filterBy="#{Permit.id}" filterMatchMode="contains">
+                        <h:outputText value="#{Permit.id}"/>
+                    </p:column>
+
+                    <p:column headerText="id" sortBy="#{Permit.idEmployee}" filterBy="#{Permit.idEmployee}" filterMatchMode="contains">
+                        <h:outputText value="#{Permit.idEmployee}"/>
+                    </p:column>
+
+                    <p:column headerText="Date" sortBy="#{Permit.date}" filterBy="#{Permit.date}" filterMatchMode="contains">
+                        <h:outputText value="#{Permit.date}"/>
+                    </p:column>
+
+                    <p:column headerText="Description" sortBy="#{Permit.description}" filterBy="#{Permit.description}" filterMatchMode="contains">
+                        <h:outputText value="#{Permit.description}"/>
+                    </p:column>
+
+                    <p:column headerText="Status" sortBy="#{Permit.status}" filterBy="#{Permit.status}" filterMatchMode="contains">
+                        <h:outputText value="#{Permit.status}"/>
+                    </p:column>
+          
+
+                </p:dataTable>
                 
                 
 
                 <p:dialog header="Permit" showEffect="fade" modal="true"
                           widgetVar="manageUserDialog" responsive="true">
                     <p:outputPanel id="manage-user-content" class="ui-fluid">
-                        
+
                         <p:outputPanel>
-                            
+
                             <div class="field col-12 md:col-4">
-                            <p:outputLabel for="range" value="Range Selection"/>
-                            <p:datePicker id="range" selectionMode="range" value="#{calendarView.range}" readonlyInput="true"/>
-                        </div>
-                        <div class="p-field">
-                            <p:outputLabel for="description">Description</p:outputLabel>
-                            <p:inputText id="description" value="#{permitController.selectedPermit.description}"/>
-                        </div>
+                                <p:outputLabel for="basic" value="Basic"/>
+                                <p:datePicker id="basic" value="#{permitController.date}" />
+                            </div>
+                            <div class="p-field">
+                                <p:outputLabel for="description">Description</p:outputLabel>
+                                <p:inputText id="description" value="#{permitController.selectedPermit.description}"/>
+                            </div>
                         </p:outputPanel>
 
                     </p:outputPanel>
                     <f:facet name="footer">
-                        <p:commandButton value="Save" icon="pi pi-check"   actionListener="#{permitController.saveUser}"
+                        <p:commandButton value="Request" icon="pi pi-check"   actionListener="#{permitController.savePermit}"
                                          update="form manage-user-content" process="manage-user-content @this"/>
                         
                     </f:facet>
                     
                 </p:dialog>
 
-                
                 
                 
             </div>           
