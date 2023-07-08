@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+       <h:form id="form">
+            
+         
+            <p:commandButton value="Return" icon="pi pi-arrow-down-left" actionListener="#{permitController.returnPermit}"
+                                 
+                                 styleClass="ui-button-success" style="margin-right: .10rem">
+                    <p:resetInput target=":form:manage-user-content"/>
+                </p:commandButton>
+            
+            <p:dataTable var="Permit" value="#{permitController.permits}"  paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
+                         {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados">
+                <f:facet name="header"> Permits </f:facet>
+
+
+
+                <p:column headerText="id" sortBy="#{Permit.id}" filterBy="#{Permit.id}" filterMatchMode="contains">
+                    <h:outputText value="#{Permit.id}"/>
+                </p:column>
+
+                <p:column headerText="Employee Id" sortBy="#{Permit.idEmployee}" filterBy="#{Permit.idEmployee}" filterMatchMode="contains">
+                    <h:outputText value="#{Permit.idEmployee}"/>
+                </p:column>
+
+                <p:column headerText="Date" sortBy="#{Permit.date}" filterBy="#{Permit.date}" filterMatchMode="contains">
+                    <h:outputText value="#{Permit.date}"/>
+                </p:column>
+
+                <p:column headerText="Description" sortBy="#{Permit.description}" filterBy="#{Permit.description}" filterMatchMode="contains">
+                    <h:outputText value="#{Permit.description}"/>
+                </p:column>
+
+                <p:column headerText="Status" sortBy="#{Permit.status}" filterBy="#{Permit.status}" filterMatchMode="contains">
+                    <h:outputText value="#{Permit.status}"/>
+                </p:column>
+
+                <p:column>
+                   <p:commandButton icon="pi pi-pencil" update=":form:manage-user-content1" 
+                                         oncomplete="PF('manageUserDialog').show()"
+                                         styleClass="edit-button rounded-button ui-button-success" process="@this">
+                            <f:setPropertyActionListener value="#{Permit}" target="#{permitController.selectedPermit}"/>
+                            <p:resetInput target=":form:manage-user-content1"/>
+                        </p:commandButton>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:dialog header="Permit" showEffect="fade" modal="true"
+                      widgetVar="manageUserDialog" responsive="true">
+                <p:outputPanel id="manage-user-content1" class="ui-fluid">
+
+                    <p:outputPanel>
+
+                        <div class="field col-12 md:col-4">
+                            <p:outputLabel for="basic" value="Basic"/>
+                            <p:datePicker id="basic" value="#{permitController.date}" />
+                        </div>
+                        <div class="p-field">
+                            <p:outputLabel for="description">Description</p:outputLabel>
+                            <p:inputText id="description" value="#{permitController.selectedPermit.description}"/>
+                        </div>
+                    </p:outputPanel>
+
+                </p:outputPanel>
+                <f:facet name="footer">
+                    <p:commandButton value="Request" icon="pi pi-check"   actionListener="#{permitController.savePermit}"
+                                     update="form manage-user-content1" process="manage-user-content1 @this"/>
+
+                </f:facet>
+
+            </p:dialog>
+            
+             <p:dialog header="Permits" showEffect="fade" modal="true"
+                          widgetVar="manageUserDialog" responsive="true">
+                    <p:outputPanel id="manage-user-content" class="ui-fluid">
+
+                        <p:outputPanel>
+                            <div class="p-field">
+                                <p:outputLabel for="idEmployee">Employee</p:outputLabel>
+                                <p:inputText id="idEmployee" value="#{permitController.selectedPermit.idEmployee}"/>
+                            </div>
+                            <div class="p-field">
+                                <p:outputLabel for="date">Date</p:outputLabel>
+                                    <p:inputText id="date" value="#{permitController.selectedPermit.date}"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="description">Description</p:outputLabel>
+                                    <p:inputText id="description" value="#{permitController.selectedPermit.description}"/>
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="status">Status</p:outputLabel>
+                                    <p:inputText id="status" value="#{permitController.selectedPermit.status}"/>
+                                </div>
+                                
+                  
+                            </p:outputPanel>
+
+                        
+
+                    </p:outputPanel>
+                    <f:facet name="footer">
+                        <p:commandButton value="Approve" icon="pi pi-check"   actionListener="#{employeeController.saveUser}"
+                                         update="form manage-user-content1" process="manage-user-content1 @this"/>
+                        
+                        <p:commandButton value="Deny" icon="pi pi-check"   actionListener="#{employeeController.updateUser}"
+                                         update="form manage-user-content1" process="manage-user-content1 @this"/>
+                       
+                    </f:facet>
+
+                </p:dialog>
+
+        </h:form>
+
+    </h:body>
+</html>
+

@@ -43,6 +43,12 @@
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
                 
+                <p:commandButton value="Review permits" icon="pi pi-check" rendered="#{employeeController.isAdmin}" actionListener="#{permitController.reiviewPermit}"
+                                 
+                                 styleClass="ui-button-success" style="margin-right: .10rem">
+                    <p:resetInput target=":form:manage-user-content"/>
+                </p:commandButton>
+                
                  
                 <p:dataTable var="Permit" value="#{permitController.searchByEmployee(employeeController.id)}"  paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                              {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -51,11 +57,11 @@
 
                     
 
-                    <p:column headerText="FirstName" sortBy="#{Permit.id}" filterBy="#{Permit.id}" filterMatchMode="contains">
+                    <p:column headerText="id" sortBy="#{Permit.id}" filterBy="#{Permit.id}" filterMatchMode="contains">
                         <h:outputText value="#{Permit.id}"/>
                     </p:column>
 
-                    <p:column headerText="id" sortBy="#{Permit.idEmployee}" filterBy="#{Permit.idEmployee}" filterMatchMode="contains">
+                    <p:column headerText="Employee Id" sortBy="#{Permit.idEmployee}" filterBy="#{Permit.idEmployee}" filterMatchMode="contains">
                         <h:outputText value="#{Permit.idEmployee}"/>
                     </p:column>
 

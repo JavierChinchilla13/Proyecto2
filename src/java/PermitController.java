@@ -12,6 +12,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import org.primefaces.PrimeFaces;
 
 /*
@@ -118,8 +119,74 @@ public class PermitController implements Serializable{
         List<PermitTO> list = new ArrayList<>();
         return list;
     }
-    
+    public List<PermitTO> getPermits(){
+        try{
+            return pService.getPermits();
+        }catch(Exception e){
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving th list of employees"));
 
-
+        }
+        List<PermitTO> list = new ArrayList<>();
+        return list;
+    }
     
+    public void reiviewPermit() throws Exception {
+
+        //boolean flag = true;
+        
+        this.redirect("/faces/reviewPermits.xhtml");
+
+    }
+    public void returnPermit() throws Exception {
+
+        //boolean flag = true;
+        
+        this.redirect("/faces/permits.xhtml");
+
+    }
+    
+    public void denyPermit() throws Exception {
+
+        boolean flag = true;
+        
+
+        if (flag) {
+            
+            this.pService.update(selectedPermit, this.selectedPermit.getIdEmployee(), this.selectedPermit.getDate(), this.selectedPermit.getDescription(), 13);
+            //---this.servicioUsuario.listarUsuarios();
+            //this.listaUsuarios.add(selectedEmployee);//para simular       
+            this.esNuevo = false;
+            this.selectedPermit = new PermitTO();
+            PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
+        }
+
+    }
+     public void approvePermit() throws Exception {
+
+        boolean flag = true;
+        
+
+        if (flag) {
+            
+            this.pService.update(selectedPermit, this.selectedPermit.getIdEmployee(), this.selectedPermit.getDate(), this.selectedPermit.getDescription(), 12);
+            //---this.servicioUsuario.listarUsuarios();
+            //this.listaUsuarios.add(selectedEmployee);//para simular       
+            this.esNuevo = false;
+            this.selectedPermit = new PermitTO();
+            PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
+        }
+
+    }
+
+    public void redirect(String rute) {
+        HttpServletRequest request;
+        try {
+            request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            FacesContext.getCurrentInstance().getExternalContext().redirect(request.getContextPath() + rute);
+        } catch (Exception e) {
+
+        }
+
+    }
 }
