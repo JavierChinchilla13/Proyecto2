@@ -443,17 +443,17 @@ public class EmployeeController implements Serializable {
     }
     
     public String getDocumentPath(){
-        String path = "C:\\Users\\luis2\\OneDrive\\Escritorio\\ULatina\\Proyecto 2\\Proyecto Final\\Documents\\";
+        String path = "C:\\Proyecto2-Docs\\";
         return path +  this.originalImageFile.getFileName();
     }
-     
+
      public void handleFileUpload(FileUploadEvent event) {
         try {
             this.originalImageFile = null;
             UploadedFile file = event.getFile();
             if (file != null && file.getContent() != null && file.getContent().length > 0 && file.getFileName() != null) {
                 this.originalImageFile = file;
-                this.copyFileInFileSystem(file.getInputStream(), "C:\\Users\\luis2\\OneDrive\\Escritorio\\ULatina\\Proyecto 2\\Proyecto Final\\Documents", this.originalImageFile.getFileName());
+                this.copyFileInFileSystem(file.getInputStream(), "C:\\Proyecto2-Docs", this.originalImageFile.getFileName());
                 this.insertDoc(this.getId(), this.getDocumentPath());
                 FacesMessage msg = new FacesMessage("Successful", this.originalImageFile.getFileName() + " is uploaded.");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
