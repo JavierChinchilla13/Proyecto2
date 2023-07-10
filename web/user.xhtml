@@ -175,7 +175,7 @@
                                 </div>
                                 <div class="p-field">
                                     <p:outputLabel for="pass">Password</p:outputLabel>
-                                    <p:password id="pass" value="#{employeeController.selectedEmployee.password}"/>
+                                    <p:inputText id="pass" value="#{employeeController.selectedEmployee.password}"/>
                                 </div>
                   
                             </p:outputPanel>
@@ -184,7 +184,7 @@
 
                     </p:outputPanel>
                     <f:facet name="footer">
-                        <p:commandButton value="Save" icon="pi pi-check"   actionListener="#{employeeController.saveUser}"
+                        <p:commandButton value="Save" icon="pi pi-check"   actionListener="#{employeeController.updateUser()}"
                                          update="form manage-user-content" process="manage-user-content @this"/>
 
                         <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageUserDialog').hide()"
