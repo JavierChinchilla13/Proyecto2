@@ -4,6 +4,7 @@ import com.mycompany.edu.ulatina.hth_db_connetion.PermitService;
 import com.mycompany.edu.ulatina.hth_db_connetion.PermitTO;
 import java.io.Serializable;
 import java.sql.Date;
+import java.text.DateFormat;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,10 +31,11 @@ import org.primefaces.PrimeFaces;
 @SessionScoped
 public class PermitController implements Serializable{
     
-    private Date date;
+    private Date date1;
     private PermitTO selectedPermit = new PermitTO();
     private final PermitService pService = new PermitService();
     private boolean esNuevo;
+    
 
     public java.sql.Date convertir(java.util.Date date) {
         return new java.sql.Date(date.getDate());
@@ -63,12 +65,12 @@ public class PermitController implements Serializable{
         return pService;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getDate1() {
+        return date1;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDate1(Date date) {
+        this.date1 = date;
     }
     
     public void showPermit(int id) throws Exception {
@@ -77,11 +79,11 @@ public class PermitController implements Serializable{
 
     }
     
-    public void onClick(Date date) {
+    public void onClick(Date date1) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(date)));
-        System.out.println(format.format(date));
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(date1)));
+        System.out.println(format.format(date1));
     }
     
     public void savePermit() throws Exception {
@@ -142,7 +144,7 @@ public class PermitController implements Serializable{
 
         //boolean flag = true;
         
-        this.redirect("/faces/user.xhtml");
+        this.redirect("/faces/permits.xhtml");
 
     }
     
@@ -166,9 +168,10 @@ public class PermitController implements Serializable{
 
         boolean flag = true;
         
+        
 
-        if (flag) {
-            
+         if (flag) {
+
             this.pService.update(selectedPermit, this.selectedPermit.getIdEmployee(), this.selectedPermit.getDate(), this.selectedPermit.getDescription(), 12);
             //---this.servicioUsuario.listarUsuarios();
             //this.listaUsuarios.add(selectedEmployee);//para simular       
