@@ -1,8 +1,18 @@
+
+import com.mycompany.edu.ulatina.hth_db_connetion.DocumentService;
+import com.mycompany.edu.ulatina.hth_db_connetion.DocumentTO;
 import com.mycompany.edu.ulatina.hth_db_connetion.EmployeeService;
 import com.mycompany.edu.ulatina.hth_db_connetion.EmployeeTO;
 import com.mycompany.edu.ulatina.hth_db_connetion.PermitService;
 import com.mycompany.edu.ulatina.hth_db_connetion.PermitTO;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -11,6 +21,8 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.PrimeFaces;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.file.UploadedFile;
 
 
 /*
@@ -18,33 +30,32 @@ import org.primefaces.PrimeFaces;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author javi
  */
 //HOLA SOY JAVIER
-
 @ManagedBean(name = "employeeController")
 @SessionScoped
-public class EmployeeController implements Serializable{
+public class EmployeeController implements Serializable {
+
     private String user;
     private String pasword;
-    
+
     private EmployeeTO em;
     private final EmployeeService service = new EmployeeService();
     private boolean esNuevo;
     private EmployeeTO selectedEmployee = new EmployeeTO();
-    
 
-    
-    
-   private boolean isAdmin = false;
+    private boolean isAdmin = false;
 
+    private boolean isManager = false;
+    private boolean isEmployee = false;
     
-   private boolean isManager = false;
-   private boolean isEmployee = false;
-    
+    private final DocumentService docService = new DocumentService();
+    private UploadedFile originalImageFile;
+ 
+
     public EmployeeController() {
     }
 
@@ -68,24 +79,23 @@ public class EmployeeController implements Serializable{
     public void setPasword(String pasword) {
         this.pasword = pasword;
     }
-    
-    public List<EmployeeTO> getEmployees(){
-        try{
+
+    public List<EmployeeTO> getEmployees() {
+        try {
             return service.getEmployees();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving th list of employees"));
-            
 
         }
         List<EmployeeTO> list = new ArrayList<>();
         return list;
     }
 
-    public List<EmployeeTO> getActiveEmployees(){
-        try{
+    public List<EmployeeTO> getActiveEmployees() {
+        try {
             return service.getActiveEmployees();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving th list of employees"));
 
@@ -93,6 +103,7 @@ public class EmployeeController implements Serializable{
         List<EmployeeTO> list = new ArrayList<>();
         return list;
     }
+
     public int getId() {
         return em.getId();
     }
@@ -157,15 +168,10 @@ public class EmployeeController implements Serializable{
     public void setIsEmployee(boolean isEmployee) {
         this.isEmployee = isEmployee;
     }
-    
-    
+
     public EmployeeService getService() {
         return service;
     }
-
-    
-    
-    
 
     public void saveUser() throws Exception {
 
@@ -174,44 +180,44 @@ public class EmployeeController implements Serializable{
             //ERROR
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Name is empty"));
             flag = false;
-        } 
+        }
         if (this.selectedEmployee.getLastName() == null || this.selectedEmployee.getLastName().equals("")) {
             //ERROR
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Last Name is empty"));
             flag = false;
-        } 
+        }
         if (this.selectedEmployee.getIdentification() == null || this.selectedEmployee.getIdentification().equals("")) {
             //ERROR
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Identification is empty"));
             flag = false;
-        } 
-        if (this.selectedEmployee.getEmail()== null || this.selectedEmployee.getEmail().equals("")) {
+        }
+        if (this.selectedEmployee.getEmail() == null || this.selectedEmployee.getEmail().equals("")) {
             //ERROR
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Mail is empty"));
             flag = false;
-        } 
+        }
         if (this.selectedEmployee.getPhone() == null || this.selectedEmployee.getPhone().equals("")) {
             //ERROR
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "phone is empty"));
             flag = false;
-        } 
-        if (this.selectedEmployee.getType() != 1 && this.selectedEmployee.getType() != 2 && this.selectedEmployee.getType() != 3 ) {
+        }
+        if (this.selectedEmployee.getType() != 1 && this.selectedEmployee.getType() != 2 && this.selectedEmployee.getType() != 3) {
             //ERROR
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Type is incorrect"));
             flag = false;
-        } 
+        }
         if (this.selectedEmployee.getStatus() != 4 && this.selectedEmployee.getStatus() != 5 && this.selectedEmployee.getStatus() != 6) {
             //ERROR
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "status is incorrect"));
             flag = false;
-        } 
+        }
         if (this.selectedEmployee.getPassword() == null || this.selectedEmployee.getPassword().equals("")) {
             //ERROR
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Password is empty"));
             flag = false;
-        } 
-        
-        if (flag){
+        }
+
+        if (flag) {
             System.out.println("Estoy salvando al usuario");
             this.service.insert(this.selectedEmployee);
             //---this.servicioUsuario.listarUsuarios();
@@ -222,6 +228,7 @@ public class EmployeeController implements Serializable{
         }
 
     }
+
     public void updateUser() throws Exception {
 
         boolean flag = true;
@@ -229,23 +236,23 @@ public class EmployeeController implements Serializable{
             //ERROR
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Name is empty"));
             flag = false;
-        } 
+        }
         if (this.selectedEmployee.getLastName() == null || this.selectedEmployee.getLastName().equals("")) {
             //ERROR
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Last Name is empty"));
             flag = false;
-        } 
+        }
         if (this.selectedEmployee.getIdentification() == null || this.selectedEmployee.getIdentification().equals("")) {
             //ERROR
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Identification is empty"));
             flag = false;
-        } 
-        if (this.selectedEmployee.getEmail()== null || this.selectedEmployee.getEmail().equals("")) {
+        }
+        if (this.selectedEmployee.getEmail() == null || this.selectedEmployee.getEmail().equals("")) {
             //ERROR
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Mail is empty"));
             flag = false;
         }
-        
+
         if (this.selectedEmployee.getType() != 1 && this.selectedEmployee.getType() != 2 && this.selectedEmployee.getType() != 3) {
             //ERROR
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Type is incorrect"));
@@ -273,14 +280,14 @@ public class EmployeeController implements Serializable{
         }
 
     }
+
     public void deleteUser() throws Exception {
 
         boolean flag = true;
-        
 
         if (flag) {
 
-            this.service.update(selectedEmployee, this.selectedEmployee.getFirstName(), this.selectedEmployee.getLastName(), this.selectedEmployee.getIdentification(), this.selectedEmployee.getEmail(), this.selectedEmployee.getPhone(), this.selectedEmployee.getType(), 6, this.selectedEmployee.getPassword(),  this.selectedEmployee.getEmploymentDate(), this.selectedEmployee.getLayoffDate());
+            this.service.update(selectedEmployee, this.selectedEmployee.getFirstName(), this.selectedEmployee.getLastName(), this.selectedEmployee.getIdentification(), this.selectedEmployee.getEmail(), this.selectedEmployee.getPhone(), this.selectedEmployee.getType(), 6, this.selectedEmployee.getPassword(), this.selectedEmployee.getEmploymentDate(), this.selectedEmployee.getLayoffDate());
             //---this.servicioUsuario.listarUsuarios();
             //this.listaUsuarios.add(selectedEmployee);//para simular       
             this.esNuevo = false;
@@ -360,8 +367,8 @@ public class EmployeeController implements Serializable{
             }
         }
     }
-    
-     public void redirect(String rute) {
+
+    public void redirect(String rute) {
         HttpServletRequest request;
         try {
             request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -370,9 +377,6 @@ public class EmployeeController implements Serializable{
 
         }
     }
-     
-     
-     
 
     public class ConfirmView {
 
@@ -391,9 +395,105 @@ public class EmployeeController implements Serializable{
     }
 
     public boolean createUserPermission() {
-        
-
         return isAdmin;
-
     }
+    
+    public EmployeeTO getEmployee(int PK){
+        EmployeeTO foundEmp = null;
+        try{
+            foundEmp = service.searchByPK(PK);
+        }catch(Exception e){
+            
+        }
+        return foundEmp;
+    }
+    
+    public List<DocumentTO> getDocuments() {
+        try {
+            return docService.getDocuments();
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving th list of documents"));
+
+        }
+        List<DocumentTO> list = new ArrayList<>();
+        return list;
+    }
+    
+     public List<DocumentTO> getDocumentsOf(int PK) {
+        try {
+            return docService.getDocumentsOfEmployee(PK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving th list of documents of employee"));
+
+        }
+        List<DocumentTO> list = new ArrayList<>();
+        return list;
+    }
+     
+    public void insertDoc(int PK, String path){
+        try {
+            docService.insert(PK, path);
+        }catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in inserting document in data base"));
+
+        }
+    }
+    
+    public String getDocumentPath(){
+        String path = "C:\\Users\\luis2\\OneDrive\\Escritorio\\ULatina\\Proyecto 2\\Proyecto Final\\Documents\\";
+        return path +  this.originalImageFile.getFileName();
+    }
+     
+     public void handleFileUpload(FileUploadEvent event) {
+        try {
+            this.originalImageFile = null;
+            UploadedFile file = event.getFile();
+            if (file != null && file.getContent() != null && file.getContent().length > 0 && file.getFileName() != null) {
+                this.originalImageFile = file;
+                this.copyFileInFileSystem(file.getInputStream(), "C:\\Users\\luis2\\OneDrive\\Escritorio\\ULatina\\Proyecto 2\\Proyecto Final\\Documents", this.originalImageFile.getFileName());
+                this.insertDoc(this.getId(), this.getDocumentPath());
+                FacesMessage msg = new FacesMessage("Successful", this.originalImageFile.getFileName() + " is uploaded.");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void copyFileInFileSystem(InputStream input, String pathCopy, String fileName) throws FileNotFoundException, IOException {
+        Path path = Paths.get(pathCopy, fileName);
+        if (Files.exists(path.getParent())) {
+            try {
+                System.out.println("PROCESS FILE PATH===> " + path);
+                Files.copy(input, path, REPLACE_EXISTING);
+                //Insertar en la base de datos..
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                //IOUtils.closeQuietly(input);
+                //IOUtils.closeQuietly(output);
+            }
+        } else {
+            try {
+                System.out.println("PROCESS FILE PATH===> " + path);
+                Files.createDirectories(path.getParent());
+                try {
+                    Files.copy(input, path, REPLACE_EXISTING);
+                    //Insertar en la base de datos..
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    //IOUtils.closeQuietly(input);
+                    //IOUtils.closeQuietly(output);
+                }
+            } catch (SecurityException se) {
+                se.printStackTrace();
+            }
+        }
+    }
+
+    
 }
