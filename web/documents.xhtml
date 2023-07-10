@@ -55,40 +55,85 @@
                              {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No documets">
 
-                    <p:column headerText="Id" sortBy="#{Document.id}" filterBy="#{Document.id}" filterMatchMode="contains">
-                        <h:outputText value="#{Document.id}"/>
-                    </p:column>
-
-                    <p:column headerText="Employee" sortBy="#{Document.idEmployee}" filterBy="#{Document.idEmployee}" filterMatchMode="contains">
-                        <h:outputText value="#{Document.idEmployee}"/>
+                    <p:column headerText="Name" sortBy="#{Document.name}" filterBy="#{Document.name}" filterMatchMode="contains">
+                        <h:outputText value="#{Document.name}"/>
                     </p:column>
 
                     <p:column headerText="path" sortBy="#{Document.path}" filterBy="#{Document.path}" filterMatchMode="contains">
                         <h:outputText value="#{Document.path}"/>
                     </p:column>
 
+                    <p:column headerText="Download">
+                        <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);"
+                                         icon="pi pi-arrow-down" styleClass="rounded-button">
+                            <p:fileDownload value="#{employeeController.getFileColumn(Document.id)}"/>
+                        </p:commandButton>
+                    </p:column>
 
+                    <p:column headerText="Delete">
+                        <p:commandButton value="Delete" icon="pi pi-trash" update="form" actionListener="#{employeeController.deleteDocument(Document.id)}" 
+                                         styleClass="rounded-button ui-button-danger">
+                        </p:commandButton>
+                    </p:column>
                 </p:dataTable>
 
-                <p:dataTable var="Document" value="#{employeeController.getDocuments()}"  rendered="#{employeeController.isAdmin}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
-                             {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No documets">
 
-                    <p:column headerText="Id" sortBy="#{Document.id}" filterBy="#{Document.id}" filterMatchMode="contains">
-                        <h:outputText value="#{Document.id}"/>
-                    </p:column>
-
-                    <p:column headerText="Employee" sortBy="#{Document.idEmployee}" filterBy="#{Document.idEmployee}" filterMatchMode="contains">
-                        <h:outputText value="#{Document.idEmployee}"/>
-                    </p:column>
-
-                    <p:column headerText="path" sortBy="#{Document.path}" filterBy="#{Document.path}" filterMatchMode="contains">
-                        <h:outputText value="#{Document.path}"/>
-                    </p:column>
+                <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false"
+                          resizable="false">
+                    <i class="pi pi-spinner pi-spin" style="font-size:3rem"></i>
+                </p:dialog>
 
 
-                </p:dataTable>
+                <p:commandButton value="Show all Documnets " icon="pi pi-eye" rendered="#{employeeController.isAdmin}"
+                                 update=":form:admin-all-docs-view" oncomplete="PF('AllDocsDialog').show()"
+                                 styleClass="ui-button-success" style="margin-right: .5rem">
+                    <p:resetInput target=":form:admin-all-docs-view"/>
+                </p:commandButton>
 
+
+
+                <p:dialog header="All Documents" showEffect="fade" hideEffect="fade" modal="true"
+                          widgetVar="AllDocsDialog" responsive="true">
+                    <p:outputPanel id="admin-all-docs-view" class="ui-fluid" style="text-align:center;">
+
+                        <p:dataTable var="Document" value="#{employeeController.documents}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
+                                     {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No documets">
+
+                            <p:column headerText="Name" sortBy="#{Document.name}" filterBy="#{Document.name}" filterMatchMode="contains">
+                                <h:outputText value="#{Document.name}"/>
+                            </p:column>
+
+                            <p:column headerText="path" sortBy="#{Document.path}" filterBy="#{Document.path}" filterMatchMode="contains">
+                                <h:outputText value="#{Document.path}"/>
+                            </p:column>
+
+                            <p:column headerText="Download">
+                                <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);"
+                                                 icon="pi pi-arrow-down" styleClass="rounded-button">
+                                    <p:fileDownload value="#{employeeController.getFileColumn(Document.id)}"/>
+                                </p:commandButton>
+                            </p:column>
+
+                            <p:column headerText="Delete">
+                                <p:commandButton value="Delete" icon="pi pi-trash" update="form" actionListener="#{employeeController.deleteDocument(Document.id)}" 
+                                                styleClass="rounded-button ui-button-danger">
+                                </p:commandButton>
+                            </p:column>
+
+
+                        </p:dataTable>
+
+
+                    </p:outputPanel>  
+
+                    <f:facet name="footer">
+
+                        <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('AllDocsDialog').hide()"
+                                         class="ui-button-secondary"/>
+                    </f:facet>
+
+                </p:dialog>
 
             </div>           
         </h:form>
