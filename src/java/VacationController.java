@@ -169,19 +169,18 @@ public class VacationController implements Serializable {
             }
         }
     }
-    
-    public List<ScheduleVacationTO> getScheduleVacation() {
+
+    public List<ScheduleVacationTO> getAllScheduleVacation() {
         try {
             return sVService.getScheduleVacation();
         } catch (Exception e) {
             e.printStackTrace();
-            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving th list of documents"));
-
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving th list of documents of employee"));
         }
         List<ScheduleVacationTO> list = new ArrayList<>();
         return list;
     }
-    
+
     public List<ScheduleVacationTO> getScheduleVacationOf(int PK) {
         try {
             return sVService.getScheduleVacationOf(PK);
