@@ -45,41 +45,18 @@
                 </p:column>
 
                 <p:column>
-                   <p:commandButton icon="pi pi-pencil" update=":form:manage-user-content1" 
+                   <p:commandButton icon="pi pi-pencil" update=":form:manage-user-content" 
                                          oncomplete="PF('manageUserDialog').show()"
                                          styleClass="edit-button rounded-button ui-button-success" process="@this">
                             <f:setPropertyActionListener value="#{Permit}" target="#{permitController.selectedPermit}"/>
-                            <p:resetInput target=":form:manage-user-content1"/>
+                            <p:resetInput target=":form:manage-user-content"/>
                         </p:commandButton>
                 </p:column>
 
 
             </p:dataTable>
 
-            <p:dialog header="Permit" showEffect="fade" modal="true"
-                      widgetVar="manageUserDialog" responsive="true">
-                <p:outputPanel id="manage-user-content1" class="ui-fluid">
-
-                    <p:outputPanel>
-
-                        <div class="field col-12 md:col-4">
-                            <p:outputLabel for="basic" value="Basic"/>
-                            <p:datePicker id="basic" value="#{permitController.date}" />
-                        </div>
-                        <div class="p-field">
-                            <p:outputLabel for="description">Description</p:outputLabel>
-                            <p:inputText id="description" value="#{permitController.selectedPermit.description}"/>
-                        </div>
-                    </p:outputPanel>
-
-                </p:outputPanel>
-                <f:facet name="footer">
-                    <p:commandButton value="Request" icon="pi pi-check"   actionListener="#{permitController.savePermit}"
-                                     update="form manage-user-content1" process="manage-user-content1 @this"/>
-
-                </f:facet>
-
-            </p:dialog>
+            
             
              <p:dialog header="Permits" showEffect="fade" modal="true"
                           widgetVar="manageUserDialog" responsive="true">
@@ -110,11 +87,11 @@
 
                     </p:outputPanel>
                     <f:facet name="footer">
-                        <p:commandButton value="Approve" icon="pi pi-check"   actionListener="#{employeeController.saveUser}"
-                                         update="form manage-user-content1" process="manage-user-content1 @this"/>
+                        <p:commandButton value="Approve" icon="pi pi-check"   actionListener="#{permitController.approvePermit()}"
+                                         update="form manage-user-content" process="manage-user-content @this"/>
                         
-                        <p:commandButton value="Deny" icon="pi pi-check"   actionListener="#{employeeController.updateUser}"
-                                         update="form manage-user-content1" process="manage-user-content1 @this"/>
+                        <p:commandButton value="Deny" icon="pi pi-check"   actionListener="#{permitController.denyPermit()}"
+                                         update="form manage-user-content" process="manage-user-content @this"/>
                        
                     </f:facet>
 

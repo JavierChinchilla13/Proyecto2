@@ -142,7 +142,7 @@ public class PermitController implements Serializable{
 
         //boolean flag = true;
         
-        this.redirect("/faces/permits.xhtml");
+        this.redirect("/faces/user.xhtml");
 
     }
     
