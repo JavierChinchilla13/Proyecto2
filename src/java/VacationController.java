@@ -147,6 +147,8 @@ public class VacationController implements Serializable {
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "End Date is empty"));
             flag = false;
         }
+        
+        
 
         if (flag) {
             System.out.println("Saving ScheduleVacation");
@@ -161,8 +163,9 @@ public class VacationController implements Serializable {
 
                 Date sqlStartDate = Date.valueOf(localStartDate);
                 Date sqlEndDate = Date.valueOf(localEndDate);
+                String desc = "hola";
 
-                sVService.insert(sVService.getVacationIdByEmployeeId(e.getSelectedEmployee().getId()), sqlStartDate, sqlEndDate, 17);
+                sVService.insert(sVService.getVacationIdByEmployeeId(e.getSelectedEmployee().getId()), sqlStartDate, sqlEndDate, 17, desc);
                 this.esNuevo = false;
                 this.selectedSchedueleVacation = new ScheduleVacationTO();
                 PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
@@ -192,4 +195,14 @@ public class VacationController implements Serializable {
         List<ScheduleVacationTO> list = new ArrayList<>();
         return list;
     }
+    /*
+    public java.util.Date getCalendarFireDate(){
+         return (java.util.Date) this.selectedVacation.getDate();
+     }
+     
+     public void setCalendarFireDate(java.util.Date fireDate){
+         if(fireDate !=null){
+             this.selectedPermit.setDate(new java.sql.Date(fireDate.getTime()));
+         }
+     }*/
 }
