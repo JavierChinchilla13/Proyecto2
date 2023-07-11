@@ -9,7 +9,7 @@
     </h:head>
     <h:body>
         
-        <h3>Welcome to HTH,  #{employeeController.firstName}</h3>
+        <h3>Page to see the information about your Vacations</h3>
         <p:growl id="message" showDetail="true"/>
         <h:form id="form">
             <p:growl id="message" showDetail="true"/>
@@ -41,6 +41,11 @@
                 <p:commandButton value="Ask for Vacations" icon="pi pi-plus" actionListener="#{vacationController.openNew()}"
                                  update=":form:manage-user-content" oncomplete="PF('manageUserDialog').show()"
                                  styleClass="ui-button-success" style="margin-right: .5rem; margin-top: .5rem">
+                    <p:resetInput target=":form:manage-user-content"/>
+                </p:commandButton>
+                
+                <p:commandButton value="Review Vacation Request" icon="pi pi-check" rendered="#{employeeController.isAdmin}" actionListener="#{vacationController.reviewVacationRequest()}"
+                                 styleClass="ui-button-success" style="margin-right: .10rem">
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
 

@@ -11,6 +11,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import org.primefaces.PrimeFaces;
 
 
@@ -179,6 +180,18 @@ public class VacationController implements Serializable {
         return list;
     }
 
+    public List<ScheduleVacationTO> getPendingVacationRequest() {
+        try {
+            return sVService.getScheduleVacationsPending();
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving the list of vacations with pending status"));
+
+        }
+        List<ScheduleVacationTO> list = new ArrayList<>();
+        return list;
+    }
+
     public java.util.Date getCalendarFireDate() {
         return (java.util.Date) this.selectedSchedueleVacation.getStartDate();
     }
@@ -198,4 +211,46 @@ public class VacationController implements Serializable {
             this.selectedSchedueleVacation.setEndDate(new java.sql.Date(fireDate.getTime()));
         }
     }
+
+    public void reviewVacationRequest() throws Exception {
+
+        this.redirect("/faces/reviewVacationRequest.xhtml");
+
+    }
+
+    public void redirect(String rute) {
+        HttpServletRequest request;
+        try {
+            request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            FacesContext.getCurrentInstance().getExternalContext().redirect(request.getContextPath() + rute);
+        } catch (Exception e) {
+
+        }
+
+    }
+
+    public void approveVacation() throws Exception {
+
+        this.sVService.update(selectedSchedueleVacation, this.selectedSchedueleVacation.getIdVacation(), this.selectedSchedueleVacation.getStartDate(), this.selectedSchedueleVacation.getEndDate(), 15, this.selectedSchedueleVacation.getDescription());
+        this.esNuevo = false;
+        this.selectedSchedueleVacation = new ScheduleVacationTO();
+        PrimeFaces.current().executeScript("PF('approveDenyVacationDialog').hide()");
+
+    }
+
+    public void denyVacation() throws Exception {
+
+        this.sVService.update(selectedSchedueleVacation, this.selectedSchedueleVacation.getIdVacation(), this.selectedSchedueleVacation.getStartDate(), this.selectedSchedueleVacation.getEndDate(), 16, this.selectedSchedueleVacation.getDescription());
+        this.esNuevo = false;
+        this.selectedSchedueleVacation = new ScheduleVacationTO();
+        PrimeFaces.current().executeScript("PF('approveDenyVacationDialog').hide()");
+
+    }
+
+    public void returnToVacationPage() throws Exception {
+
+        this.redirect("/faces/permits.xhtml");
+
+    }
+
 }
