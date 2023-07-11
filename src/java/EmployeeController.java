@@ -512,7 +512,7 @@ public class EmployeeController implements Serializable {
     }
 
     public String getDocumentPath() {
-        String path = "C:\\Proyecto2\\WebApp\\web\\resources\\demo\\";
+        String path = "C:\\ProyectoFinal\\Proyecto2\\web\\resources\\demo\\";
         return path + this.originalImageFile.getFileName();
     }
 
@@ -522,7 +522,7 @@ public class EmployeeController implements Serializable {
             UploadedFile file = event.getFile();
             if (file != null && file.getContent() != null && file.getContent().length > 0 && file.getFileName() != null) {
                 this.originalImageFile = file;
-                this.copyFileInFileSystem(file.getInputStream(), "C:\\Proyecto2\\WebApp\\web\\resources\\demo\\", this.originalImageFile.getFileName());
+                this.copyFileInFileSystem(file.getInputStream(), "C:\\ProyectoFinal\\Proyecto2\\web\\resources\\demo\\", this.originalImageFile.getFileName());
                 this.insertDoc(this.getId(), this.originalImageFile.getFileName(), this.getDocumentPath());
                 FacesMessage msg = new FacesMessage("Successful", this.originalImageFile.getFileName() + " is uploaded.");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -595,7 +595,7 @@ public class EmployeeController implements Serializable {
     }
 
     public String getDocumentPath(int PK) {
-        String path = "C:\\Proyecto2\\WebApp\\web\\resources\\demo\\";
+        String path = "C:\\ProyectoFinal\\Proyecto2\\web\\resources\\demo\\";
         try {
             DocumentTO doc = docService.searchByPK(PK);
             path += doc.getName();
@@ -611,7 +611,7 @@ public class EmployeeController implements Serializable {
 
         DocumentTO searched = this.searchDocument(PK);
         String docName = searched.getName();
-        String pathFile = "C:\\Proyecto2\\WebApp\\web\\resources\\demo\\" + searched.getName();
+        String pathFile = "C:\\ProyectoFinal\\Proyecto2\\web\\resources\\demo\\" + searched.getName();
         if (docName.contains(".pdf")) {
             this.fileSC = DefaultStreamedContent.builder()
                     .name(docName)
@@ -641,4 +641,5 @@ public class EmployeeController implements Serializable {
         }
         return this.fileSC;
     }
+    
 }
