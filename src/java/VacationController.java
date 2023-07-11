@@ -249,7 +249,7 @@ public class VacationController implements Serializable {
 
     public void returnToVacationPage() throws Exception {
 
-        this.redirect("/faces/permits.xhtml");
+        this.redirect("/faces/vacations.xhtml");
 
     }
 
