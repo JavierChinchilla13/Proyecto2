@@ -5,11 +5,6 @@ import com.mycompany.edu.ulatina.hth_db_connetion.VacationService;
 import com.mycompany.edu.ulatina.hth_db_connetion.VacationTO;
 import java.io.Serializable;
 import java.sql.Date;
-
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -132,30 +127,32 @@ public class VacationController implements Serializable {
         return list;
     }
 
-    public void saveSchedueleVacation() throws Exception {
-        System.out.println("Hola");
+    public void saveSchedueleVacation(int pk) throws Exception {
+
         boolean flag = true;
 
         if (this.selectedSchedueleVacation.getStartDate() == null) {
-            // ERROR
-            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Start Date is empty"));
+            //ERROR
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Date is empty"));
             flag = false;
         }
-
         if (this.selectedSchedueleVacation.getEndDate() == null) {
-            // ERROR
-            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "End Date is empty"));
+            //ERROR
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Date is empty"));
             flag = false;
         }
 
         if (flag) {
-            System.out.println("Hola2");
-            sVService.insert(sVService.getVacationIdByEmployeeId(e.getId()), this.selectedSchedueleVacation.getStartDate(), this.selectedSchedueleVacation.getEndDate(), 17, "Pending Response");
+            System.out.println("Saving Schedule Vacation");
+            //Date day = (java.sql.Date) (java.sql.Date) selectedPermit.getDate();
+            this.sVService.insert(sVService.getVacationIdByEmployeeId(pk), this.selectedSchedueleVacation.getStartDate(), this.selectedSchedueleVacation.getEndDate(), 17, "Request Still on Pending");
+            //---this.servicioUsuario.listarUsuarios();
+            //this.listaUsuarios.add(selectedEmployee);//para simular       
             this.esNuevo = false;
             this.selectedSchedueleVacation = new ScheduleVacationTO();
             PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
-
         }
+
     }
 
     public List<ScheduleVacationTO> getAllScheduleVacation() {
@@ -163,7 +160,7 @@ public class VacationController implements Serializable {
             return sVService.getScheduleVacation();
         } catch (Exception e) {
             e.printStackTrace();
-            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving th list of documents of employee"));
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving all the list of vacations"));
         }
         List<ScheduleVacationTO> list = new ArrayList<>();
         return list;
@@ -174,7 +171,7 @@ public class VacationController implements Serializable {
             return sVService.getScheduleVacationOf(PK);
         } catch (Exception e) {
             e.printStackTrace();
-            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving th list of documents of employee"));
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving the list of vacations of employee"));
 
         }
         List<ScheduleVacationTO> list = new ArrayList<>();
