@@ -56,15 +56,7 @@
                              rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados">
                     <f:facet name="header"> My permits </f:facet>
 
-                    
 
-                    <p:column headerText="id" sortBy="#{Permit.id}" filterBy="#{Permit.id}" filterMatchMode="contains">
-                        <h:outputText value="#{Permit.id}"/>
-                    </p:column>
-
-                    <p:column headerText="Employee Id" sortBy="#{Permit.idEmployee}" filterBy="#{Permit.idEmployee}" filterMatchMode="contains">
-                        <h:outputText value="#{Permit.idEmployee}"/>
-                    </p:column>
 
                     <p:column headerText="Date" sortBy="#{Permit.date}" filterBy="#{Permit.date}" filterMatchMode="contains">
                         <h:outputText value="#{Permit.date}"/>
@@ -77,7 +69,15 @@
                     <p:column headerText="Status" sortBy="#{Permit.status}" filterBy="#{Permit.status}" filterMatchMode="contains">
                         <h:outputText value="#{Permit.status}"/>
                     </p:column>
-          
+                    <p:column headerText="Status" sortBy="#{Permit.response}" filterBy="#{Permit.response}" filterMatchMode="contains">
+                        <h:outputText value="#{Permit.response}"/>
+                    </p:column>
+                    <p:column headerText="Delete">
+                        <p:commandButton icon="pi pi-times" update="form" styleClass="rounded-button ui-button-danger"
+                                         actionListener="#{permitController.deletePermit()}">
+                        </p:commandButton>
+                    </p:column>
+
 
                 </p:dataTable>
                 

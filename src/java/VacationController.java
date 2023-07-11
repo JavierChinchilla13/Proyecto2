@@ -147,29 +147,14 @@ public class VacationController implements Serializable {
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "End Date is empty"));
             flag = false;
         }
-        
-        
 
         if (flag) {
-            System.out.println("Saving ScheduleVacation");
-            if (this.e.getSelectedEmployee().getId() == sVService.getVacationIdByEmployeeId(e.getSelectedEmployee().getId()) && this.selectedVacation.getVacationDays() == 0) {
-                FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "La cantidad de días no puede ser igual a 0."));
-            } else {
-                Instant instantStartDate = selectedSchedueleVacation.getStartDate().toInstant();
-                LocalDate localStartDate = LocalDateTime.ofInstant(instantStartDate, ZoneId.systemDefault()).toLocalDate();
+            System.out.println("Hola2");
+            sVService.insert(sVService.getVacationIdByEmployeeId(e.getId()), this.selectedSchedueleVacation.getStartDate(), this.selectedSchedueleVacation.getEndDate(), 17, "Pending Response");
+            this.esNuevo = false;
+            this.selectedSchedueleVacation = new ScheduleVacationTO();
+            PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
 
-                Instant instantEndDate = selectedSchedueleVacation.getEndDate().toInstant();
-                LocalDate localEndDate = LocalDateTime.ofInstant(instantEndDate, ZoneId.systemDefault()).toLocalDate();
-
-                Date sqlStartDate = Date.valueOf(localStartDate);
-                Date sqlEndDate = Date.valueOf(localEndDate);
-                String desc = "hola";
-
-                sVService.insert(sVService.getVacationIdByEmployeeId(e.getSelectedEmployee().getId()), sqlStartDate, sqlEndDate, 17, desc);
-                this.esNuevo = false;
-                this.selectedSchedueleVacation = new ScheduleVacationTO();
-                PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
-            }
         }
     }
 
@@ -195,14 +180,24 @@ public class VacationController implements Serializable {
         List<ScheduleVacationTO> list = new ArrayList<>();
         return list;
     }
-    /*
-    public java.util.Date getCalendarFireDate(){
-         return (java.util.Date) this.selectedVacation.getDate();
-     }
-     
-     public void setCalendarFireDate(java.util.Date fireDate){
-         if(fireDate !=null){
-             this.selectedPermit.setDate(new java.sql.Date(fireDate.getTime()));
-         }
-     }*/
+
+    public java.util.Date getCalendarFireDate() {
+        return (java.util.Date) this.selectedSchedueleVacation.getStartDate();
+    }
+
+    public void setCalendarFireDate(java.util.Date fireDate) {
+        if (fireDate != null) {
+            this.selectedSchedueleVacation.setStartDate(new java.sql.Date(fireDate.getTime()));
+        }
+    }
+
+    public java.util.Date getCalendarFireDate2() {
+        return (java.util.Date) this.selectedSchedueleVacation.getEndDate();
+    }
+
+    public void setCalendarFireDate2(java.util.Date fireDate) {
+        if (fireDate != null) {
+            this.selectedSchedueleVacation.setEndDate(new java.sql.Date(fireDate.getTime()));
+        }
+    }
 }
