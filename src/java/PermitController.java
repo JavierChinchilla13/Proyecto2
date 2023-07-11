@@ -7,6 +7,7 @@ import java.sql.Date;
 import java.text.DateFormat;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -35,6 +36,15 @@ public class PermitController implements Serializable{
     private PermitTO selectedPermit = new PermitTO();
     private final PermitService pService = new PermitService();
     private boolean esNuevo;
+    private Date fireDate;
+
+    public Date getFireDate() {
+        return fireDate;
+    }
+
+    public void setFireDate(Date fireDate) {
+        this.fireDate = fireDate;
+    }
     
 
     public java.sql.Date convertir(java.util.Date date) {
@@ -86,22 +96,26 @@ public class PermitController implements Serializable{
         System.out.println(format.format(date1));
     }
     
-    public void savePermit() throws Exception {
+    public void savePermit(int pk) throws Exception {
 
         boolean flag = true;
-        
+    
+        Date date = this.selectedPermit.getDate();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        String strDate = dateFormat.format(date);
+
         if (this.selectedPermit.getDate() == null || this.selectedPermit.getDate().equals("")) {
             //ERROR
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Date is empty"));
             flag = false;
         }
-        
+
         
         
         if (flag){
             System.out.println("Saving permit");
             //Date day = (java.sql.Date) (java.sql.Date) selectedPermit.getDate();
-            this.pService.insert(3,Date.valueOf("2023-07-14"));
+            this.pService.insert(pk,this.selectedPermit.getDate(), this.selectedPermit.getDescription());
             //---this.servicioUsuario.listarUsuarios();
             //this.listaUsuarios.add(selectedEmployee);//para simular       
             this.esNuevo = false;
@@ -164,6 +178,17 @@ public class PermitController implements Serializable{
         }
 
     }
+    
+    public java.util.Date getCalendarFireDate(){
+         return (java.util.Date) this.selectedPermit.getDate();
+     }
+     
+     public void setCalendarFireDate(java.util.Date fireDate){
+         if(fireDate !=null){
+             this.selectedPermit.setDate(new java.sql.Date(fireDate.getTime()));
+         }
+     }
+     
      public void approvePermit() throws Exception {
 
         boolean flag = true;

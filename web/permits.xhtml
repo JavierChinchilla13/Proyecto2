@@ -90,8 +90,9 @@
                         <p:outputPanel>
 
                             <div class="field col-12 md:col-4">
-                                <p:outputLabel for="basic" value="Basic"/>
-                                <p:datePicker id="basic" value="#{permitController.selectedPermit.date}" />
+                                <p:outputLabel for="date" value="Date"/>
+                                <p:calendar id="date" value="#{permitController.calendarFireDate}"/>
+                                
                             </div>
                             <div class="p-field">
                                 <p:outputLabel for="description">Description</p:outputLabel>
@@ -101,7 +102,7 @@
 
                     </p:outputPanel>
                     <f:facet name="footer">
-                        <p:commandButton value="Request" icon="pi pi-check"   actionListener="#{permitController.savePermit}"
+                        <p:commandButton value="Request" icon="pi pi-check"   actionListener="#{permitController.savePermit(employeeController.id)}"
                                          update="form manage-user-content" process="manage-user-content @this"/>
                         
                     </f:facet>
