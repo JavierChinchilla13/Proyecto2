@@ -8,7 +8,8 @@
         <title>Vacations Page</title>
     </h:head>
     <h:body>
-        <h3>Welcome to HTH,  #{employeeController.firstName}</h3>
+        
+        <h3>Page to see the information about your Vacations</h3>
         <p:growl id="message" showDetail="true"/>
         <h:form id="form">
             <p:growl id="message" showDetail="true"/>
@@ -37,13 +38,18 @@
 
                 </p:tabMenu>
 
-                <p:commandButton value="Ask for Vacations" icon="pi pi-plus" rendered="#{employeeController.isAdmin}" actionListener="#{vacationController.openNew()}"
+                <p:commandButton value="Ask for Vacations" icon="pi pi-plus" actionListener="#{vacationController.openNew()}"
                                  update=":form:manage-user-content" oncomplete="PF('manageUserDialog').show()"
                                  styleClass="ui-button-success" style="margin-right: .5rem; margin-top: .5rem">
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
                 
-                 <p:dialog header="Vacation detail" showEffect="fade" modal="true"
+                <p:commandButton value="Review Vacation Request" icon="pi pi-check" rendered="#{employeeController.isAdmin}" actionListener="#{vacationController.reviewVacationRequest()}"
+                                 styleClass="ui-button-success" style="margin-right: .10rem">
+                    <p:resetInput target=":form:manage-user-content"/>
+                </p:commandButton>
+
+                <p:dialog header="Vacation detail" showEffect="fade" modal="true"
                           widgetVar="manageUserDialog" responsive="true">
                     <p:outputPanel id="manage-user-content" class="ui-fluid">
 
@@ -56,33 +62,33 @@
                             <p:outputLabel for="endDate" value="End Date"/>
                             <p:calendar id="endDate" value="#{vacationController.calendarFireDate2}" readonlyInput="true" />
                         </div>
-                        
+
                     </p:outputPanel>
 
                     <f:facet name="footer">
-                        <p:commandButton value="Request Vacation" icon="pi pi-check" actionListener="#{vacationController.saveSchedueleVacation()}"
-                                         update="form manage-user-content" process="manage-user-content @this"/>
+                        <p:commandButton value="Request Vacation" icon="pi pi-check" actionListener="#{vacationController.saveSchedueleVacation(employeeController.id)}"
+                                         update="form:manage-user-content" process="manage-user-content @this"/>
                     </f:facet>
                 </p:dialog>
 
-                <p:dataTable var="Vacation" value="#{vacationController.getScheduleVacationOf(employeeController.id)}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
+                <p:dataTable var="vacations" value="#{vacationController.getScheduleVacationOf(employeeController.id)}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                              {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No Vacations">
 
-                    <p:column headerText="Start Date" sortBy="#{Vacation.startDate}" filterBy="#{Vacation.startDate}" filterMatchMode="contains">
-                        <h:outputText value="#{Vacation.startDate}"/>
+                    <p:column headerText="Start Date" sortBy="#{vacations.startDate}" filterBy="#{vacations.startDate}" filterMatchMode="contains">
+                        <h:outputText value="#{vacations.startDate}"/>
                     </p:column>
 
-                    <p:column headerText="End Date" sortBy="#{Vacation.endDate}" filterBy="#{Vacation.endDate}" filterMatchMode="contains">
-                        <h:outputText value="#{Vacation.endDate}"/>
+                    <p:column headerText="End Date" sortBy="#{vacations.endDate}" filterBy="#{vacations.endDate}" filterMatchMode="contains">
+                        <h:outputText value="#{vacations.endDate}"/>
                     </p:column>
 
-                    <p:column headerText="Status" sortBy="#{Vacation.idStatus}" filterBy="#{Vacation.idStatus}" filterMatchMode="contains">
-                        <h:outputText value="#{Vacation.idStatus}"/>
+                    <p:column headerText="Status" sortBy="#{vacations.idStatus}" filterBy="#{vacations.idStatus}" filterMatchMode="contains">
+                        <h:outputText value="#{vacations.idStatus}"/>
                     </p:column>
 
-                    <p:column headerText="Description" sortBy="#{Vacation.description}" filterBy="#{Vacation.description}" filterMatchMode="contains">
-                        <h:outputText value="#{Vacation.description}"/>
+                    <p:column headerText="Description" sortBy="#{vacations.description}" filterBy="#{vacations.description}" filterMatchMode="contains">
+                        <h:outputText value="#{vacations.description}"/>
                     </p:column>
 
                 </p:dataTable>
@@ -134,4 +140,3 @@
         </h:form>
     </h:body>
 </html>
-
