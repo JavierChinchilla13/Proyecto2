@@ -57,7 +57,7 @@ public class EmployeeController implements Serializable {
     private final DocumentService docService = new DocumentService();
     private UploadedFile originalImageFile;
 
-    private StreamedContent file;
+    private StreamedContent fileSC;
 
     public EmployeeController() {
 
@@ -74,6 +74,22 @@ public class EmployeeController implements Serializable {
 
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public UploadedFile getOriginalImageFile() {
+        return originalImageFile;
+    }
+
+    public void setOriginalImageFile(UploadedFile originalImageFile) {
+        this.originalImageFile = originalImageFile;
+    }
+
+    public StreamedContent getFileSC() {
+        return fileSC;
+    }
+
+    public void setFileSC(StreamedContent fileSC) {
+        this.fileSC = fileSC;
     }
 
     public String getPasword() {
@@ -176,21 +192,21 @@ public class EmployeeController implements Serializable {
     public EmployeeService getService() {
         return service;
     }
-    
+
     public EmployeeTO getEmployee(int PK) {
         EmployeeTO foundEmp = null;
         try {
-            
+
             foundEmp = service.searchByPK(PK);
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in searching the user"));
         }
         return foundEmp;
     }
-    
-    public String typeToStrType(int type){
-        String result= "";
-        switch(type){
+
+    public String typeToStrType(int type) {
+        String result = "";
+        switch (type) {
             case 1:
                 result = "Admin";
                 break;
@@ -203,10 +219,10 @@ public class EmployeeController implements Serializable {
         }
         return result;
     }
-    
-    public String statusToStrStatus(int status){
-        String result= "";
-        switch(status){
+
+    public String statusToStrStatus(int status) {
+        String result = "";
+        switch (status) {
             case 4:
                 result = "Inactive";
                 break;
@@ -343,15 +359,15 @@ public class EmployeeController implements Serializable {
         }
 
     }
-    
+
     public void deleteUser(int PK) throws Exception {
-        
+
         try {
-             EmployeeTO searched = this.getEmployee(PK);
-             if(searched != null){
-                 service.update(searched, searched.getFirstName(), searched.getLastName(), searched.getIdentification(), searched.getEmail(), searched.getPhone(), searched.getType(), 6, searched.getPassword(), searched.getEmploymentDate(), searched.getLayoffDate());
-             }
-             
+            EmployeeTO searched = this.getEmployee(PK);
+            if (searched != null) {
+                service.update(searched, searched.getFirstName(), searched.getLastName(), searched.getIdentification(), searched.getEmail(), searched.getPhone(), searched.getType(), 6, searched.getPassword(), searched.getEmploymentDate(), searched.getLayoffDate());
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in suspending the user"));
@@ -461,8 +477,6 @@ public class EmployeeController implements Serializable {
         return isAdmin;
     }
 
-    
-
     public List<DocumentTO> getDocuments() {
         try {
             return docService.getDocuments();
@@ -498,7 +512,7 @@ public class EmployeeController implements Serializable {
     }
 
     public String getDocumentPath() {
-        String path = "C:\\Proyecto2-Docs\\";
+        String path = "C:\\Proyecto2\\WebApp\\web\\resources\\demo\\";
         return path + this.originalImageFile.getFileName();
     }
 
@@ -508,7 +522,7 @@ public class EmployeeController implements Serializable {
             UploadedFile file = event.getFile();
             if (file != null && file.getContent() != null && file.getContent().length > 0 && file.getFileName() != null) {
                 this.originalImageFile = file;
-                this.copyFileInFileSystem(file.getInputStream(), "C:\\Proyecto2-Docs", this.originalImageFile.getFileName());
+                this.copyFileInFileSystem(file.getInputStream(), "C:\\Proyecto2\\WebApp\\web\\resources\\demo\\", this.originalImageFile.getFileName());
                 this.insertDoc(this.getId(), this.originalImageFile.getFileName(), this.getDocumentPath());
                 FacesMessage msg = new FacesMessage("Successful", this.originalImageFile.getFileName() + " is uploaded.");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -561,11 +575,11 @@ public class EmployeeController implements Serializable {
     }
 
     public StreamedContent getFile() {
-        return file;
+        return fileSC;
     }
 
-    public void setFile(StreamedContent file) {
-        this.file = file;
+    public void setFile(StreamedContent fileSC) {
+        this.fileSC = fileSC;
     }
 
     public DocumentTO searchDocument(int PK) {
@@ -581,9 +595,9 @@ public class EmployeeController implements Serializable {
     }
 
     public String getDocumentPath(int PK) {
-        String path = "C:\\Proyecto2-Docs\\";
+        String path = "C:\\Proyecto2\\WebApp\\web\\resources\\demo\\";
         try {
-            DocumentTO doc =  docService.searchByPK(PK);
+            DocumentTO doc = docService.searchByPK(PK);
             path += doc.getName();
         } catch (Exception e) {
             e.printStackTrace();
@@ -593,35 +607,38 @@ public class EmployeeController implements Serializable {
         return path;
     }
 
-    public StreamedContent getFileColumn(int PK) {
-        file = null;
-        DocumentTO search = this.searchDocument(PK);
-        if (search.getName().contains(".pdf")) {
-            file = DefaultStreamedContent.builder()
-                    .name(search.getName())
-                    .contentType("application/pdf")
-                    .stream(() -> FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(getDocumentPath(PK)))
-                    .build();
-        } else if (search.getName().contains(".docx")) {
-            file = DefaultStreamedContent.builder()
-                    .name(search.getName())
-                    .contentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document")
-                    .stream(() -> FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(getDocumentPath(PK)))
-                    .build();
-        } else if (search.getName().contains(".jpeg") || search.getName().contains(".jpg")) {
-            file = DefaultStreamedContent.builder()
-                    .name(search.getName())
-                    .contentType("image/jpeg")
-                    .stream(() -> FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(getDocumentPath(PK)))
-                    .build();
-        } else if (search.getName().contains(".png")) {
-            file = DefaultStreamedContent.builder()
-                    .name(search.getName())
-                    .contentType("image/png")
-                    .stream(() -> FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(getDocumentPath(PK)))
-                    .build();
-        }
-        return file;
-    }
+    public StreamedContent prepareFileSC(int PK) {
 
+        DocumentTO searched = this.searchDocument(PK);
+        String docName = searched.getName();
+        String pathFile = "C:\\Proyecto2\\WebApp\\web\\resources\\demo\\" + searched.getName();
+        if (docName.contains(".pdf")) {
+            this.fileSC = DefaultStreamedContent.builder()
+                    .name(docName)
+                    .contentType("application/pdf")
+                    .stream(() -> FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(pathFile))
+                    .build();
+        } else if (docName.contains(".docx")) {
+            this.fileSC = DefaultStreamedContent.builder()
+                    .name(docName)
+                    .contentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+                    .stream(() -> FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(pathFile))
+                    .build();
+        } else if (docName.contains(".jpeg") || docName.contains(".jpg")) {
+            this.fileSC = DefaultStreamedContent.builder()
+                    .name(docName)
+                    .contentType("image/jpeg")
+                    .stream(() -> FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(pathFile))
+                    .build();
+        } else if (docName.contains(".png")) {
+            this.fileSC = DefaultStreamedContent.builder()
+                    .name(docName)
+                    .contentType("image/png")
+                    .stream(() -> FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(pathFile))
+                    .build();
+        }else{
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "File type errort"));
+        }
+        return this.fileSC;
+    }
 }

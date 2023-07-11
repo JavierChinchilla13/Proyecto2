@@ -64,9 +64,9 @@
                     </p:column>
 
                     <p:column headerText="Download">
-                        <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);"
-                                         icon="pi pi-arrow-down" styleClass="rounded-button">
-                            <p:fileDownload value="#{employeeController.getFileColumn(Document.id)}"/>
+                        <p:commandButton value="Download" icon="pi pi-arrow-down" styleClass="rounded-button"
+                                         actionListener="#{employeeController.prepareFileSC(Document.id)}">
+                            <p:fileDownload value="#{employeeController.fileSC}"/>
                         </p:commandButton>
                     </p:column>
 
@@ -109,15 +109,15 @@
                             </p:column>
 
                             <p:column headerText="Download">
-                                <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);"
-                                                 icon="pi pi-arrow-down" styleClass="rounded-button">
-                                    <p:fileDownload value="#{employeeController.getFileColumn(Document.id)}"/>
+                                <p:commandButton value="Download" icon="pi pi-arrow-down" styleClass="rounded-button" 
+                                                 actionListener="#{employeeController.prepareFileSC(Document.id)}">
+                                    <p:fileDownload value="#{employeeController.fileSC}"/>
                                 </p:commandButton>
                             </p:column>
 
                             <p:column headerText="Delete">
                                 <p:commandButton value="Delete" icon="pi pi-trash" update="form" actionListener="#{employeeController.deleteDocument(Document.id)}" 
-                                                styleClass="rounded-button ui-button-danger">
+                                                 styleClass="rounded-button ui-button-danger">
                                 </p:commandButton>
                             </p:column>
 
@@ -135,7 +135,8 @@
 
                 </p:dialog>
 
-            </div>           
+            </div>
+
         </h:form>
     </h:body>
 </html>

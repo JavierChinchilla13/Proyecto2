@@ -169,7 +169,7 @@ public class PermitController implements Serializable{
 
         if (flag) {
             
-            this.pService.update(selectedPermit, this.selectedPermit.getIdEmployee(), this.selectedPermit.getDate(), this.selectedPermit.getDescription(), 13);
+            this.pService.update(selectedPermit, this.selectedPermit.getIdEmployee(), this.selectedPermit.getDate(), this.selectedPermit.getDescription(), 13,"");
             //---this.servicioUsuario.listarUsuarios();
             //this.listaUsuarios.add(selectedEmployee);//para simular       
             this.esNuevo = false;
@@ -197,7 +197,7 @@ public class PermitController implements Serializable{
 
          if (flag) {
 
-            this.pService.update(selectedPermit, this.selectedPermit.getIdEmployee(), this.selectedPermit.getDate(), this.selectedPermit.getDescription(), 12);
+            this.pService.update(selectedPermit, this.selectedPermit.getIdEmployee(), this.selectedPermit.getDate(), this.selectedPermit.getDescription(), 12,"");
             //---this.servicioUsuario.listarUsuarios();
             //this.listaUsuarios.add(selectedEmployee);//para simular       
             this.esNuevo = false;
