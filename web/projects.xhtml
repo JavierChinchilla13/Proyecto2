@@ -75,6 +75,11 @@
                             <p:resetInput target=":form:manage-user-content"/>
                         </p:commandButton>
                     </p:column>
+                    <p:column headerText="Delete">
+                        <p:commandButton icon="pi pi-times" update="form" styleClass="rounded-button ui-button-danger"
+                                         actionListener="#{projectController.deleteProject(Project.id)}">
+                        </p:commandButton>
+                    </p:column>
 
 
                 </p:dataTable>

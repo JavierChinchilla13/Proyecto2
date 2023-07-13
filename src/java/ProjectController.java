@@ -59,8 +59,7 @@ public class ProjectController implements Serializable{
     public void saveProject() throws Exception {
 
         boolean flag = true;
-    
-        
+
         if (this.selectedProject.getName() == null || this.selectedProject.getName().equals("")) {
             //ERROR
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Name is empty"));
@@ -76,14 +75,11 @@ public class ProjectController implements Serializable{
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Starting Date is empty"));
             flag = false;
         }
-        
 
-        
-        
-        if (flag){
+        if (flag) {
             System.out.println("Saving permit");
             //Date day = (java.sql.Date) (java.sql.Date) selectedPermit.getDate();
-            ProjectTO i = new ProjectTO(0,this.selectedProject.getName(),this.selectedProject.getStatus(),this.selectedProject.getStartingDate(),this.selectedProject.getEndingDate());
+            ProjectTO i = new ProjectTO(0, this.selectedProject.getName(), this.selectedProject.getStatus(), this.selectedProject.getStartingDate(), this.selectedProject.getEndingDate());
             this.proService.insert(i);
             //---this.servicioUsuario.listarUsuarios();
             //this.listaUsuarios.add(selectedEmployee);//para simular       
@@ -93,14 +89,12 @@ public class ProjectController implements Serializable{
         }
 
     }
-    
+
     public void updateProject() throws Exception {
 
         boolean flag = true;
-        
-        
 
-         if (flag) {
+        if (flag) {
 
             this.proService.update(selectedProject, this.selectedProject.getName(), this.selectedProject.getStatus(), this.selectedProject.getStartingDate(), this.selectedProject.getEndingDate());
             //---this.servicioUsuario.listarUsuarios();
@@ -111,24 +105,51 @@ public class ProjectController implements Serializable{
         }
 
     }
-    
-    public java.util.Date getStartingDate(){
-         return (java.util.Date) this.selectedProject.getStartingDate();
-     }
-     
-     public void setStartingDate(java.util.Date startingDate){
-         if(startingDate !=null){
-             this.selectedProject.setStartingDate(new java.sql.Date(startingDate.getTime()));
-         }
-     }
-    
-     public java.util.Date getEndingDate(){
-         return (java.util.Date) this.selectedProject.getEndingDate();
-     }
-     
-     public void setEndingDate(java.util.Date endingdate){
-         if(endingdate !=null){
-             this.selectedProject.setEndingDate(new java.sql.Date(endingdate.getTime()));
-         }
-     }
+
+    public java.util.Date getStartingDate() {
+        return (java.util.Date) this.selectedProject.getStartingDate();
+    }
+
+    public void setStartingDate(java.util.Date startingDate) {
+        if (startingDate != null) {
+            this.selectedProject.setStartingDate(new java.sql.Date(startingDate.getTime()));
+        }
+    }
+
+    public java.util.Date getEndingDate() {
+        return (java.util.Date) this.selectedProject.getEndingDate();
+    }
+
+    public void setEndingDate(java.util.Date endingdate) {
+        if (endingdate != null) {
+            this.selectedProject.setEndingDate(new java.sql.Date(endingdate.getTime()));
+        }
+    }
+
+    public ProjectTO getProject(int PK) {
+        ProjectTO foundPro = null;
+        try {
+
+            foundPro = proService.searchByPK(PK);
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in searching the user"));
+        }
+        return foundPro;
+    }
+
+    public void deleteProject(int PK) throws Exception {
+
+        try {
+            ProjectTO searched = this.getProject(PK);
+            if (searched != null) {
+                proService.delete(searched);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in suspending the user"));
+
+        }
+
+    }
 }

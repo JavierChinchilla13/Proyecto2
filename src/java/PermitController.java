@@ -206,6 +206,33 @@ public class PermitController implements Serializable{
         }
 
     }
+   
+    public PermitTO getPermit(int PK) {
+        PermitTO foundPer = null;
+        try {
+
+            foundPer = pService.searchByPK(PK);
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in searching the user"));
+        }
+        return foundPer;
+    }
+
+    public void deletePermit(int PK) throws Exception {
+
+        try {
+            PermitTO searched = this.getPermit(PK);
+            if (searched != null) {
+                pService.delete(searched);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in suspending the user"));
+
+        }
+
+    }
 
     public void redirect(String rute) {
         HttpServletRequest request;
