@@ -124,21 +124,27 @@ public class PermitController implements Serializable{
         }
 
     }
-    public List<PermitTO> searchByEmployee(int pk){
-        try{
-            return pService.searchByEmployee(pk);
-        }catch(Exception e){
-            e.printStackTrace();
-            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving th list of employees"));
-
+    
+    public String statusToStrStatus(int status) {
+        String result = "";
+        switch (status) {
+            case 12:
+                result = "Approved";
+                break;
+            case 13:
+                result = "Denied";
+                break;
+            case 14:
+                result = "Pending";
+                break;
         }
-        List<PermitTO> list = new ArrayList<>();
-        return list;
+        return result;
     }
-    public List<PermitTO> getPermits(){
-        try{
-            return pService.getPermits();
-        }catch(Exception e){
+
+    public List<PermitTO> searchByEmployee(int pk){
+        try {
+            return pService.searchByEmployee(pk);
+        } catch (Exception e) {
             e.printStackTrace();
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving th list of employees"));
 
@@ -147,28 +153,50 @@ public class PermitController implements Serializable{
         return list;
     }
     
+    public List<PermitTO> searchByStatus(int stat){
+        try {
+            return pService.searchByStatus(stat);
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving th list of employees"));
+
+        }
+        List<PermitTO> list = new ArrayList<>();
+        return list;
+    }
+
+    public List<PermitTO> getPermits() {
+        try {
+            return pService.getPermits();
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving th list of employees"));
+
+        }
+        List<PermitTO> list = new ArrayList<>();
+        return list;
+    }
+
     public void reiviewPermit() throws Exception {
 
         //boolean flag = true;
-        
         this.redirect("/faces/reviewPermits.xhtml");
 
     }
+
     public void returnPermit() throws Exception {
 
         //boolean flag = true;
-        
         this.redirect("/faces/permits.xhtml");
 
     }
-    
+
     public void denyPermit() throws Exception {
 
         boolean flag = true;
-        
 
         if (flag) {
-            
+
             this.pService.update(selectedPermit, this.selectedPermit.getIdEmployee(), this.selectedPermit.getDate(), this.selectedPermit.getDescription(), 13, this.selectedPermit.getResponse());
             //---this.servicioUsuario.listarUsuarios();
             //this.listaUsuarios.add(selectedEmployee);//para simular       
@@ -178,24 +206,22 @@ public class PermitController implements Serializable{
         }
 
     }
-    
-    public java.util.Date getCalendarFireDate(){
-         return (java.util.Date) this.selectedPermit.getDate();
-     }
-     
-     public void setCalendarFireDate(java.util.Date fireDate){
-         if(fireDate !=null){
-             this.selectedPermit.setDate(new java.sql.Date(fireDate.getTime()));
-         }
-     }
-     
-     public void approvePermit() throws Exception {
+
+    public java.util.Date getCalendarFireDate() {
+        return (java.util.Date) this.selectedPermit.getDate();
+    }
+
+    public void setCalendarFireDate(java.util.Date fireDate) {
+        if (fireDate != null) {
+            this.selectedPermit.setDate(new java.sql.Date(fireDate.getTime()));
+        }
+    }
+
+    public void approvePermit() throws Exception {
 
         boolean flag = true;
-        
-        
 
-         if (flag) {
+        if (flag) {
 
             this.pService.update(selectedPermit, this.selectedPermit.getIdEmployee(), this.selectedPermit.getDate(), this.selectedPermit.getDescription(), 12, this.selectedPermit.getResponse());
             //---this.servicioUsuario.listarUsuarios();
@@ -206,7 +232,7 @@ public class PermitController implements Serializable{
         }
 
     }
-   
+
     public PermitTO getPermit(int PK) {
         PermitTO foundPer = null;
         try {

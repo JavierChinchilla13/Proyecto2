@@ -66,8 +66,8 @@
                         <h:outputText value="#{Permit.description}"/>
                     </p:column>
 
-                    <p:column headerText="Status" sortBy="#{Permit.status}" filterBy="#{Permit.status}" filterMatchMode="contains">
-                        <h:outputText value="#{Permit.status}"/>
+                    <p:column headerText="Status" sortBy="#{permitController.statusToStrStatus(Permit.status)}" filterBy="#{permitController.statusToStrStatus(Permit.status)}" filterMatchMode="contains">
+                        <h:outputText value="#{permitController.statusToStrStatus(Permit.status)}"/>
                     </p:column>
                     <p:column headerText="Status" sortBy="#{Permit.response}" filterBy="#{Permit.response}" filterMatchMode="contains">
                         <h:outputText value="#{Permit.response}"/>
@@ -110,7 +110,7 @@
                 </p:dialog>
                 
                 
-            </div>           
+            </div>         
         </h:form>
     </h:body>
 </html>
