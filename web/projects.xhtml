@@ -55,8 +55,8 @@
                         <h:outputText value="#{Project.name}"/>
                     </p:column>
 
-                    <p:column headerText="Status" sortBy="#{Project.status}" filterBy="#{Project.status}" filterMatchMode="contains">
-                        <h:outputText value="#{Project.status}"/>
+                    <p:column headerText="Status" sortBy="#{projectController.statusToStrStatus(Project.status)}" filterBy="#{projectController.statusToStrStatus(Project.status)}" filterMatchMode="contains">
+                        <h:outputText value="#{projectController.statusToStrStatus(Project.status)}"/>
                     </p:column>
 
                     <p:column headerText="Starting Date" sortBy="#{Project.startingDate}" filterBy="#{Project.startingDate}" filterMatchMode="contains">

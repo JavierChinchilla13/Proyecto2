@@ -55,7 +55,21 @@ public class ProjectController implements Serializable{
         List<ProjectTO> list = new ArrayList<>();
         return list;
     }
-    
+
+    public String statusToStrStatus(int status) {
+        String result = "";
+        switch (status) {
+            case 10:
+                result = "Inprogress";
+                break;
+            case 11:
+                result = "Completed";
+                break;
+            
+        }
+        return result;
+    }
+
     public void saveProject() throws Exception {
 
         boolean flag = true;
