@@ -33,12 +33,114 @@
                     <p:menuitem value="Documents" outcome="documents" icon="pi pi-fw pi-file">
                         <f:param name="i" value="5"/>
                     </p:menuitem>
-                                   
+
                 </p:tabMenu>
 
                 <br/>
 
-            </div>           
+
+                <p:commandButton value="New Project" icon="pi pi-plus" rendered="#{employeeController.isAdmin || employeeController.isManager}" actionListener="#{permitController.openNew}"
+                                 update=":form:manage-user-content" oncomplete="PF('manageUserDialog').show()"
+                                 styleClass="ui-button-success" style="margin-right: .5rem">
+                    <p:resetInput target=":form:manage-user-content"/>
+                </p:commandButton>
+
+
+                <p:dataTable var="Project" value="#{projectController.projects}" rendered="#{employeeController.isAdmin || employeeController.isManager}"  paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
+                             {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No projects">
+                    <f:facet name="header"> Projects </f:facet>
+
+                    <p:column headerText="Name" sortBy="#{Project.name}" filterBy="#{Project.name}" filterMatchMode="contains">
+                        <h:outputText value="#{Project.name}"/>
+                    </p:column>
+
+                    <p:column headerText="Status" sortBy="#{Project.status}" filterBy="#{Project.status}" filterMatchMode="contains">
+                        <h:outputText value="#{Project.status}"/>
+                    </p:column>
+
+                    <p:column headerText="Starting Date" sortBy="#{Project.startingDate}" filterBy="#{Project.startingDate}" filterMatchMode="contains">
+                        <h:outputText value="#{Project.startingDate}"/>
+                    </p:column>
+
+                    <p:column headerText="Ending Date" sortBy="#{Project.endingDate}" filterBy="#{Project.endingDate}" filterMatchMode="contains">
+                        <h:outputText value="#{Project.endingDate}"/>
+                    </p:column>
+
+                    <p:column>
+                        <p:commandButton icon="pi pi-pencil" update=":form:manage-user-content" 
+                                         oncomplete="PF('manageUserDialog').show()"
+                                         styleClass="edit-button rounded-button ui-button-success" process="@this">
+                            <f:setPropertyActionListener value="#{Project}" target="#{projectController.selectedProject}"/>
+                            <p:resetInput target=":form:manage-user-content"/>
+                        </p:commandButton>
+                    </p:column>
+
+
+                </p:dataTable>
+                
+                <p:dataTable var="Project" value="#{projectController.projects}" rendered="#{employeeController.isEmployee}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
+                             {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No projects">
+                    <f:facet name="header"> Projects </f:facet>
+
+                    <p:column headerText="Name" sortBy="#{Project.name}" filterBy="#{Project.name}" filterMatchMode="contains">
+                        <h:outputText value="#{Project.name}"/>
+                    </p:column>
+
+                    <p:column headerText="Status" sortBy="#{Project.status}" filterBy="#{Project.status}" filterMatchMode="contains">
+                        <h:outputText value="#{Project.status}"/>
+                    </p:column>
+
+                    <p:column headerText="Starting Date" sortBy="#{Project.startingDate}" filterBy="#{Project.startingDate}" filterMatchMode="contains">
+                        <h:outputText value="#{Project.startingDate}"/>
+                    </p:column>
+
+                    <p:column headerText="Ending Date" sortBy="#{Project.endingDate}" filterBy="#{Project.endingDate}" filterMatchMode="contains">
+                        <h:outputText value="#{Project.endingDate}"/>
+                    </p:column>
+
+                </p:dataTable>
+
+                
+                <p:dialog header="User detail" showEffect="fade" modal="true"
+                          widgetVar="manageUserDialog" responsive="true">
+                    <p:outputPanel id="manage-user-content" class="ui-fluid">
+
+                        <p:outputPanel>
+                            <div class="p-field">
+                                <p:outputLabel for="name">Name</p:outputLabel>
+                                <p:inputText id="name" value="#{projectController.selectedProject.name}"/>
+                            </div>
+                            <div class="p-field">
+                                <p:outputLabel for="status">Status</p:outputLabel>
+                                <p:inputText id="status" value="#{projectController.selectedProject.status}"/>
+                            </div>
+                            <div class="p-field">
+                                <p:outputLabel for="startingDate">Starting Date</p:outputLabel>
+                                <p:calendar id="startingDate" value="#{projectController.startingDate}"/>
+                            </div>
+                            <div class="p-field">
+                                <p:outputLabel for="endingDate">Ending Date</p:outputLabel>
+                                <p:calendar id="endingDate" value="#{projectController.endingDate}"/>
+                            </div>
+                            
+                        </p:outputPanel>
+
+
+                    </p:outputPanel>
+                    <f:facet name="footer">
+                        <p:commandButton value="Create Project" icon="pi pi-check"   actionListener="#{projectController.saveProject()}"
+                                         update="form manage-user-content" process="manage-user-content @this"/>
+                        <p:commandButton value="Update Project" icon="pi pi-check"   actionListener="#{projectController.updateProject()}"
+                                         update="form manage-user-content" process="manage-user-content @this"/>
+
+                       
+                    </f:facet>
+
+                </p:dialog>
+
+            </div>          
         </h:form>
     </h:body>
 </html>
