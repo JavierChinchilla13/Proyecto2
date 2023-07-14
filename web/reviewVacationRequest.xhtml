@@ -16,7 +16,7 @@
 
                 <p:dataTable var="Vacation" value="#{vacationController.pendingVacationRequest}"  paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                              {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados">
+                             rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="there are no vacations to approve or deny">
                     <f:facet name="header"> Permits </f:facet>
 
                     <p:column headerText="Start Date" sortBy="#{Vacation.startDate}" filterBy="#{Vacation.startDate}" filterMatchMode="contains">

@@ -10,7 +10,7 @@
     <h:body>
         
         <h3>Page to see the information about your Vacations</h3>
-        <p:growl id="message" showDetail="true"/>
+        
         <h:form id="form">
             <p:growl id="message" showDetail="true"/>
             <div class="card">
@@ -67,7 +67,7 @@
 
                     <f:facet name="footer">
                         <p:commandButton value="Request Vacation" icon="pi pi-check" actionListener="#{vacationController.saveSchedueleVacation(employeeController.id)}"
-                                         update="form:manage-user-content" process="manage-user-content @this"/>
+                                         update="form manage-user-content" process="manage-user-content @this"/>
                     </f:facet>
                 </p:dialog>
 
