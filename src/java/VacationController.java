@@ -37,6 +37,7 @@ public class VacationController implements Serializable {
     private Date date;
     private Date startDate;
     private Date endDate;
+    private int vacationDays;
 
     public VacationController() {
     }
@@ -47,6 +48,15 @@ public class VacationController implements Serializable {
         this.startDate = startDate;
         this.endDate = endDate;
     }
+
+    public VacationController(boolean esNuevo, Date date, Date startDate, Date endDate, int vacationDays) {
+        this.esNuevo = esNuevo;
+        this.date = date;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.vacationDays = vacationDays;
+    }
+    
 
     public void openNew() {
         this.esNuevo = true;
@@ -117,6 +127,14 @@ public class VacationController implements Serializable {
         return vService;
     }
 
+    public int getVacationDays() {
+        return vacationDays;
+    }
+
+    public void setVacationDays(int vacationDays) {
+        this.vacationDays = vacationDays;
+    }
+    
     public List<VacationTO> getVacation() {
         try {
             return vService.getVacations();
@@ -178,6 +196,17 @@ public class VacationController implements Serializable {
         }
         List<ScheduleVacationTO> list = new ArrayList<>();
         return list;
+    }
+    
+    public int getVacationDaysOfEmployee(int pk){
+        try{
+            this.vacationDays = vService.getVacationDaysOf(pk);
+            return this.vacationDays;
+        }catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving the list of vacations of employee"));
+        }
+        return this.vacationDays = 0;
     }
 
     public List<ScheduleVacationTO> getPendingVacationRequest() {

@@ -49,6 +49,8 @@
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
 
+                <h3>You have #{vacationController.getVacationDaysOfEmployee(employeeController.id)} vacation days left </h3>
+                
                 <p:dialog header="Vacation detail" showEffect="fade" modal="true"
                           widgetVar="manageUserDialog" responsive="true">
                     <p:outputPanel id="manage-user-content" class="ui-fluid">
