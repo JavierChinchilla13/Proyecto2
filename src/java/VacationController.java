@@ -5,6 +5,8 @@ import com.mycompany.edu.ulatina.hth_db_connetion.VacationService;
 import com.mycompany.edu.ulatina.hth_db_connetion.VacationTO;
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -38,6 +40,7 @@ public class VacationController implements Serializable {
     private Date startDate;
     private Date endDate;
     private int vacationDays;
+    private int dayDifference;
 
     public VacationController() {
     }
@@ -49,18 +52,26 @@ public class VacationController implements Serializable {
         this.endDate = endDate;
     }
 
-    public VacationController(boolean esNuevo, Date date, Date startDate, Date endDate, int vacationDays) {
+    public VacationController(boolean esNuevo, Date date, Date startDate, Date endDate, int vacationDays, int dayDifference) {
         this.esNuevo = esNuevo;
         this.date = date;
         this.startDate = startDate;
         this.endDate = endDate;
         this.vacationDays = vacationDays;
+        this.dayDifference = dayDifference;
     }
-    
 
     public void openNew() {
         this.esNuevo = true;
         this.selectedSchedueleVacation = new ScheduleVacationTO();
+    }
+
+    public int getDayDifference() {
+        return dayDifference;
+    }
+
+    public void setDayDifference(int dayDifference) {
+        this.dayDifference = dayDifference;
     }
 
     public EmployeeController getE() {
@@ -134,7 +145,7 @@ public class VacationController implements Serializable {
     public void setVacationDays(int vacationDays) {
         this.vacationDays = vacationDays;
     }
-    
+
     public List<VacationTO> getVacation() {
         try {
             return vService.getVacations();
@@ -145,6 +156,14 @@ public class VacationController implements Serializable {
         }
         List<VacationTO> list = new ArrayList<>();
         return list;
+    }
+
+    public void dayDifference() {
+        LocalDate startDate = this.selectedSchedueleVacation.getStartDate().toLocalDate();
+        LocalDate endDate = this.selectedSchedueleVacation.getEndDate().toLocalDate();
+        long daysDifference = ChronoUnit.DAYS.between(startDate, endDate);
+        int days = (int) daysDifference;
+        this.vacationDays = this.vacationDays - days;
     }
 
     public void saveSchedueleVacation(int pk) throws Exception {
@@ -163,14 +182,17 @@ public class VacationController implements Serializable {
         }
 
         if (flag) {
-            System.out.println("Saving Schedule Vacation");
-            //Date day = (java.sql.Date) (java.sql.Date) selectedPermit.getDate();
-            this.sVService.insert(sVService.getVacationIdByEmployeeId(pk), this.selectedSchedueleVacation.getStartDate(), this.selectedSchedueleVacation.getEndDate(), 17, "Request Still on Pending");
-            //---this.servicioUsuario.listarUsuarios();
-            //this.listaUsuarios.add(selectedEmployee);//para simular       
-            this.esNuevo = false;
-            this.selectedSchedueleVacation = new ScheduleVacationTO();
-            PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
+            if (this.vacationDays <= 0) {
+                FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "You don't have vacation days left"));
+            } else {
+                System.out.println("Saving Schedule Vacation");
+                this.sVService.insert(sVService.getVacationIdByEmployeeId(pk), this.selectedSchedueleVacation.getStartDate(), this.selectedSchedueleVacation.getEndDate(), 17, "Request Still on Pending");
+                dayDifference();
+                vService.updateVacationDays(pk, this.vacationDays);
+                this.esNuevo = false;
+                this.selectedSchedueleVacation = new ScheduleVacationTO();
+                PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
+            }
         }
 
     }
@@ -197,12 +219,12 @@ public class VacationController implements Serializable {
         List<ScheduleVacationTO> list = new ArrayList<>();
         return list;
     }
-    
-    public int getVacationDaysOfEmployee(int pk){
-        try{
+
+    public int getVacationDaysOfEmployee(int pk) {
+        try {
             this.vacationDays = vService.getVacationDaysOf(pk);
             return this.vacationDays;
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving the list of vacations of employee"));
         }
