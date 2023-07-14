@@ -166,8 +166,27 @@ public class VacationController implements Serializable {
         this.vacationDays = this.vacationDays - days;
     }
 
+    public boolean dateBefore() {
+
+        boolean flag = true;
+
+        if (flag) {
+            LocalDate startDate = this.selectedSchedueleVacation.getStartDate().toLocalDate();
+            LocalDate endDate = this.selectedSchedueleVacation.getEndDate().toLocalDate();
+            LocalDate currentDate = LocalDate.now();
+
+            if (startDate.isBefore(currentDate) || endDate.isBefore(currentDate)) {
+                // Fecha seleccionada es anterior a la fecha actual, mostrar mensaje de error
+                FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Selected date is before the current date"));
+                flag = false;
+            }
+        }
+        return flag;
+    }
+
     public void saveSchedueleVacation(int pk) throws Exception {
 
+        boolean flag2 = true;
         boolean flag = true;
 
         if (this.selectedSchedueleVacation.getStartDate() == null) {
@@ -182,16 +201,19 @@ public class VacationController implements Serializable {
         }
 
         if (flag) {
-            if (this.vacationDays <= 0) {
-                FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "You don't have vacation days left"));
-            } else {
-                System.out.println("Saving Schedule Vacation");
-                this.sVService.insert(sVService.getVacationIdByEmployeeId(pk), this.selectedSchedueleVacation.getStartDate(), this.selectedSchedueleVacation.getEndDate(), 17, "Request Still on Pending");
-                dayDifference();
-                vService.updateVacationDays(pk, this.vacationDays);
-                this.esNuevo = false;
-                this.selectedSchedueleVacation = new ScheduleVacationTO();
-                PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
+            flag2 = dateBefore();
+            if (flag2) {
+                if (this.vacationDays <= 0) {
+                    FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "You don't have vacation days left"));
+                } else {
+                    System.out.println("Saving Schedule Vacation");
+                    this.sVService.insert(sVService.getVacationIdByEmployeeId(pk), this.selectedSchedueleVacation.getStartDate(), this.selectedSchedueleVacation.getEndDate(), 17, "Request Still on Pending");
+                    dayDifference();
+                    vService.updateVacationDays(pk, this.vacationDays);
+                    this.esNuevo = false;
+                    this.selectedSchedueleVacation = new ScheduleVacationTO();
+                    PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
+                }
             }
         }
 
