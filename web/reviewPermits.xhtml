@@ -22,8 +22,8 @@
                          rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados">
                 <f:facet name="header"> Permits </f:facet>
 
-                <p:column headerText="Employee Id" sortBy="#{Permit.idEmployee}" filterBy="#{Permit.idEmployee}" filterMatchMode="contains">
-                    <h:outputText value="#{Permit.idEmployee}"/>
+                <p:column headerText="Employee Id" sortBy="#{employeeController.idToStrStatus(Permit.idEmployee)}" filterBy="#{employeeController.idToStrStatus(Permit.idEmployee)}" filterMatchMode="contains">
+                    <h:outputText value="#{employeeController.idToStrStatus(Permit.idEmployee)}"/>
                 </p:column>
 
                 <p:column headerText="Date" sortBy="#{Permit.date}" filterBy="#{Permit.date}" filterMatchMode="contains">
@@ -91,8 +91,8 @@
                                  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No permits">
 
-                        <p:column headerText="Employee Id" sortBy="#{Permit.idEmployee}" filterBy="#{Permit.idEmployee}" filterMatchMode="contains">
-                            <h:outputText value="#{Permit.idEmployee}"/>
+                        <p:column headerText="Employee Id" sortBy="#{employeeController.idToStrStatus(Permit.idEmployee)}" filterBy="#{employeeController.idToStrStatus(Permit.idEmployee)}" filterMatchMode="contains">
+                            <h:outputText value="#{employeeController.idToStrStatus(Permit.idEmployee)}"/>
                         </p:column>
 
                         <p:column headerText="Date" sortBy="#{Permit.date}" filterBy="#{Permit.date}" filterMatchMode="contains">

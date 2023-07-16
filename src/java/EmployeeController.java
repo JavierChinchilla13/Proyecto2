@@ -642,4 +642,16 @@ public class EmployeeController implements Serializable {
         return this.fileSC;
     }
     
+    public String idToStrStatus(int id) throws Exception {
+        
+        EmployeeService serv = new EmployeeService();
+        EmployeeTO test = serv.searchByPK(id);  
+        this.esNuevo = false;
+        this.selectedEmployee = new EmployeeTO();
+        String result = (test.getFirstName() + " " + test.getLastName());
+        PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
+
+        return result;
+    }
+    
 }
