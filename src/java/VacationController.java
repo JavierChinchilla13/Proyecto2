@@ -325,5 +325,32 @@ public class VacationController implements Serializable {
         this.redirect("/faces/vacations.xhtml");
 
     }
+    
+    public ScheduleVacationTO getScheduleVacation(int PK) {
+        ScheduleVacationTO foundVacation = null;
+        try {
+
+            foundVacation = sVService.searchByPK(PK);
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in searching the user"));
+        }
+        return foundVacation;
+    }
+    
+    public void deleteScheduleVacation(int PK) throws Exception {
+
+        try {
+            ScheduleVacationTO searchedVacation = this.getScheduleVacation(PK);
+            if (searchedVacation != null) {
+                sVService.delete(searchedVacation);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in deleting the Schedule Vacation"));
+
+        }
+
+    }
 
 }
