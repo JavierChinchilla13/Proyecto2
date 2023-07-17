@@ -44,6 +44,11 @@
                                  styleClass="ui-button-success" style="margin-right: .5rem">
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
+                
+                <p:commandButton value="Review FeedBack" icon="pi pi-check" actionListener="#{projectController.reviewProjectFeedBack()}"
+                                 styleClass="ui-button-success" style="margin-right: .10rem">
+                    <p:resetInput target=":form:manage-user-content"/>
+                </p:commandButton>
 
 
                 <p:dataTable var="Project" value="#{projectController.projects}" rendered="#{employeeController.isAdmin || employeeController.isManager}"  paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 

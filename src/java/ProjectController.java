@@ -12,13 +12,13 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import org.primefaces.PrimeFaces;
-
 
 @ManagedBean(name = "projectController")
 @SessionScoped
-public class ProjectController implements Serializable{
-    
+public class ProjectController implements Serializable {
+
     private ProjectTO selectedProject = new ProjectTO();
     private final ProjectService proService = new ProjectService();
     private boolean esNuevo;
@@ -38,16 +38,16 @@ public class ProjectController implements Serializable{
     public void setEsNuevo(boolean esNuevo) {
         this.esNuevo = esNuevo;
     }
-    
+
     public void openNew() {
         this.esNuevo = true;
         this.selectedProject = new ProjectTO();
     }
-    
-    public List<ProjectTO> getProjects(){
-        try{
+
+    public List<ProjectTO> getProjects() {
+        try {
             return proService.getProjects();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving th list of employees"));
 
@@ -65,7 +65,7 @@ public class ProjectController implements Serializable{
             case 11:
                 result = "Completed";
                 break;
-            
+
         }
         return result;
     }
@@ -162,6 +162,23 @@ public class ProjectController implements Serializable{
         } catch (Exception e) {
             e.printStackTrace();
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in suspending the user"));
+
+        }
+
+    }
+
+    public void reviewProjectFeedBack() throws Exception {
+
+        this.redirect("/faces/reviewProjectFeedBack.xhtml");
+
+    }
+
+    public void redirect(String rute) {
+        HttpServletRequest request;
+        try {
+            request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            FacesContext.getCurrentInstance().getExternalContext().redirect(request.getContextPath() + rute);
+        } catch (Exception e) {
 
         }
 
