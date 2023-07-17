@@ -2,6 +2,8 @@
 import com.mycompany.edu.ulatina.hth_db_connetion.PermitTO;
 import com.mycompany.edu.ulatina.hth_db_connetion.ProjectService;
 import com.mycompany.edu.ulatina.hth_db_connetion.ProjectTO;
+import com.mycompany.edu.ulatina.hth_db_connetion.ProjectXEmployeeService;
+import com.mycompany.edu.ulatina.hth_db_connetion.ProjectXEmployeeTO;
 import java.io.Serializable;
 import java.sql.Date;
 import java.text.DateFormat;
@@ -21,6 +23,7 @@ public class ProjectController implements Serializable {
 
     private ProjectTO selectedProject = new ProjectTO();
     private final ProjectService proService = new ProjectService();
+    private final ProjectXEmployeeService pXEService = new ProjectXEmployeeService();
     private boolean esNuevo;
 
     public ProjectTO getSelectedProject() {
@@ -53,6 +56,18 @@ public class ProjectController implements Serializable {
 
         }
         List<ProjectTO> list = new ArrayList<>();
+        return list;
+    }
+    
+    public List<ProjectXEmployeeTO> getPXEInfoFromEmployee(int pk) {
+        try {
+            return pXEService.getProjectEmployeeById(pk);
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving the project information"));
+
+        }
+        List<ProjectXEmployeeTO> list = new ArrayList<>();
         return list;
     }
 
@@ -183,4 +198,6 @@ public class ProjectController implements Serializable {
         }
 
     }
+    
+    
 }

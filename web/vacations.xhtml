@@ -92,6 +92,12 @@
                     <p:column headerText="Description" sortBy="#{vacations.description}" filterBy="#{vacations.description}" filterMatchMode="contains">
                         <h:outputText value="#{vacations.description}"/>
                     </p:column>
+                    
+                    <p:column headerText="Delete">
+                        <p:commandButton icon="pi pi-times" update="form" styleClass="rounded-button ui-button-danger"
+                                         actionListener="#{vacationController.deleteScheduleVacation(vacations.id)}">
+                        </p:commandButton>
+                    </p:column>
 
                 </p:dataTable>
 
