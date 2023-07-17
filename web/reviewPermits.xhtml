@@ -107,14 +107,7 @@
                             <h:outputText value="#{permitController.statusToStrStatus(Permit.status)}"/>
                         </p:column>
 
-                        <p:column>
-                            <p:commandButton icon="pi pi-pencil" update=":form:history-all-per-view" 
-                                             oncomplete="PF('manageUserDialog').show()"
-                                             styleClass="edit-button rounded-button ui-button-success" process="@this">
-                                <f:setPropertyActionListener value="#{Permit}" target="#{permitController.selectedPermit}"/>
-                                <p:resetInput target=":form:history-all-per-view"/>
-                            </p:commandButton>
-                        </p:column>
+                        
 
                     </p:dataTable>
 

@@ -43,7 +43,7 @@
                                  styleClass="ui-button-success" style="margin-right: .5rem">
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
-                
+
                 <p:dataTable var="Employee" value="#{employeeController.activeEmployees}" rendered="#{employeeController.isManager || employeeController.isEmployee}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                              {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados">
@@ -116,7 +116,7 @@
                     <p:column headerText="Password" sortBy="#{Employee.password}" filterBy="#{Employee.password}" filterMatchMode="contains">
                         <h:outputText value="#{Employee.password}"/>
                     </p:column>
-                    
+
                     <p:column headerText="Edit">
                         <p:commandButton icon="pi pi-pencil" update=":form:manage-user-content" 
                                          oncomplete="PF('manageUserDialog').show()"
@@ -125,7 +125,7 @@
                             <p:resetInput target=":form:manage-user-content"/>
                         </p:commandButton>
                     </p:column>
-                    
+
                     <p:column headerText="Suspend">
                         <p:commandButton icon="pi pi-times" update="form" styleClass="rounded-button ui-button-danger"
                                          actionListener="#{employeeController.deleteUser(Employee.id)}">
@@ -133,9 +133,9 @@
                     </p:column>
 
                 </p:dataTable>
-                
-                
-                
+
+
+
 
 
 
@@ -150,40 +150,52 @@
                             </div>
                             <div class="p-field">
                                 <p:outputLabel for="lastName">LastName</p:outputLabel>
-                                    <p:inputText id="lastName" value="#{employeeController.selectedEmployee.lastName}"/>
-                                </div>
-                                <div class="p-field">
-                                    <p:outputLabel for="identification">identification</p:outputLabel>
-                                    <p:inputText id="identification" value="#{employeeController.selectedEmployee.identification}"/>
-                                </div>
-                                <div class="p-field">
-                                    <p:outputLabel for="email">Email</p:outputLabel>
-                                    <p:inputText id="email" value="#{employeeController.selectedEmployee.email}"/>
-                                </div>
-                                <div class="p-field">
-                                    <p:outputLabel for="phone">Phone</p:outputLabel>
-                                    <p:inputText id="phone" value="#{employeeController.selectedEmployee.phone}"/>
-                                </div>
-                                
-                                <div class="p-field">
-                                    <p:outputLabel for="type">Type</p:outputLabel>
-                                    <p:inputText id="type" value="#{employeeController.selectedEmployee.type}"/>
-                                </div>
-                                <div class="p-field">
-                                    <p:outputLabel for="status">Status</p:outputLabel>
-                                    <p:inputText id="status" value="#{employeeController.selectedEmployee.status}"/>
-                                </div>
-                                <div class="p-field">
-                                    <p:outputLabel for="pass">Password</p:outputLabel>
-                                    <p:inputText id="pass" value="#{employeeController.selectedEmployee.password}"/>
-                                </div>
-                  
-                            </p:outputPanel>
+                                <p:inputText id="lastName" value="#{employeeController.selectedEmployee.lastName}"/>
+                            </div>
+                            <div class="p-field">
+                                <p:outputLabel for="identification">identification</p:outputLabel>
+                                <p:inputText id="identification" value="#{employeeController.selectedEmployee.identification}"/>
+                            </div>
+                            <div class="p-field">
+                                <p:outputLabel for="email">Email</p:outputLabel>
+                                <p:inputText id="email" value="#{employeeController.selectedEmployee.email}"/>
+                            </div>
+                            <div class="p-field">
+                                <p:outputLabel for="phone">Phone</p:outputLabel>
+                                <p:inputText id="phone" value="#{employeeController.selectedEmployee.phone}"/>
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <p:outputLabel for="type">Type</p:outputLabel>
+                                <p:selectOneMenu id="type" value="#{employeeController.selectedEmployee.type}">
+                                    <f:selectItem itemLabel="Select One" itemValue=""/>
+                                    <f:selectItem itemLabel="Admin" itemValue="1"/>
+                                    <f:selectItem itemLabel="Manager" itemValue="2"/> 
+                                    <f:selectItem itemLabel="Employee" itemValue="3"/> 
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <p:outputLabel for="status">Status</p:outputLabel>
+                                <p:selectOneMenu id="status" value="#{employeeController.selectedEmployee.status}">
+                                    <f:selectItem itemLabel="Select One" itemValue=""/>
+                                    <f:selectItem itemLabel="Inactive" itemValue="4"/>
+                                    <f:selectItem itemLabel="Active" itemValue="5"/> 
+                                    <f:selectItem itemLabel="Suspended" itemValue="6"/> 
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="p-field">
+                                <p:outputLabel for="pass">Password</p:outputLabel>
+                                <p:inputText id="pass" value="#{employeeController.selectedEmployee.password}"/>
+                            </div>
 
-                        
+                        </p:outputPanel>
+
+
 
                     </p:outputPanel>
                     <f:facet name="footer">
+                        <p:commandButton value="Add" icon="pi pi-check"   actionListener="#{employeeController.saveUser()}"
+                                         update="form manage-user-content" process="manage-user-content @this"/>
+                        
                         <p:commandButton value="Save" icon="pi pi-check"   actionListener="#{employeeController.updateUser()}"
                                          update="form manage-user-content" process="manage-user-content @this"/>
 
@@ -192,6 +204,9 @@
                     </f:facet>
 
                 </p:dialog>
+                
+                
+                
 
             </div>           
         </h:form>

@@ -155,9 +155,13 @@
                                 <p:outputLabel for="name">Name</p:outputLabel>
                                 <p:inputText id="name" value="#{projectController.selectedProject.name}"/>
                             </div>
-                            <div class="p-field">
+                            <div class="field col-12 md:col-4">
                                 <p:outputLabel for="status">Status</p:outputLabel>
-                                <p:inputText id="status" value="#{projectController.selectedProject.status}"/>
+                                <p:selectOneMenu id="status" value="#{projectController.selectedProject.status}">
+                                    <f:selectItem itemLabel="Select One" itemValue=""/>
+                                    <f:selectItem itemLabel="Inprogress" itemValue="10"/>
+                                    <f:selectItem itemLabel="Completed" itemValue="11"/> 
+                                </p:selectOneMenu>
                             </div>
                             <div class="p-field">
                                 <p:outputLabel for="startingDate">Starting Date</p:outputLabel>
