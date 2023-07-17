@@ -22,9 +22,18 @@ import org.primefaces.PrimeFaces;
 public class ProjectController implements Serializable {
 
     private ProjectTO selectedProject = new ProjectTO();
+    private ProjectXEmployeeTO selectedProjectXEmployee = new ProjectXEmployeeTO();
     private final ProjectService proService = new ProjectService();
     private final ProjectXEmployeeService pXEService = new ProjectXEmployeeService();
     private boolean esNuevo;
+
+    public ProjectXEmployeeTO getSelectedProjectXEmployee() {
+        return selectedProjectXEmployee;
+    }
+
+    public void setSelectedProjectXEmployee(ProjectXEmployeeTO selectedProjectXEmployee) {
+        this.selectedProjectXEmployee = selectedProjectXEmployee;
+    }
 
     public ProjectTO getSelectedProject() {
         return selectedProject;
@@ -47,6 +56,11 @@ public class ProjectController implements Serializable {
         this.selectedProject = new ProjectTO();
     }
 
+    public void openNewPXE() {
+        this.esNuevo = true;
+        this.selectedProjectXEmployee = new ProjectXEmployeeTO();
+    }
+
     public List<ProjectTO> getProjects() {
         try {
             return proService.getProjects();
@@ -58,7 +72,7 @@ public class ProjectController implements Serializable {
         List<ProjectTO> list = new ArrayList<>();
         return list;
     }
-    
+
     public List<ProjectXEmployeeTO> getPXEInfoFromEmployee(int pk) {
         try {
             return pXEService.getProjectEmployeeById(pk);
@@ -198,6 +212,59 @@ public class ProjectController implements Serializable {
         }
 
     }
-    
-    
+
+    public ProjectXEmployeeTO getProyectFeedBack(int PK) {
+        ProjectXEmployeeTO foundFeedBack = null;
+        try {
+
+            foundFeedBack = pXEService.searchPXEByPk(PK);
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in searching the user"));
+        }
+        return foundFeedBack;
+    }
+
+    public void deleteProjectFeedBack(int PK) throws Exception {
+
+        try {
+            ProjectXEmployeeTO searchedFeedBack = this.getProyectFeedBack(PK);
+            if (searchedFeedBack != null) {
+                pXEService.delete(searchedFeedBack);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in deleting the Schedule Vacation"));
+
+        }
+
+    }
+
+    public void returnToProjectPage() throws Exception {
+
+        this.redirect("/faces/projects.xhtml");
+
+    }
+
+    public void saveFeedBack() throws Exception {
+
+        boolean flag = true;
+        
+        if (this.selectedProjectXEmployee.getFeedBack() == null || this.selectedProjectXEmployee.getFeedBack().equals("")) {
+            //ERROR
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "FeedBack is Empty"));
+            flag = false;
+        }
+
+        if (flag) {
+            
+            this.pXEService.insert(this.selectedProject.getId(), this.selectedProjectXEmployee.getIdEmployee(), this.selectedProjectXEmployee.getHoursInvested(), this.selectedProjectXEmployee.getFeedBack());
+            this.esNuevo = false;
+            this.selectedProjectXEmployee = new ProjectXEmployeeTO();
+            this.selectedProject = new ProjectTO();
+            PrimeFaces.current().executeScript("PF('addFeedback').hide()");
+
+        }
+
+    }
 }
