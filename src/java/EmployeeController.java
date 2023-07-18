@@ -280,7 +280,8 @@ public class EmployeeController implements Serializable {
             System.out.println("Estoy salvando al usuario");
             this.service.insert(this.selectedEmployee);
             //---this.servicioUsuario.listarUsuarios();
-            //this.listaUsuarios.add(selectedEmployee);//para simular       
+            //this.listaUsuarios.add(selectedEmployee);//para simular   
+           
             this.esNuevo = false;
             this.selectedEmployee = new EmployeeTO();
             PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");

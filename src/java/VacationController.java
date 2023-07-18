@@ -41,6 +41,7 @@ public class VacationController implements Serializable {
     private Date endDate;
     private int vacationDays;
     private int dayDifference;
+     private int dayOff;
 
     public VacationController() {
     }
@@ -207,9 +208,9 @@ public class VacationController implements Serializable {
                     FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "You don't have vacation days left"));
                 } else {
                     System.out.println("Saving Schedule Vacation");
-                    this.sVService.insert(sVService.getVacationIdByEmployeeId(pk), this.selectedSchedueleVacation.getStartDate(), this.selectedSchedueleVacation.getEndDate(), 17, "Request Still on Pending");
+                    this.sVService.insert(sVService.getVacationIdByEmployeeId(pk), this.selectedSchedueleVacation.getStartDate(), this.selectedSchedueleVacation.getEndDate(), 17, "");
                     dayDifference();
-                    vService.updateVacationDays(pk, this.vacationDays);
+                    //vService.updateVacationDays(pk, this.vacationDays);
                     this.esNuevo = false;
                     this.selectedSchedueleVacation = new ScheduleVacationTO();
                     PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
@@ -251,6 +252,18 @@ public class VacationController implements Serializable {
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving the list of vacations of employee"));
         }
         return this.vacationDays = 0;
+    }
+    public int getVacationDaysOff(int pk) {
+        int day = 0;
+        try {
+            
+            day = sVService.getVacationDaysOff(pk);
+            return day;
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving the list of vacations of employee"));
+        }
+        return day;
     }
 
     public List<ScheduleVacationTO> getPendingVacationRequest() {
