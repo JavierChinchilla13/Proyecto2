@@ -1,4 +1,6 @@
 
+import com.mycompany.edu.ulatina.hth_db_connetion.EmployeeService;
+import com.mycompany.edu.ulatina.hth_db_connetion.EmployeeTO;
 import com.mycompany.edu.ulatina.hth_db_connetion.PermitTO;
 import com.mycompany.edu.ulatina.hth_db_connetion.ProjectService;
 import com.mycompany.edu.ulatina.hth_db_connetion.ProjectTO;
@@ -26,6 +28,7 @@ public class ProjectController implements Serializable {
     private final ProjectService proService = new ProjectService();
     private final ProjectXEmployeeService pXEService = new ProjectXEmployeeService();
     private boolean esNuevo;
+    private final EmployeeService empService = new EmployeeService();
 
     public ProjectXEmployeeTO getSelectedProjectXEmployee() {
         return selectedProjectXEmployee;
@@ -41,6 +44,34 @@ public class ProjectController implements Serializable {
 
     public void setSelectedProject(ProjectTO selectedProject) {
         this.selectedProject = selectedProject;
+    }
+
+    public boolean isProyectActive() {
+        return selectedProject.getStatus() == 10;
+    }
+
+    public List<EmployeeTO> getEmployeesOfProyect() {
+        try {
+            return empService.getEmployeesFromProyect(selectedProject.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving the list of employees of the project"));
+
+        }
+        List<EmployeeTO> list = new ArrayList<>();
+        return list;
+    }
+
+    public List<EmployeeTO> getEmployeesNotOnProyect() {
+        try {
+            return empService.getEmployeesNotOnProyect(selectedProject.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving the list of employees of the project"));
+
+        }
+        List<EmployeeTO> list = new ArrayList<>();
+        return list;
     }
 
     public boolean isEsNuevo() {
@@ -249,7 +280,7 @@ public class ProjectController implements Serializable {
     public void saveFeedBack() throws Exception {
 
         boolean flag = true;
-        
+
         if (this.selectedProjectXEmployee.getFeedBack() == null || this.selectedProjectXEmployee.getFeedBack().equals("")) {
             //ERROR
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "FeedBack is Empty"));
@@ -257,7 +288,7 @@ public class ProjectController implements Serializable {
         }
 
         if (flag) {
-            
+
             this.pXEService.insert(this.selectedProject.getId(), this.selectedProjectXEmployee.getIdEmployee(), this.selectedProjectXEmployee.getHoursInvested(), this.selectedProjectXEmployee.getFeedBack());
             this.esNuevo = false;
             this.selectedProjectXEmployee = new ProjectXEmployeeTO();
@@ -267,4 +298,19 @@ public class ProjectController implements Serializable {
         }
 
     }
+
+    public void addCollaboratorToProject(int employeePK) {
+        try {
+            System.out.println("\n\n\n\n\n\n\n\n\n\n             -----------------------> NOM:  " + selectedProject.getName() + "  ---  ID: " + selectedProject.getId() + "     EMP: " + employeePK);
+            proService.addCollaborator(selectedProject.getId(), employeePK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in addingPersonToProject"));
+        }
+    }
+
+    public String getHeaderForProject() {
+        return "Members of Project: " + selectedProject.getName();
+    }
+
 }

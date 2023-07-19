@@ -5,7 +5,6 @@ import com.mycompany.edu.ulatina.hth_db_connetion.PermitTO;
 import java.io.Serializable;
 import java.sql.Date;
 import java.text.DateFormat;
-
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -17,16 +16,6 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.PrimeFaces;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author javi
- */
 
 @ManagedBean(name = "permitController")
 @SessionScoped
@@ -270,4 +259,5 @@ public class PermitController implements Serializable{
         }
 
     }
+    
 }

@@ -44,18 +44,18 @@
                                  styleClass="ui-button-success" style="margin-right: .5rem">
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
-                
+
                 <p:commandButton value="Add FeedBack" icon="pi pi-plus" actionListener="#{projectController.openNewPXE()}" rendered="#{employeeController.isAdmin}"
                                  update=":form:add-FeedBack" oncomplete="PF('addFeedback').show()"
                                  styleClass="ui-button-success" style="margin-right: .5rem; margin-top: .5rem">
                     <p:resetInput target=":form:add-FeedBack"/>
                 </p:commandButton>
-                
+
                 <p:commandButton value="Review FeedBack" icon="pi pi-check" actionListener="#{projectController.reviewProjectFeedBack()}"
                                  styleClass="ui-button-success" style="margin-right: .10rem">
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
-                
+
                 <p:dialog header="Add FeedBack" showEffect="fade" modal="true"
                           widgetVar="addFeedback" responsive="true">
                     <p:outputPanel id="add-FeedBack" class="ui-fluid">
@@ -64,15 +64,15 @@
                             <p:outputLabel for="projectId">Project Id</p:outputLabel>
                             <p:inputText id="projectId" value="#{projectController.selectedProject.id}"/>
                         </div>
-                        
+
                         <div class="p-field">
-                                <p:outputLabel for="employeeId">Employee Id</p:outputLabel>
-                                <p:inputText id="employeeId" value="#{projectController.selectedProjectXEmployee.idEmployee}"/>
+                            <p:outputLabel for="employeeId">Employee Id</p:outputLabel>
+                            <p:inputText id="employeeId" value="#{projectController.selectedProjectXEmployee.idEmployee}"/>
                         </div>
-                        
+
                         <div class="p-field">
-                                <p:outputLabel for="feedBack">FeedBack</p:outputLabel>
-                                <p:inputText id="feedBack" value="#{projectController.selectedProjectXEmployee.feedBack}"/>
+                            <p:outputLabel for="feedBack">FeedBack</p:outputLabel>
+                            <p:inputText id="feedBack" value="#{projectController.selectedProjectXEmployee.feedBack}"/>
                         </div>
 
                     </p:outputPanel>
@@ -84,48 +84,59 @@
                 </p:dialog>
 
 
-                <p:dataTable var="Project" value="#{projectController.projects}" rendered="#{employeeController.isAdmin || employeeController.isManager}"  paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
+                <p:dataTable var="Projects" value="#{projectController.projects}" rendered="#{employeeController.isAdmin || employeeController.isManager}"  paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                              {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No projects">
                     <f:facet name="header"> Projects </f:facet>
 
-                    <p:column headerText="Name" sortBy="#{Project.name}" filterBy="#{Project.name}" filterMatchMode="contains">
-                        <h:outputText value="#{Project.name}"/>
+                    <p:column headerText="Name" sortBy="#{Projects.name}" filterBy="#{Projects.name}" filterMatchMode="contains">
+                        <h:outputText value="#{Projects.name}"/>
                     </p:column>
 
-                    <p:column headerText="Status" sortBy="#{projectController.statusToStrStatus(Project.status)}" filterBy="#{projectController.statusToStrStatus(Project.status)}" filterMatchMode="contains">
-                        <h:outputText value="#{projectController.statusToStrStatus(Project.status)}"/>
+                    <p:column headerText="Status" sortBy="#{projectController.statusToStrStatus(Projects.status)}" filterBy="#{projectController.statusToStrStatus(Projects.status)}" filterMatchMode="contains">
+                        <h:outputText value="#{projectController.statusToStrStatus(Projects.status)}"/>
                     </p:column>
 
-                    <p:column headerText="Starting Date" sortBy="#{Project.startingDate}" filterBy="#{Project.startingDate}" filterMatchMode="contains">
-                        <h:outputText value="#{Project.startingDate}"/>
+                    <p:column headerText="Starting Date" sortBy="#{Projects.startingDate}" filterBy="#{Projects.startingDate}" filterMatchMode="contains">
+                        <h:outputText value="#{Projects.startingDate}"/>
                     </p:column>
 
-                    <p:column headerText="Ending Date" sortBy="#{Project.endingDate}" filterBy="#{Project.endingDate}" filterMatchMode="contains">
-                        <h:outputText value="#{Project.endingDate}"/>
+                    <p:column headerText="Ending Date" sortBy="#{Projects.endingDate}" filterBy="#{Projects.endingDate}" filterMatchMode="contains">
+                        <h:outputText value="#{Projects.endingDate}"/>
                     </p:column>
 
-                    <p:column>
+                    <p:column headerText="Editar">
                         <p:commandButton icon="pi pi-pencil" update=":form:manage-user-content" 
                                          oncomplete="PF('manageUserDialog').show()"
                                          styleClass="edit-button rounded-button ui-button-success" process="@this">
-                            <f:setPropertyActionListener value="#{Project}" target="#{projectController.selectedProject}"/>
+                            <f:setPropertyActionListener value="#{Projects}" target="#{projectController.selectedProject}"/>
                             <p:resetInput target=":form:manage-user-content"/>
                         </p:commandButton>
                     </p:column>
+
+                    <p:column headerText="Members">
+                        <p:commandButton icon="pi pi-users" update=":form:manage-members" 
+                                         oncomplete="PF('manageProjectMembersDialog').show()"
+                                         styleClass="rounded-button ui-button-info" process="@this">
+                            <f:setPropertyActionListener value="#{Projects}" target="#{projectController.selectedProject}"/>
+                            <p:resetInput target=":form:manage-members"/>
+                        </p:commandButton>
+                    </p:column>
+
                     <p:column headerText="Delete">
                         <p:commandButton icon="pi pi-times" update="form" styleClass="rounded-button ui-button-danger"
-                                         actionListener="#{projectController.deleteProject(Project.id)}">
+                                         actionListener="#{projectController.deleteProject(Projects.id)}">
                         </p:commandButton>
                     </p:column>
 
 
                 </p:dataTable>
-                
+
                 <p:dataTable var="Project" value="#{projectController.projects}" rendered="#{employeeController.isEmployee}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                              {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No projects">
                     <f:facet name="header"> Projects </f:facet>
+
 
                     <p:column headerText="Name" sortBy="#{Project.name}" filterBy="#{Project.name}" filterMatchMode="contains">
                         <h:outputText value="#{Project.name}"/>
@@ -143,9 +154,103 @@
                         <h:outputText value="#{Project.endingDate}"/>
                     </p:column>
 
+                    <p:column headerText="Members">
+                        <p:commandButton icon="pi pi-users" update=":form:manage-members" 
+                                         oncomplete="PF('manageProjectMembersDialog').show()"
+                                         styleClass="rounded-button ui-button-info" process="@this">
+                            <f:setPropertyActionListener value="#{Project}" target="#{projectController.selectedProject}"/>
+                            <p:resetInput target=":form:manage-members"/>
+                        </p:commandButton>
+                    </p:column>
+
                 </p:dataTable>
 
-                
+                <p:dialog header="#{projectController.headerForProject}" showEffect="fade" modal="true"
+                          widgetVar="manageProjectMembersDialog" responsive="true">
+                    <p:outputPanel id="manage-members" class="ui-fluid">
+                        <p:outputPanel>
+
+                            <p:dataTable var="EmployeeOfProyect" value="#{projectController.employeesOfProyect}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
+                                         {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados">
+
+                                <p:column headerText="Name" sortBy="#{EmployeeOfProyect.fullName}" filterBy="#{EmployeeOfProyect.fullName}" filterMatchMode="contains">
+                                    <h:outputText value="#{EmployeeOfProyect.fullName}"/>
+                                </p:column>
+
+                                <p:column headerText="Identification" sortBy="#{EmployeeOfProyect.identification}" filterBy="#{EmployeeOfProyect.identification}" filterMatchMode="contains">
+                                    <h:outputText value="#{EmployeeOfProyect.identification}"/>
+                                </p:column>
+
+                                <p:column headerText="Type" sortBy="#{employeeController.typeToStrType(EmployeeOfProyect.type)}" filterBy="#{employeeController.typeToStrType(EmployeeOfProyect.type)}" filterMatchMode="contains">
+                                    <h:outputText value="#{employeeController.typeToStrType(EmployeeOfProyect.type)}"/>
+                                </p:column>  
+
+                                <p:column headerText="Remove" rendered="#{employeeController.isAdmin || employeeController.isManager}" >
+                                    <p:commandButton icon="pi pi-times" update=":form:manage-members" styleClass="rounded-button ui-button-danger">
+
+                                    </p:commandButton>
+                                </p:column>
+
+                            </p:dataTable>
+
+                        </p:outputPanel>
+
+                    </p:outputPanel>
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Add person to project" icon="pi pi-plus" update=":form:manage-membersToAdd" 
+                                         oncomplete="PF('manageProjectMembersToAddDialog').show()"
+                                         styleClass="ui-button-success" process="@this"
+                                         rendered="#{employeeController.isAdmin || employeeController.isManager}">
+                        </p:commandButton>
+
+                        <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageProjectMembersDialog').hide()"
+                                         styleClass="ui-button-secondary"/>
+                    </f:facet>
+                </p:dialog>
+
+                <p:dialog header="Project members avaible to add" showEffect="fade" modal="true"
+                          widgetVar="manageProjectMembersToAddDialog" responsive="true">
+                    <p:outputPanel id="manage-membersToAdd" class="ui-fluid">
+                        <p:outputPanel>
+
+
+                            <p:dataTable var="EmployeeNotOnProyect" value="#{projectController.employeesNotOnProyect}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
+                                         {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados">
+
+                                <p:column headerText="Name" sortBy="#{EmployeeNotOnProyect.fullName}" filterBy="#{EmployeeNotOnProyect.fullName}" filterMatchMode="contains">
+                                    <h:outputText value="#{Employee.fullName}"/>
+                                </p:column>
+
+                                <p:column headerText="Identification" sortBy="#{EmployeeNotOnProyect.identification}" filterBy="#{EmployeeNotOnProyect.identification}" filterMatchMode="contains">
+                                    <h:outputText value="#{Employee.identification}"/>
+                                </p:column>
+
+                                <p:column headerText="Type" sortBy="#{employeeController.typeToStrType(EmployeeNotOnProyect.type)}" filterBy="#{employeeController.typeToStrType(EmployeeNotOnProyect.type)}" filterMatchMode="contains">
+                                    <h:outputText value="#{employeeController.typeToStrType(EmployeeNotOnProyect.type)}"/>
+                                </p:column>  
+
+                                <p:column headerText="Add" rendered="#{employeeController.isAdmin || employeeController.isManager}" >
+                                    <p:commandButton icon="pi pi-plus" update=":form:manage-membersToAdd" styleClass="rounded-button ui-button-info"
+                                                     actionListener="#{projectController.addCollaboratorToProject(EmployeeNotOnProyect.id)}">
+
+                                    </p:commandButton>
+                                </p:column>
+
+                            </p:dataTable>
+
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageProjectMembersToAddDialog').hide()"
+                                                 styleClass="ui-button-secondary"/>
+                            </f:facet>
+
+                        </p:outputPanel>
+                    </p:outputPanel>
+                </p:dialog>
+
                 <p:dialog header="User detail" showEffect="fade" modal="true"
                           widgetVar="manageUserDialog" responsive="true">
                     <p:outputPanel id="manage-user-content" class="ui-fluid">
@@ -171,7 +276,7 @@
                                 <p:outputLabel for="endingDate">Ending Date</p:outputLabel>
                                 <p:calendar id="endingDate" value="#{projectController.endingDate}"/>
                             </div>
-                            
+
                         </p:outputPanel>
 
 
@@ -182,7 +287,7 @@
                         <p:commandButton value="Update Project" icon="pi pi-check"   actionListener="#{projectController.updateProject()}"
                                          update="form manage-user-content" process="manage-user-content @this"/>
 
-                       
+
                     </f:facet>
 
                 </p:dialog>

@@ -48,12 +48,8 @@
                              {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados">
 
-                    <p:column headerText="FirstName" sortBy="#{Employee.firstName}" filterBy="#{Employee.firstName}" filterMatchMode="contains">
-                        <h:outputText value="#{Employee.firstName}"/>
-                    </p:column>
-
-                    <p:column headerText="LastName" sortBy="#{Employee.lastName}" filterBy="#{Employee.lastName}" filterMatchMode="contains">
-                        <h:outputText value="#{Employee.lastName}"/>
+                     <p:column headerText="Name" sortBy="#{Employee.fullName}" filterBy="#{Employee.fullName}" filterMatchMode="contains">
+                        <h:outputText value="#{Employee.fullName}"/>
                     </p:column>
 
                     <p:column headerText="Identification" sortBy="#{Employee.identification}" filterBy="#{Employee.identification}" filterMatchMode="contains">
@@ -81,16 +77,8 @@
                              rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados"  >
                     <f:facet name="header"> Employee List </f:facet>
 
-                    <p:column headerText="ID" sortBy="#{Employee.id}" filterBy="#{Employee.id}">
-                        <h:outputText value="#{Employee.id}"/>
-                    </p:column>
-
-                    <p:column headerText="FirstName" sortBy="#{Employee.firstName}" filterBy="#{Employee.firstName}" filterMatchMode="contains">
-                        <h:outputText value="#{Employee.firstName}"/>
-                    </p:column>
-
-                    <p:column headerText="LastName" sortBy="#{Employee.lastName}" filterBy="#{Employee.lastName}" filterMatchMode="contains">
-                        <h:outputText value="#{Employee.lastName}"/>
+                    <p:column headerText="Name" sortBy="#{Employee.fullName}" filterBy="#{Employee.fullName}" filterMatchMode="contains">
+                        <h:outputText value="#{Employee.fullName}"/>
                     </p:column>
 
                     <p:column headerText="Identification" sortBy="#{Employee.identification}" filterBy="#{Employee.identification}" filterMatchMode="contains">
@@ -111,10 +99,6 @@
 
                     <p:column headerText="Status" sortBy="#{employeeController.statusToStrStatus(Employee.status)}" filterBy="#{employeeController.statusToStrStatus(Employee.status)}" filterMatchMode="contains">
                         <h:outputText value="#{employeeController.statusToStrStatus(Employee.status)}"/>
-                    </p:column>
-
-                    <p:column headerText="Password" sortBy="#{Employee.password}" filterBy="#{Employee.password}" filterMatchMode="contains">
-                        <h:outputText value="#{Employee.password}"/>
                     </p:column>
 
                     <p:column headerText="Edit">
@@ -182,10 +166,6 @@
                                     <f:selectItem itemLabel="Suspended" itemValue="6"/> 
                                 </p:selectOneMenu>
                             </div>
-                            <div class="p-field">
-                                <p:outputLabel for="pass">Password</p:outputLabel>
-                                <p:inputText id="pass" value="#{employeeController.selectedEmployee.password}"/>
-                            </div>
 
                         </p:outputPanel>
 
@@ -193,13 +173,13 @@
 
                     </p:outputPanel>
                     <f:facet name="footer">
-                        <p:commandButton value="Add" icon="pi pi-check"   actionListener="#{employeeController.saveUser()}" 
+                        <p:commandButton value="Add" icon="pi pi-check"   rendered="#{employeeController.esNuevo}" actionListener="#{employeeController.saveUser()}" 
                                          update="form manage-user-content" process="manage-user-content @this"/>
                         
-                        <p:commandButton value="Save" icon="pi pi-check"   actionListener="#{employeeController.updateUser()}"
+                        <p:commandButton value="Save" icon="pi pi-check"  rendered="#{!employeeController.esNuevo}" actionListener="#{employeeController.updateUser()}"
                                          update="form manage-user-content" process="manage-user-content @this"/>
 
-                        <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageUserDialog').hide()"
+                        <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageUserDialog').hide()" actionListener="#{employeeController.setEsNuevo(false)}"
                                          class="ui-button-secondary"/>
                     </f:facet>
 

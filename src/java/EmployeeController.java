@@ -46,7 +46,7 @@ public class EmployeeController implements Serializable {
 
     private EmployeeTO em;
     private final EmployeeService service = new EmployeeService();
-    private boolean esNuevo;
+    private boolean esNuevo = false;
     private EmployeeTO selectedEmployee = new EmployeeTO();
 
     private boolean isAdmin = false;
@@ -67,7 +67,7 @@ public class EmployeeController implements Serializable {
         this.user = user;
         this.pasword = pasword;
     }
-
+    
     public String getUser() {
         return user;
     }
@@ -123,6 +123,8 @@ public class EmployeeController implements Serializable {
         List<EmployeeTO> list = new ArrayList<>();
         return list;
     }
+    
+    
 
     public int getId() {
         return em.getId();
@@ -279,8 +281,6 @@ public class EmployeeController implements Serializable {
         if (flag) {
             System.out.println("Estoy salvando al usuario");
             this.service.insert(this.selectedEmployee);
-            //---this.servicioUsuario.listarUsuarios();
-            //this.listaUsuarios.add(selectedEmployee);//para simular   
            
             this.esNuevo = false;
             this.selectedEmployee = new EmployeeTO();
@@ -650,5 +650,6 @@ public class EmployeeController implements Serializable {
 
         return result;
     }
+    
     
 }
