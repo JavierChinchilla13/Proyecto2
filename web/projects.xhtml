@@ -221,11 +221,11 @@
                                          rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados">
 
                                 <p:column headerText="Name" sortBy="#{EmployeeNotOnProyect.fullName}" filterBy="#{EmployeeNotOnProyect.fullName}" filterMatchMode="contains">
-                                    <h:outputText value="#{Employee.fullName}"/>
+                                    <h:outputText value="#{EmployeeNotOnProyect.fullName}"/>
                                 </p:column>
 
                                 <p:column headerText="Identification" sortBy="#{EmployeeNotOnProyect.identification}" filterBy="#{EmployeeNotOnProyect.identification}" filterMatchMode="contains">
-                                    <h:outputText value="#{Employee.identification}"/>
+                                    <h:outputText value="#{EmployeeNotOnProyect.identification}"/>
                                 </p:column>
 
                                 <p:column headerText="Type" sortBy="#{employeeController.typeToStrType(EmployeeNotOnProyect.type)}" filterBy="#{employeeController.typeToStrType(EmployeeNotOnProyect.type)}" filterMatchMode="contains">

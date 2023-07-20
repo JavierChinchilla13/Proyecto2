@@ -312,5 +312,10 @@ public class ProjectController implements Serializable {
     public String getHeaderForProject() {
         return "Members of Project: " + selectedProject.getName();
     }
+    
+    public void test(){
+        System.out.println("\n\n\n\n\n\n Name: " + selectedProject.getName() + "\n\n\n\n\n\n");
+        System.out.println("\n\n\n\n\n\n ID: " + selectedProject.getId()+ "\n\n\n\n\n\n");
+    }
 
 }
