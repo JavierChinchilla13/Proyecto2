@@ -651,5 +651,15 @@ public class EmployeeController implements Serializable {
         return result;
     }
     
+    public void logOut() {
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            FacesContext.getCurrentInstance().getExternalContext().redirect(request.getContextPath() + "/faces/index.xhtml?faces-redirect=true");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
 }

@@ -13,7 +13,7 @@
         <h:form id="form">
             <p:growl id="message" showDetail="true"/>
             <div class="card">
-                 
+
                 <p:tabMenu activeIndex="#{param.i}">
                     <p:menuitem value="Home" outcome="landingPage" icon="pi pi-fw pi-home">
                         <f:param name="i" value="0"/>
@@ -33,7 +33,10 @@
                     <p:menuitem value="Documents" outcome="documents" icon="pi pi-fw pi-file">
                         <f:param name="i" value="5"/>
                     </p:menuitem>
-                                   
+                    <p:menuitem value="Log Out" icon="pi pi-sign-out"  actionListener="#{employeeController.logOut()}">
+                        <f:param name="i" value="6"/>
+                    </p:menuitem>
+
                 </p:tabMenu>
 
                 <br/>
@@ -48,7 +51,7 @@
                              {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados">
 
-                     <p:column headerText="Name" sortBy="#{Employee.fullName}" filterBy="#{Employee.fullName}" filterMatchMode="contains">
+                    <p:column headerText="Name" sortBy="#{Employee.fullName}" filterBy="#{Employee.fullName}" filterMatchMode="contains">
                         <h:outputText value="#{Employee.fullName}"/>
                     </p:column>
 
@@ -175,7 +178,7 @@
                     <f:facet name="footer">
                         <p:commandButton value="Add" icon="pi pi-check"   rendered="#{employeeController.esNuevo}" actionListener="#{employeeController.saveUser()}" 
                                          update="form manage-user-content" process="manage-user-content @this"/>
-                        
+
                         <p:commandButton value="Save" icon="pi pi-check"  rendered="#{!employeeController.esNuevo}" actionListener="#{employeeController.updateUser()}"
                                          update="form manage-user-content" process="manage-user-content @this"/>
 
@@ -184,9 +187,9 @@
                     </f:facet>
 
                 </p:dialog>
-                
-                
-                
+
+
+
 
             </div>           
         </h:form>
