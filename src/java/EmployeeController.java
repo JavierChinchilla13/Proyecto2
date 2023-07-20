@@ -291,6 +291,8 @@ public class EmployeeController implements Serializable {
 
     public void updateUser() throws Exception {
 
+        int status = 0;
+        
         boolean flag = true;
         if (this.selectedEmployee.getFirstName() == null || this.selectedEmployee.getFirstName().equals("")) {
             //ERROR
@@ -327,6 +329,23 @@ public class EmployeeController implements Serializable {
             //ERROR
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Password is empty"));
             flag = false;
+        }
+        if (this.selectedEmployee.getLayoffDate() == null || this.selectedEmployee.getLayoffDate().equals("")) {
+            //ERROR
+            flag = true;
+        }
+        
+        
+        if (this.selectedEmployee.getLayoffDate() != null) {
+            //ERROR
+            //FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Layoff date is empty"));
+            flag = false;
+            this.service.update(selectedEmployee, selectedEmployee.getFirstName(), this.selectedEmployee.getLastName(), this.selectedEmployee.getIdentification(), this.selectedEmployee.getEmail(), this.selectedEmployee.getPhone(), this.selectedEmployee.getType(), 6, this.selectedEmployee.getPassword(), this.selectedEmployee.getEmploymentDate(), this.selectedEmployee.getLayoffDate());
+            //---this.servicioUsuario.listarUsuarios();
+            //this.listaUsuarios.add(selectedEmployee);//para simular       
+            this.esNuevo = false;
+            this.selectedEmployee = new EmployeeTO();
+            PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");  
         }
 
         if (flag) {
@@ -371,6 +390,16 @@ public class EmployeeController implements Serializable {
 
         }
 
+    }
+    
+    public java.util.Date getCalendarFireDate() {
+        return (java.util.Date) this.selectedEmployee.getLayoffDate();
+    }
+
+    public void setCalendarFireDate(java.util.Date fireDate) {
+        if (fireDate != null) {
+            this.selectedEmployee.setLayoffDate(new java.sql.Date(fireDate.getTime()));
+        }
     }
 
     public void logIn() {
@@ -651,15 +680,5 @@ public class EmployeeController implements Serializable {
         return result;
     }
     
-    public void logOut() {
-        try {
-            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-
-            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            FacesContext.getCurrentInstance().getExternalContext().redirect(request.getContextPath() + "/faces/index.xhtml?faces-redirect=true");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
     
 }

@@ -13,7 +13,7 @@
         <h:form id="form">
             <p:growl id="message" showDetail="true"/>
             <div class="card">
-
+                 
                 <p:tabMenu activeIndex="#{param.i}">
                     <p:menuitem value="Home" outcome="landingPage" icon="pi pi-fw pi-home">
                         <f:param name="i" value="0"/>
@@ -51,7 +51,7 @@
                              {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados">
 
-                    <p:column headerText="Name" sortBy="#{Employee.fullName}" filterBy="#{Employee.fullName}" filterMatchMode="contains">
+                     <p:column headerText="Name" sortBy="#{Employee.fullName}" filterBy="#{Employee.fullName}" filterMatchMode="contains">
                         <h:outputText value="#{Employee.fullName}"/>
                     </p:column>
 
@@ -66,18 +66,18 @@
                     <p:column headerText="Phone" sortBy="#{Employee.phone}" filterBy="#{Employee.phone}" filterMatchMode="contains">
                         <h:outputText value="#{Employee.phone}"/>
                     </p:column>
-
+                    
                     <p:column headerText="Type" sortBy="#{employeeController.typeToStrType(Employee.type)}" filterBy="#{employeeController.typeToStrType(Employee.type)}" filterMatchMode="contains">
                         <h:outputText value="#{employeeController.typeToStrType(Employee.type)}"/>
                     </p:column>          
-
+                    
                 </p:dataTable>
 
 
 
                 <p:dataTable id="Employees" var="Employee" value="#{employeeController.employees}" rendered="#{employeeController.isAdmin}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                              {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados"  >
+                             rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No register users"  >
                     <f:facet name="header"> Employee List </f:facet>
 
                     <p:column headerText="Name" sortBy="#{Employee.fullName}" filterBy="#{Employee.fullName}" filterMatchMode="contains">
@@ -102,6 +102,14 @@
 
                     <p:column headerText="Status" sortBy="#{employeeController.statusToStrStatus(Employee.status)}" filterBy="#{employeeController.statusToStrStatus(Employee.status)}" filterMatchMode="contains">
                         <h:outputText value="#{employeeController.statusToStrStatus(Employee.status)}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Employement Date" sortBy="#{Employee.employmentDate}" filterBy="#{Employee.employmentDate}" filterMatchMode="contains">
+                        <h:outputText value="#{Employee.employmentDate}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Layoff Date" sortBy="#{Employee.layoffDate}" filterBy="#{Employee.layoffDate}" filterMatchMode="contains">
+                        <h:outputText value="#{Employee.layoffDate}"/>
                     </p:column>
 
                     <p:column headerText="Edit">
@@ -169,28 +177,27 @@
                                     <f:selectItem itemLabel="Suspended" itemValue="6"/> 
                                 </p:selectOneMenu>
                             </div>
+                             <div class="p-field">
+                                <p:outputLabel for="layoffDate2">Layoff Date</p:outputLabel>
+                                <p:calendar id="layoffDate2" value="#{employeeController.calendarFireDate}"/>
+                            </div>
 
                         </p:outputPanel>
 
-
-
                     </p:outputPanel>
                     <f:facet name="footer">
-                        <p:commandButton value="Add" icon="pi pi-check"   rendered="#{employeeController.esNuevo}" actionListener="#{employeeController.saveUser()}" 
+                        <p:commandButton value="Add" icon="pi pi-check"   actionListener="#{employeeController.saveUser()}" 
                                          update="form manage-user-content" process="manage-user-content @this"/>
-
-                        <p:commandButton value="Save" icon="pi pi-check"  rendered="#{!employeeController.esNuevo}" actionListener="#{employeeController.updateUser()}"
+                        
+                        <p:commandButton value="Save" icon="pi pi-check"  actionListener="#{employeeController.updateUser()}"
                                          update="form manage-user-content" process="manage-user-content @this"/>
-
-                        <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageUserDialog').hide()" actionListener="#{employeeController.setEsNuevo(false)}"
+                        
+                     <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageUserDialog').hide()" actionListener="#{employeeController.setEsNuevo(false)}"
                                          class="ui-button-secondary"/>
                     </f:facet>
 
                 </p:dialog>
-
-
-
-
+}
             </div>           
         </h:form>
     </h:body>
