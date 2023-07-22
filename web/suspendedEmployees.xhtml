@@ -12,9 +12,11 @@
         <h:form id="form">
             <div class="card">
 
+                <p:commandButton value="Return" icon="pi pi-arrow-down-left" actionListener="#{employeeController.returnUser}"
 
-
-
+                                 styleClass="ui-button-success" style="margin-right: .10rem">
+                    <p:resetInput target=":form:manage-user-content"/>
+                </p:commandButton>
 
 
                 <p:dataTable id="Employees" var="Employee" value="#{employeeController.suspendedEmployees}" rendered="#{employeeController.isAdmin}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 

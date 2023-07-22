@@ -129,7 +129,7 @@
 
 
                 <p:commandButton value="View suspended" icon="pi pi-check" rendered="#{employeeController.isAdmin}" actionListener="#{employeeController.viewSuspended()}"
-                                 styleClass="ui-button-success" style="margin-right: .10rem">
+                                 update="form manage-user-content" styleClass="ui-button-success" style="margin-right: .10rem">
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
 

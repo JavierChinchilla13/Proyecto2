@@ -13,6 +13,12 @@
         <h:form id="form">
             <p:growl id="message" showDetail="true"/>
             <div class="card">
+                
+                <p:commandButton value="Return to Vacation Page" icon="pi pi-arrow-down-left" actionListener="#{vacationController.returnToVacationPage}"
+                                  styleClass="ui-button-success" style="margin: .15rem">
+                    <p:resetInput target=":form:manage-user-content"/>
+                </p:commandButton>
+
 
                 <p:dataTable var="Vacation" value="#{vacationController.pendingVacationRequest}"  paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                              {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -68,11 +74,7 @@
 
                 </p:dialog>
 
-                <p:commandButton value="Return to Vacation Page" icon="pi pi-arrow-down-left" actionListener="#{vacationController.returnToVacationPage}"
-                                  styleClass="ui-button-success" style="margin: .15rem">
-                    <p:resetInput target=":form:manage-user-content"/>
-                </p:commandButton>
-
+                
             </div>           
         </h:form>
     </h:body>

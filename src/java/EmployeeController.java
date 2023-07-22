@@ -142,6 +142,12 @@ public class EmployeeController implements Serializable {
         this.redirect("/faces/suspendedEmployees.xhtml");
 
     }
+    
+    public void returnUser() throws Exception {
+
+        this.redirect("/faces/user.xhtml");
+
+    }
 
     public void rehire(int PK) throws Exception {
 
