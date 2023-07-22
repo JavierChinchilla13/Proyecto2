@@ -5,77 +5,19 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>User</title>
+        <title>Suspended Workers</title>
     </h:head>
     <h:body>
-        <h3>Welcome to HTH,  #{employeeController.firstName}</h3>
         <p:growl id="message" showDetail="true"/>
         <h:form id="form">
-            <p:growl id="message" showDetail="true"/>
             <div class="card">
 
-                <p:tabMenu activeIndex="#{param.i}">
-                    <p:menuitem value="Home" outcome="landingPage" icon="pi pi-fw pi-home">
-                        <f:param name="i" value="0"/>
-                    </p:menuitem>
-                    <p:menuitem value="Users" outcome="user" icon="pi pi-fw pi-calendar">
-                        <f:param name="i" value="1"/>
-                    </p:menuitem>
-                    <p:menuitem value="Projects" outcome="projects" icon="pi pi-fw pi-calendar">
-                        <f:param name="i" value="2"/>
-                    </p:menuitem>
-                    <p:menuitem value="Vacations" outcome="vacations" icon="pi pi-fw pi-calendar">
-                        <f:param name="i" value="3"/>
-                    </p:menuitem>
-                    <p:menuitem value="Permits" outcome="permits" icon="pi pi-fw pi-calendar">
-                        <f:param name="i" value="4"/>
-                    </p:menuitem>
-                    <p:menuitem value="Documents" outcome="documents" icon="pi pi-fw pi-file">
-                        <f:param name="i" value="5"/>
-                    </p:menuitem>
-                    <p:menuitem value="Log Out" icon="pi pi-sign-out"  actionListener="#{employeeController.logOut()}">
-                        <f:param name="i" value="6"/>
-                    </p:menuitem>
-
-                </p:tabMenu>
-
-                <br/>
-
-                <p:commandButton value="New User " icon="pi pi-plus" rendered="#{employeeController.isAdmin}" actionListener="#{employeeController.openNew}"
-                                 update=":form:manage-user-content" oncomplete="PF('manageUserDialog').show()"
-                                 styleClass="ui-button-success" style="margin-right: .5rem">
-                    <p:resetInput target=":form:manage-user-content"/>
-                </p:commandButton>
-
-                <p:dataTable var="Employee" value="#{employeeController.activeEmployees}" rendered="#{employeeController.isManager || employeeController.isEmployee}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
-                             {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados">
-
-                    <p:column headerText="Name" sortBy="#{Employee.fullName}" filterBy="#{Employee.fullName}" filterMatchMode="contains">
-                        <h:outputText value="#{Employee.fullName}"/>
-                    </p:column>
-
-                    <p:column headerText="Identification" sortBy="#{Employee.identification}" filterBy="#{Employee.identification}" filterMatchMode="contains">
-                        <h:outputText value="#{Employee.identification}"/>
-                    </p:column>
-
-                    <p:column headerText="Email" sortBy="#{Employee.email}" filterBy="#{Employee.email}" filterMatchMode="contains">
-                        <h:outputText value="#{Employee.email}"/>
-                    </p:column>
-
-                    <p:column headerText="Phone" sortBy="#{Employee.phone}" filterBy="#{Employee.phone}" filterMatchMode="contains">
-                        <h:outputText value="#{Employee.phone}"/>
-                    </p:column>
-
-                    <p:column headerText="Type" sortBy="#{employeeController.typeToStrType(Employee.type)}" filterBy="#{employeeController.typeToStrType(Employee.type)}" filterMatchMode="contains">
-                        <h:outputText value="#{employeeController.typeToStrType(Employee.type)}"/>
-                    </p:column>          
-
-                </p:dataTable>
 
 
 
-                <p:dataTable id="Employees" var="Employee" value="#{employeeController.employees}" rendered="#{employeeController.isAdmin}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
+
+
+                <p:dataTable id="Employees" var="Employee" value="#{employeeController.suspendedEmployees}" rendered="#{employeeController.isAdmin}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                              {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No register users"  >
                     <f:facet name="header"> Employee List </f:facet>
@@ -121,20 +63,8 @@
                         </p:commandButton>
                     </p:column>
 
-                    <p:column headerText="Suspend">
-                        <p:commandButton icon="pi pi-times" update="form" styleClass="rounded-button ui-button-danger"
-                                         actionListener="#{employeeController.deleteUser(Employee.id)}">
-                        </p:commandButton>
-                    </p:column>
-
                 </p:dataTable>
 
-                
-
-                <p:commandButton value="View suspended" icon="pi pi-check" rendered="#{employeeController.isAdmin}" actionListener="#{employeeController.viewSuspended()}"
-                                 styleClass="ui-button-success" style="margin-right: .10rem">
-                    <p:resetInput target=":form:manage-user-content"/>
-                </p:commandButton>
 
 
                 <p:dialog header="User detail" showEffect="fade" modal="true"
@@ -171,36 +101,22 @@
                                     <f:selectItem itemLabel="Employee" itemValue="3"/> 
                                 </p:selectOneMenu>
                             </div>
-                            <div class="field col-12 md:col-4">
-                                <p:outputLabel for="status">Status</p:outputLabel>
-                                <p:selectOneMenu id="status" value="#{employeeController.selectedEmployee.status}">
-                                    <f:selectItem itemLabel="Select One" itemValue=""/>
-                                    <f:selectItem itemLabel="Inactive" itemValue="4"/>
-                                    <f:selectItem itemLabel="Active" itemValue="5"/> 
-                                    <f:selectItem itemLabel="Suspended" itemValue="6"/> 
-                                </p:selectOneMenu>
-                            </div>
-                             <div class="p-field">
-                                <p:outputLabel for="layoffDate2">Layoff Date</p:outputLabel>
-                                <p:calendar id="layoffDate2" value="#{employeeController.calendarFireDate}"/>
-                            </div>
-
+                            
                         </p:outputPanel>
 
                     </p:outputPanel>
                     <f:facet name="footer">
-                        <p:commandButton value="Add" icon="pi pi-check"   actionListener="#{employeeController.saveUser()}" 
-                                         update="form manage-user-content" process="manage-user-content @this"/>
                         
-                        <p:commandButton value="Save" icon="pi pi-check"  actionListener="#{employeeController.updateUser()}"
+                        <p:commandButton value="Rehire" icon="pi pi-check"   actionListener="#{employeeController.rehire(employeeController.selectedEmployee.id)}" 
                                          update="form manage-user-content" process="manage-user-content @this"/>
+
                         
-                     <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageUserDialog').hide()" actionListener="#{employeeController.setEsNuevo(false)}"
-                                         class="ui-button-secondary"/>
                     </f:facet>
 
                 </p:dialog>
-}
+
+
+
             </div>           
         </h:form>
     </h:body>

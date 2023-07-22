@@ -102,7 +102,7 @@ public class EmployeeController implements Serializable {
 
     public List<EmployeeTO> getEmployees() {
         try {
-            return service.getEmployees();
+            return service.getNotSuspended();
         } catch (Exception e) {
             e.printStackTrace();
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving th list of employees"));
@@ -124,7 +124,45 @@ public class EmployeeController implements Serializable {
         return list;
     }
     
+    public List<EmployeeTO> getSuspendedEmployees() {
+        try {
+            return service.getSuspendedEmployees();
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving th list of employees"));
+
+        }
+        List<EmployeeTO> list = new ArrayList<>();
+        return list;
+    }
     
+    public void viewSuspended() throws Exception {
+
+        this.redirect("/faces/suspendedEmployees.xhtml");
+
+    }
+
+    public void rehire(int PK) throws Exception {
+
+        try {
+            EmployeeService eServ = new EmployeeService();
+            
+            
+            this.service.update(selectedEmployee, selectedEmployee.getFirstName(), this.selectedEmployee.getLastName(), this.selectedEmployee.getIdentification(), this.selectedEmployee.getEmail(), this.selectedEmployee.getPhone(), this.selectedEmployee.getType(), 5, this.selectedEmployee.getPassword(), this.selectedEmployee.getEmploymentDate(), this.selectedEmployee.getLayoffDate());
+            //---this.servicioUsuario.listarUsuarios();
+            //this.listaUsuarios.add(selectedEmployee);//para simular       
+            this.esNuevo = false;
+            this.selectedEmployee = new EmployeeTO();
+            eServ.rehire(PK);
+            PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in deleting the Schedule Vacation"));
+
+        }
+
+    }
 
     public int getId() {
         return em.getId();
@@ -414,6 +452,11 @@ public class EmployeeController implements Serializable {
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "The password is empty"));
             flag = false;
         }
+        /*if (this.selectedEmployee.getStatus() != 4 && this.selectedEmployee.getStatus() != 5 ) {
+            //ERROR
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Employee is suspended"));
+            flag = false;
+        }*/
         if (flag) {
             boolean enter = false;
             setIsAdmin(false);
@@ -679,6 +722,18 @@ public class EmployeeController implements Serializable {
 
         return result;
     }
+    
+    public void logOut() {
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            FacesContext.getCurrentInstance().getExternalContext().redirect(request.getContextPath() + "/faces/index.xhtml?faces-redirect=true");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     
     
 }
