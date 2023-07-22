@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -403,8 +404,10 @@ public class EmployeeController implements Serializable {
         boolean flag = true;
 
         if (flag) {
+            
+            java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 
-            this.service.update(selectedEmployee, this.selectedEmployee.getFirstName(), this.selectedEmployee.getLastName(), this.selectedEmployee.getIdentification(), this.selectedEmployee.getEmail(), this.selectedEmployee.getPhone(), this.selectedEmployee.getType(), 6, this.selectedEmployee.getPassword(), this.selectedEmployee.getEmploymentDate(), this.selectedEmployee.getLayoffDate());
+            this.service.update(selectedEmployee, this.selectedEmployee.getFirstName(), this.selectedEmployee.getLastName(), this.selectedEmployee.getIdentification(), this.selectedEmployee.getEmail(), this.selectedEmployee.getPhone(), this.selectedEmployee.getType(), 6, this.selectedEmployee.getPassword(), this.selectedEmployee.getEmploymentDate(), date);
             //---this.servicioUsuario.listarUsuarios();
             //this.listaUsuarios.add(selectedEmployee);//para simular       
             this.esNuevo = false;
@@ -418,8 +421,9 @@ public class EmployeeController implements Serializable {
 
         try {
             EmployeeTO searched = this.getEmployee(PK);
+            java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
             if (searched != null) {
-                service.update(searched, searched.getFirstName(), searched.getLastName(), searched.getIdentification(), searched.getEmail(), searched.getPhone(), searched.getType(), 6, searched.getPassword(), searched.getEmploymentDate(), searched.getLayoffDate());
+                service.update(searched, searched.getFirstName(), searched.getLastName(), searched.getIdentification(), searched.getEmail(), searched.getPhone(), searched.getType(), 6, searched.getPassword(), searched.getEmploymentDate(), date);
             }
 
         } catch (Exception e) {
@@ -452,11 +456,7 @@ public class EmployeeController implements Serializable {
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "The password is empty"));
             flag = false;
         }
-        /*if (this.selectedEmployee.getStatus() != 4 && this.selectedEmployee.getStatus() != 5 ) {
-            //ERROR
-            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Employee is suspended"));
-            flag = false;
-        }*/
+        
         if (flag) {
             boolean enter = false;
             setIsAdmin(false);

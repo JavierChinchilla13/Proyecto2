@@ -13,7 +13,7 @@
         <h:form id="form">
             <p:growl id="message" showDetail="true"/>
             <div class="card">
-
+                 
                 <p:tabMenu activeIndex="#{param.i}">
                     <p:menuitem value="Home" outcome="landingPage" icon="pi pi-fw pi-home">
                         <f:param name="i" value="0"/>
@@ -51,7 +51,7 @@
                              {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados">
 
-                    <p:column headerText="Name" sortBy="#{Employee.fullName}" filterBy="#{Employee.fullName}" filterMatchMode="contains">
+                     <p:column headerText="Name" sortBy="#{Employee.fullName}" filterBy="#{Employee.fullName}" filterMatchMode="contains">
                         <h:outputText value="#{Employee.fullName}"/>
                     </p:column>
 
@@ -66,11 +66,11 @@
                     <p:column headerText="Phone" sortBy="#{Employee.phone}" filterBy="#{Employee.phone}" filterMatchMode="contains">
                         <h:outputText value="#{Employee.phone}"/>
                     </p:column>
-
+                    
                     <p:column headerText="Type" sortBy="#{employeeController.typeToStrType(Employee.type)}" filterBy="#{employeeController.typeToStrType(Employee.type)}" filterMatchMode="contains">
                         <h:outputText value="#{employeeController.typeToStrType(Employee.type)}"/>
                     </p:column>          
-
+                    
                 </p:dataTable>
 
 
@@ -103,14 +103,12 @@
                     <p:column headerText="Status" sortBy="#{employeeController.statusToStrStatus(Employee.status)}" filterBy="#{employeeController.statusToStrStatus(Employee.status)}" filterMatchMode="contains">
                         <h:outputText value="#{employeeController.statusToStrStatus(Employee.status)}"/>
                     </p:column>
-
+                    
                     <p:column headerText="Employement Date" sortBy="#{Employee.employmentDate}" filterBy="#{Employee.employmentDate}" filterMatchMode="contains">
                         <h:outputText value="#{Employee.employmentDate}"/>
                     </p:column>
-
-                    <p:column headerText="Layoff Date" sortBy="#{Employee.layoffDate}" filterBy="#{Employee.layoffDate}" filterMatchMode="contains">
-                        <h:outputText value="#{Employee.layoffDate}"/>
-                    </p:column>
+                    
+                    
 
                     <p:column headerText="Edit">
                         <p:commandButton icon="pi pi-pencil" update=":form:manage-user-content" 
@@ -129,12 +127,12 @@
 
                 </p:dataTable>
 
-                
 
                 <p:commandButton value="View suspended" icon="pi pi-check" rendered="#{employeeController.isAdmin}" actionListener="#{employeeController.viewSuspended()}"
                                  styleClass="ui-button-success" style="margin-right: .10rem">
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
+
 
 
                 <p:dialog header="User detail" showEffect="fade" modal="true"
@@ -200,7 +198,7 @@
                     </f:facet>
 
                 </p:dialog>
-}
+
             </div>           
         </h:form>
     </h:body>
