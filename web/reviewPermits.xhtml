@@ -19,7 +19,7 @@
 
             <p:dataTable var="Permit" value="#{permitController.searchByStatus(14)}"  paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                          {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                         rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados">
+                          emptyMessage="No existen usuarios registrados">
                 <f:facet name="header"> Permits </f:facet>
 
                 <p:column headerText="Employee Id" sortBy="#{employeeController.idToStrStatus(Permit.idEmployee)}" filterBy="#{employeeController.idToStrStatus(Permit.idEmployee)}" filterMatchMode="contains">

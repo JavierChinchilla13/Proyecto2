@@ -116,7 +116,7 @@
 
                         <p:dataTable var="Vacation" value="#{vacationController.allScheduleVacation}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                                      {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                     rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No Vacations">
+                                     emptyMessage="No Vacations">
 
                             <p:column headerText="Start Date" sortBy="#{Vacation.startDate}" filterBy="#{Vacation.startDate}" filterMatchMode="contains">
                                 <h:outputText value="#{Vacation.startDate}"/>
@@ -139,11 +139,7 @@
 
                     </p:outputPanel>  
 
-                    <f:facet name="footer">
-
-                        <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('AllVacationsDialog').hide()"
-                                         class="ui-button-secondary"/>
-                    </f:facet>
+                    
 
                 </p:dialog>
 

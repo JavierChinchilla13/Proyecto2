@@ -99,9 +99,9 @@
                           widgetVar="AllDocsDialog" responsive="true">
                     <p:outputPanel id="admin-all-docs-view" class="ui-fluid">
 
-                        <p:dataTable var="Document" value="#{employeeController.documents}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
+                        <p:dataTable var="Document" value="#{employeeController.documents}" paginator="true" rows="3" paginatorTemplate="{CurrentPageReport} 
                                      {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                     rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No documets">
+                                     emptyMessage="No documets">
 
                             <p:column headerText="Name" sortBy="#{Document.name}" filterBy="#{Document.name}" filterMatchMode="contains">
                                 <h:outputText value="#{Document.name}"/>
@@ -130,11 +130,7 @@
 
                     </p:outputPanel>  
 
-                    <f:facet name="footer">
-
-                        <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('AllDocsDialog').hide()"
-                                         class="ui-button-secondary"/>
-                    </f:facet>
+                    
 
                 </p:dialog>
 
