@@ -182,10 +182,19 @@ public class EmployeeController implements Serializable {
     public String getLastname() {
         return em.getLastName();
     }
+    
+    public String getIdentification() {
+        return em.getIdentification();
+    }
+    
+    public String getEmail() {
+        return em.getEmail();
+    }
 
     public EmployeeTO getEm() {
         return em;
     }
+    
 
     public void setEm(EmployeeTO em) {
         this.em = em;

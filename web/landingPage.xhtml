@@ -38,6 +38,20 @@
                     </p:menuitem>
                     
                 </p:tabMenu>
+                
+                
+                <p:panelGrid columns="2">
+
+                    <h:outputText value="Name:"/>
+                    <h:outputText value="#{employeeController.firstName}   #{employeeController.lastname}"/>
+
+                    <h:outputText value="Identification"/>
+                    <h:outputText value="#{employeeController.identification} "/>
+
+                    <h:outputText value="Email"/>
+                    <h:outputText value="#{employeeController.email} "/>
+
+                </p:panelGrid>
 
             </div>           
         </h:form>
