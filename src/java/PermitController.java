@@ -74,7 +74,7 @@ public class PermitController implements Serializable{
     
     public void showPermit(int id) throws Exception {
 
-            this.pService.searchByEmployee(1);
+            this.pService.searchByEmployee(id);
 
     }
     
@@ -153,10 +153,34 @@ public class PermitController implements Serializable{
         List<PermitTO> list = new ArrayList<>();
         return list;
     }
-
+    
     public List<PermitTO> getPermits() {
         try {
             return pService.getPermits();
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving th list of employees"));
+
+        }
+        List<PermitTO> list = new ArrayList<>();
+        return list;
+    }
+
+    public List<PermitTO> getNewPermits(int id ) {
+        try {
+            return pService.getNew(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving th list of employees"));
+
+        }
+        List<PermitTO> list = new ArrayList<>();
+        return list;
+    }
+    
+    public List<PermitTO> getOldPermits(int id) {
+        try {
+            return pService.getOld(id);
         } catch (Exception e) {
             e.printStackTrace();
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving th list of employees"));
@@ -225,8 +249,21 @@ public class PermitController implements Serializable{
     public PermitTO getPermit(int PK) {
         PermitTO foundPer = null;
         try {
+            boolean flag = true;
+            PermitService per= new PermitService();
+            
+            
+            if (per.searchByPKStatus(PK) == 12 || per.searchByPKStatus(PK) == 13) {
+                //ERROR
 
-            foundPer = pService.searchByPK(PK);
+                FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "This permit has already been responded"));
+                flag = false;
+
+            }
+            if (flag) {
+                foundPer = pService.searchByPK(PK);
+            }
+
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in searching the user"));
         }
@@ -236,9 +273,11 @@ public class PermitController implements Serializable{
     public void deletePermit(int PK) throws Exception {
 
         try {
+
             PermitTO searched = this.getPermit(PK);
             if (searched != null) {
                 pService.delete(searched);
+
             }
 
         } catch (Exception e) {

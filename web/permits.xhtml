@@ -54,7 +54,7 @@
                 </p:commandButton>
                 
                  
-                <p:dataTable var="Permit" value="#{permitController.searchByEmployee(employeeController.id)}"  paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
+                <p:dataTable var="Permit" value="#{permitController.getNewPermits(employeeController.id)}"  paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                              {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados">
                     <f:facet name="header"> My permits </f:facet>
@@ -83,7 +83,7 @@
 
 
                 </p:dataTable>
-                
+
                 
 
                 <p:dialog header="Permit" showEffect="fade" modal="true"
@@ -107,11 +107,50 @@
                     <f:facet name="footer">
                         <p:commandButton value="Request" icon="pi pi-check"   actionListener="#{permitController.savePermit(employeeController.id)}"
                                          update="form manage-user-content" process="manage-user-content @this"/>
-                        
+
                     </f:facet>
-                    
+
                 </p:dialog>
-                
+
+
+                <p:commandButton value="Previews permits" icon="pi pi-eye" 
+                                 update=":form:history-all-per-view" oncomplete="PF('AllDocsDialog').show()"
+                                 styleClass="ui-button-success" style="margin-right: .5rem">
+                    <p:resetInput target=":form:history-all-per-view"/>
+                </p:commandButton>
+
+                <p:dialog header="All Documents" showEffect="fade" hideEffect="fade" modal="true"
+                          widgetVar="AllDocsDialog" responsive="true">
+                    <p:outputPanel id="history-all-per-view" class="ui-fluid">
+
+                        <p:dataTable var="Permit" value="#{permitController.getOldPermits(employeeController.id)}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
+                                     {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     emptyMessage="No permits">
+
+                            <p:column headerText="Date" sortBy="#{Permit.date}" filterBy="#{Permit.date}" filterMatchMode="contains">
+                                <h:outputText value="#{Permit.date}"/>
+                            </p:column>
+
+                            <p:column headerText="Description" sortBy="#{Permit.description}" filterBy="#{Permit.description}" filterMatchMode="contains">
+                                <h:outputText value="#{Permit.description}"/>
+                            </p:column>
+
+                            <p:column headerText="Status" sortBy="#{permitController.statusToStrStatus(Permit.status)}" filterBy="#{permitController.statusToStrStatus(Permit.status)}" filterMatchMode="contains">
+                                <h:outputText value="#{permitController.statusToStrStatus(Permit.status)}"/>
+                            </p:column>
+                            <p:column headerText="Response" sortBy="#{Permit.response}" filterBy="#{Permit.response}" filterMatchMode="contains">
+                                <h:outputText value="#{Permit.response}"/>
+                            </p:column>
+
+
+
+
+                        </p:dataTable>
+
+                    </p:outputPanel>  
+
+                </p:dialog>
+
                 
             </div>         
         </h:form>
