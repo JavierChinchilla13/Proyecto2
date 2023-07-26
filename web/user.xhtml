@@ -160,6 +160,12 @@
                                 <p:outputLabel for="phone">Phone</p:outputLabel>
                                 <p:inputText id="phone" value="#{employeeController.selectedEmployee.phone}"/>
                             </div>
+                            
+                            <div class="p-field">
+                                <p:outputLabel for="password">Password</p:outputLabel>
+                                <p:inputText id="password" value="#{employeeController.selectedEmployee.password}"/>
+                            </div>
+                            
                             <div class="field col-12 md:col-4">
                                 <p:outputLabel for="type">Type</p:outputLabel>
                                 <p:selectOneMenu id="type" value="#{employeeController.selectedEmployee.type}">

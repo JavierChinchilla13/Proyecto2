@@ -16,6 +16,8 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -291,6 +293,13 @@ public class EmployeeController implements Serializable {
         }
         return result;
     }
+    
+    public boolean checkEmail(String email){
+       String regex = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+       Pattern pattern = Pattern.compile(regex);
+       Matcher matcher = pattern.matcher(email);
+       return matcher.matches();
+    }
 
     public void saveUser() throws Exception {
 
@@ -312,8 +321,12 @@ public class EmployeeController implements Serializable {
         }
         if (this.selectedEmployee.getEmail() == null || this.selectedEmployee.getEmail().equals("")) {
             //ERROR
-            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Mail is empty"));
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Email is empty"));
             flag = false;
+        }
+        if(!checkEmail(this.selectedEmployee.getEmail())){
+             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Email format is incorrect"));
+              flag = false;
         }
         
         if (this.selectedEmployee.getType() != 1 && this.selectedEmployee.getType() != 2 && this.selectedEmployee.getType() != 3) {
