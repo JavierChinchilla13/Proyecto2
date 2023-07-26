@@ -70,7 +70,7 @@ public class EmployeeController implements Serializable {
         this.user = user;
         this.pasword = pasword;
     }
-    
+
     public String getUser() {
         return user;
     }
@@ -126,7 +126,7 @@ public class EmployeeController implements Serializable {
         List<EmployeeTO> list = new ArrayList<>();
         return list;
     }
-    
+
     public List<EmployeeTO> getSuspendedEmployees() {
         try {
             return service.getSuspendedEmployees();
@@ -138,13 +138,13 @@ public class EmployeeController implements Serializable {
         List<EmployeeTO> list = new ArrayList<>();
         return list;
     }
-    
+
     public void viewSuspended() throws Exception {
 
         this.redirect("/faces/suspendedEmployees.xhtml");
 
     }
-    
+
     public void returnUser() throws Exception {
 
         this.redirect("/faces/user.xhtml");
@@ -155,8 +155,7 @@ public class EmployeeController implements Serializable {
 
         try {
             EmployeeService eServ = new EmployeeService();
-            
-            
+
             this.service.update(selectedEmployee, selectedEmployee.getFirstName(), this.selectedEmployee.getLastName(), this.selectedEmployee.getIdentification(), this.selectedEmployee.getEmail(), this.selectedEmployee.getPhone(), this.selectedEmployee.getType(), 5, this.selectedEmployee.getPassword(), this.selectedEmployee.getEmploymentDate(), this.selectedEmployee.getLayoffDate());
             //---this.servicioUsuario.listarUsuarios();
             //this.listaUsuarios.add(selectedEmployee);//para simular       
@@ -184,11 +183,11 @@ public class EmployeeController implements Serializable {
     public String getLastname() {
         return em.getLastName();
     }
-    
+
     public String getIdentification() {
         return em.getIdentification();
     }
-    
+
     public String getEmail() {
         return em.getEmail();
     }
@@ -196,7 +195,6 @@ public class EmployeeController implements Serializable {
     public EmployeeTO getEm() {
         return em;
     }
-    
 
     public void setEm(EmployeeTO em) {
         this.em = em;
@@ -293,12 +291,19 @@ public class EmployeeController implements Serializable {
         }
         return result;
     }
-    
-    public boolean checkEmail(String email){
-       String regex = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-       Pattern pattern = Pattern.compile(regex);
-       Matcher matcher = pattern.matcher(email);
-       return matcher.matches();
+
+    public boolean checkEmail(String email) {
+        String regex = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
+    public boolean checkPassword(String pass) {
+        String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(pass);
+        return matcher.matches();
     }
 
     public void saveUser() throws Exception {
@@ -324,11 +329,11 @@ public class EmployeeController implements Serializable {
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Email is empty"));
             flag = false;
         }
-        if(!checkEmail(this.selectedEmployee.getEmail())){
-             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Email format is incorrect"));
-              flag = false;
+        if (!checkEmail(this.selectedEmployee.getEmail())) {
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Email format is incorrect"));
+            flag = false;
         }
-        
+
         if (this.selectedEmployee.getType() != 1 && this.selectedEmployee.getType() != 2 && this.selectedEmployee.getType() != 3) {
             //ERROR
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Type is incorrect"));
@@ -344,11 +349,16 @@ public class EmployeeController implements Serializable {
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Password is empty"));
             flag = false;
         }
+        if(checkPassword(this.selectedEmployee.getPassword())){
+             //ERROR
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR: Password format is incorrect", "The password must contain 4 to 8 characters and must contain numbers, lowercase and uppercase letters."));
+            flag = false;
+        }
 
         if (flag) {
             System.out.println("Estoy salvando al usuario");
             this.service.insert(this.selectedEmployee);
-           
+
             this.esNuevo = false;
             this.selectedEmployee = new EmployeeTO();
             PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
@@ -359,7 +369,7 @@ public class EmployeeController implements Serializable {
     public void updateUser() throws Exception {
 
         int status = 0;
-        
+
         boolean flag = true;
         if (this.selectedEmployee.getFirstName() == null || this.selectedEmployee.getFirstName().equals("")) {
             //ERROR
@@ -401,8 +411,7 @@ public class EmployeeController implements Serializable {
             //ERROR
             flag = true;
         }
-        
-        
+
         if (this.selectedEmployee.getLayoffDate() != null) {
             //ERROR
             //FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Layoff date is empty"));
@@ -412,7 +421,7 @@ public class EmployeeController implements Serializable {
             //this.listaUsuarios.add(selectedEmployee);//para simular       
             this.esNuevo = false;
             this.selectedEmployee = new EmployeeTO();
-            PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");  
+            PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
         }
 
         if (flag) {
@@ -432,7 +441,7 @@ public class EmployeeController implements Serializable {
         boolean flag = true;
 
         if (flag) {
-            
+
             java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 
             this.service.update(selectedEmployee, this.selectedEmployee.getFirstName(), this.selectedEmployee.getLastName(), this.selectedEmployee.getIdentification(), this.selectedEmployee.getEmail(), this.selectedEmployee.getPhone(), this.selectedEmployee.getType(), 6, this.selectedEmployee.getPassword(), this.selectedEmployee.getEmploymentDate(), date);
@@ -461,7 +470,7 @@ public class EmployeeController implements Serializable {
         }
 
     }
-    
+
     public java.util.Date getCalendarFireDate() {
         return (java.util.Date) this.selectedEmployee.getLayoffDate();
     }
@@ -484,7 +493,7 @@ public class EmployeeController implements Serializable {
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "The password is empty"));
             flag = false;
         }
-        
+
         if (flag) {
             boolean enter = false;
             setIsAdmin(false);
@@ -733,16 +742,16 @@ public class EmployeeController implements Serializable {
                     .contentType("image/png")
                     .stream(() -> FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(pathFile))
                     .build();
-        }else{
+        } else {
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "File type errort"));
         }
         return this.fileSC;
     }
-    
+
     public String idToStrStatus(int id) throws Exception {
-        
+
         EmployeeService serv = new EmployeeService();
-        EmployeeTO test = serv.searchByPK(id);  
+        EmployeeTO test = serv.searchByPK(id);
         this.esNuevo = false;
         this.selectedEmployee = new EmployeeTO();
         String result = (test.getFirstName() + " " + test.getLastName());
@@ -750,7 +759,7 @@ public class EmployeeController implements Serializable {
 
         return result;
     }
-    
+
     public void logOut() {
         try {
             FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
@@ -762,6 +771,4 @@ public class EmployeeController implements Serializable {
         }
     }
 
-    
-    
 }
