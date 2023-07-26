@@ -695,7 +695,7 @@ public class EmployeeController implements Serializable {
 
         DocumentTO searched = this.searchDocument(PK);
         String docName = searched.getName();
-        String pathFile = "C:\\ProyectoFinal\\Proyecto2\\web\\resources\\demo\\" + searched.getName();
+        String pathFile = "/resources/demo/" + searched.getName();
         if (docName.contains(".pdf")) {
             this.fileSC = DefaultStreamedContent.builder()
                     .name(docName)
