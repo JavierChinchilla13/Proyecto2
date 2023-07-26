@@ -391,7 +391,10 @@ public class EmployeeController implements Serializable {
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Mail is empty"));
             flag = false;
         }
-
+        if (!checkEmail(this.selectedEmployee.getEmail())) {
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Email format is incorrect"));
+            flag = false;
+        }
         if (this.selectedEmployee.getType() != 1 && this.selectedEmployee.getType() != 2 && this.selectedEmployee.getType() != 3) {
             //ERROR
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Type is incorrect"));
@@ -405,6 +408,11 @@ public class EmployeeController implements Serializable {
         if (this.selectedEmployee.getPassword() == null || this.selectedEmployee.getPassword().equals("")) {
             //ERROR
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Password is empty"));
+            flag = false;
+        }
+        if(checkPassword(this.selectedEmployee.getPassword())){
+             //ERROR
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR: Password format is incorrect", "The password must contain 4 to 8 characters and must contain numbers, lowercase and uppercase letters."));
             flag = false;
         }
         if (this.selectedEmployee.getLayoffDate() == null || this.selectedEmployee.getLayoffDate().equals("")) {
