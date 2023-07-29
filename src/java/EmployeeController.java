@@ -156,7 +156,7 @@ public class EmployeeController implements Serializable {
         try {
             EmployeeService eServ = new EmployeeService();
 
-            this.service.update(selectedEmployee, selectedEmployee.getFirstName(), this.selectedEmployee.getLastName(), this.selectedEmployee.getIdentification(), this.selectedEmployee.getEmail(), this.selectedEmployee.getPhone(), this.selectedEmployee.getType(), 5, this.selectedEmployee.getPassword(), this.selectedEmployee.getEmploymentDate(), this.selectedEmployee.getLayoffDate());
+            this.service.update(selectedEmployee, selectedEmployee.getFirstName(), this.selectedEmployee.getLastName(), this.selectedEmployee.getIdentification(), this.selectedEmployee.getEmail(), this.selectedEmployee.getPhone(), this.selectedEmployee.getType(), 5, this.selectedEmployee.getPassword(), this.selectedEmployee.getEmploymentDate(), this.selectedEmployee.getLayoffDate(), this.selectedEmployee.getIdSupervisor());
             //---this.servicioUsuario.listarUsuarios();
             //this.listaUsuarios.add(selectedEmployee);//para simular       
             this.esNuevo = false;
@@ -424,7 +424,7 @@ public class EmployeeController implements Serializable {
             //ERROR
             //FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Layoff date is empty"));
             flag = false;
-            this.service.update(selectedEmployee, selectedEmployee.getFirstName(), this.selectedEmployee.getLastName(), this.selectedEmployee.getIdentification(), this.selectedEmployee.getEmail(), this.selectedEmployee.getPhone(), this.selectedEmployee.getType(), 6, this.selectedEmployee.getPassword(), this.selectedEmployee.getEmploymentDate(), this.selectedEmployee.getLayoffDate());
+            this.service.update(selectedEmployee, selectedEmployee.getFirstName(), this.selectedEmployee.getLastName(), this.selectedEmployee.getIdentification(), this.selectedEmployee.getEmail(), this.selectedEmployee.getPhone(), this.selectedEmployee.getType(), 6, this.selectedEmployee.getPassword(), this.selectedEmployee.getEmploymentDate(), this.selectedEmployee.getLayoffDate(), this.selectedEmployee.getIdSupervisor());
             //---this.servicioUsuario.listarUsuarios();
             //this.listaUsuarios.add(selectedEmployee);//para simular       
             this.esNuevo = false;
@@ -434,7 +434,7 @@ public class EmployeeController implements Serializable {
 
         if (flag) {
 
-            this.service.update(selectedEmployee, selectedEmployee.getFirstName(), this.selectedEmployee.getLastName(), this.selectedEmployee.getIdentification(), this.selectedEmployee.getEmail(), this.selectedEmployee.getPhone(), this.selectedEmployee.getType(), this.selectedEmployee.getStatus(), this.selectedEmployee.getPassword(), this.selectedEmployee.getEmploymentDate(), this.selectedEmployee.getLayoffDate());
+            this.service.update(selectedEmployee, selectedEmployee.getFirstName(), this.selectedEmployee.getLastName(), this.selectedEmployee.getIdentification(), this.selectedEmployee.getEmail(), this.selectedEmployee.getPhone(), this.selectedEmployee.getType(), this.selectedEmployee.getStatus(), this.selectedEmployee.getPassword(), this.selectedEmployee.getEmploymentDate(), this.selectedEmployee.getLayoffDate(), this.selectedEmployee.getIdSupervisor());
             //---this.servicioUsuario.listarUsuarios();
             //this.listaUsuarios.add(selectedEmployee);//para simular       
             this.esNuevo = false;
@@ -452,7 +452,7 @@ public class EmployeeController implements Serializable {
 
             java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 
-            this.service.update(selectedEmployee, this.selectedEmployee.getFirstName(), this.selectedEmployee.getLastName(), this.selectedEmployee.getIdentification(), this.selectedEmployee.getEmail(), this.selectedEmployee.getPhone(), this.selectedEmployee.getType(), 6, this.selectedEmployee.getPassword(), this.selectedEmployee.getEmploymentDate(), date);
+            this.service.update(selectedEmployee, this.selectedEmployee.getFirstName(), this.selectedEmployee.getLastName(), this.selectedEmployee.getIdentification(), this.selectedEmployee.getEmail(), this.selectedEmployee.getPhone(), this.selectedEmployee.getType(), 6, this.selectedEmployee.getPassword(), this.selectedEmployee.getEmploymentDate(), date, this.selectedEmployee.getIdSupervisor());
             //---this.servicioUsuario.listarUsuarios();
             //this.listaUsuarios.add(selectedEmployee);//para simular       
             this.esNuevo = false;
@@ -468,7 +468,7 @@ public class EmployeeController implements Serializable {
             EmployeeTO searched = this.getEmployee(PK);
             java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
             if (searched != null) {
-                service.update(searched, searched.getFirstName(), searched.getLastName(), searched.getIdentification(), searched.getEmail(), searched.getPhone(), searched.getType(), 6, searched.getPassword(), searched.getEmploymentDate(), date);
+                service.update(searched, searched.getFirstName(), searched.getLastName(), searched.getIdentification(), searched.getEmail(), searched.getPhone(), searched.getType(), 6, searched.getPassword(), searched.getEmploymentDate(), date, searched.getIdSupervisor());
             }
 
         } catch (Exception e) {
