@@ -363,8 +363,19 @@ public class VacationController implements Serializable {
     public ScheduleVacationTO getScheduleVacation(int PK) {
         ScheduleVacationTO foundVacation = null;
         try {
+            boolean flag = true;
+            
+            if (sVService.searchScheduleVacationStatusPK(PK) == 15 || sVService.searchScheduleVacationStatusPK(PK) == 16) {
+                //ERROR
 
-            foundVacation = sVService.searchByPK(PK);
+                FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "This vacation has already been responded"));
+                flag = false;
+
+            }
+            if (flag) {
+                foundVacation = sVService.searchByPK(PK);
+            }
+            
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in searching the user"));
         }
