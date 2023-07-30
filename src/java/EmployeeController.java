@@ -378,22 +378,25 @@ public class EmployeeController implements Serializable {
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Password is empty"));
             flag = false;
         }
-        if(checkPassword(this.selectedEmployee.getPassword())){
-             //ERROR
+        if (checkPassword(this.selectedEmployee.getPassword())) {
+            //ERROR
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR: Password format is incorrect", "The password must contain 4 to 8 characters and must contain numbers, lowercase and uppercase letters."));
             flag = false;
         }
-        
+
         if (this.selectedEmployee.getType() == 1 && this.selectedEmployee.getIdSupervisor() != 0) {
 
             //ERROR      
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Admins dont have supervisor"));
             flag = false;
 
-            //ERROR
+        }
+        if (this.selectedEmployee.getType() != 1 && this.selectedEmployee.getIdSupervisor() == 0) {
 
-            /*FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_INFO, "ADDED", "Admins dont have supervisor"));
-            flag = true;*/
+            //ERROR      
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Supervisor empty"));
+            flag = false;
+
         }
 
         if (flag) {
@@ -451,8 +454,8 @@ public class EmployeeController implements Serializable {
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Password is empty"));
             flag = false;
         }
-        if(checkPassword(this.selectedEmployee.getPassword())){
-             //ERROR
+        if (checkPassword(this.selectedEmployee.getPassword())) {
+            //ERROR
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR: Password format is incorrect", "The password must contain 4 to 8 characters and must contain numbers, lowercase and uppercase letters."));
             flag = false;
         }
@@ -471,6 +474,20 @@ public class EmployeeController implements Serializable {
             this.esNuevo = false;
             this.selectedEmployee = new EmployeeTO();
             PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
+        }
+        if (this.selectedEmployee.getType() == 1 && this.selectedEmployee.getIdSupervisor() != 0) {
+
+            //ERROR      
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Admins dont have supervisor"));
+            flag = false;
+
+        }
+        if (this.selectedEmployee.getType() != 1 && this.selectedEmployee.getIdSupervisor() == 0) {
+
+            //ERROR      
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Supervisor empty"));
+            flag = false;
+
         }
 
         if (flag) {
