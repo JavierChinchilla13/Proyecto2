@@ -85,10 +85,26 @@ public class PermitController implements Serializable{
         System.out.println(format.format(date1));
     }
     
+    public boolean dateBefore() {
+        boolean flag = true;
+
+        if (flag) {
+            LocalDate startDate = this.selectedPermit.getDate().toLocalDate();
+            LocalDate currentDate = LocalDate.now();
+
+            if (startDate.isBefore(currentDate)) {
+                FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Selected date is before the current date"));
+                flag = false;
+            }
+        }
+        return flag;
+    }
+
     public void savePermit(int pk) throws Exception {
 
         boolean flag = true;
-    
+        boolean flag2 = true;
+
         Date date = this.selectedPermit.getDate();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
         String strDate = dateFormat.format(date);
@@ -99,19 +115,19 @@ public class PermitController implements Serializable{
             flag = false;
         }
 
-        
-        
-        if (flag){
-            System.out.println("Saving permit");
-            //Date day = (java.sql.Date) (java.sql.Date) selectedPermit.getDate();
-            this.pService.insert(pk,this.selectedPermit.getDate(), this.selectedPermit.getDescription());
-            //---this.servicioUsuario.listarUsuarios();
-            //this.listaUsuarios.add(selectedEmployee);//para simular       
-            this.esNuevo = false;
-            this.selectedPermit = new PermitTO();
-            PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
+        if (flag) {
+            flag2 = dateBefore();
+            if (flag2) {
+                System.out.println("Saving permit");
+                //Date day = (java.sql.Date) (java.sql.Date) selectedPermit.getDate();
+                this.pService.insert(pk, this.selectedPermit.getDate(), this.selectedPermit.getDescription());
+                //---this.servicioUsuario.listarUsuarios();
+                //this.listaUsuarios.add(selectedEmployee);//para simular       
+                this.esNuevo = false;
+                this.selectedPermit = new PermitTO();
+                PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
+            }
         }
-
     }
     
     public String statusToStrStatus(int status) {
