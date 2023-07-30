@@ -18,6 +18,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -61,6 +62,9 @@ public class EmployeeController implements Serializable {
     private UploadedFile originalImageFile;
 
     private StreamedContent fileSC;
+    
+    
+    
 
     public EmployeeController() {
 
@@ -130,6 +134,19 @@ public class EmployeeController implements Serializable {
     public List<EmployeeTO> getSuspendedEmployees() {
         try {
             return service.getSuspendedEmployees();
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving th list of employees"));
+
+        }
+        List<EmployeeTO> list = new ArrayList<>();
+        return list;
+    }
+    
+    public List<EmployeeTO> getSupervisor() {
+        try {
+            
+            return service.getSupervisor();
         } catch (Exception e) {
             e.printStackTrace();
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving th list of employees"));
@@ -249,11 +266,23 @@ public class EmployeeController implements Serializable {
         return service;
     }
 
+    
     public EmployeeTO getEmployee(int PK) {
         EmployeeTO foundEmp = null;
         try {
 
             foundEmp = service.searchByPK(PK);
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in searching the user"));
+        }
+        return foundEmp;
+    }
+    
+    public String getEmployeeName(int PK) {
+        String foundEmp = "";
+        try {
+
+            foundEmp = service.searchByPKName(PK);
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in searching the user"));
         }
@@ -353,6 +382,18 @@ public class EmployeeController implements Serializable {
              //ERROR
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR: Password format is incorrect", "The password must contain 4 to 8 characters and must contain numbers, lowercase and uppercase letters."));
             flag = false;
+        }
+        
+        if (this.selectedEmployee.getType() == 1 && this.selectedEmployee.getIdSupervisor() != 0) {
+
+            //ERROR      
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Admins dont have supervisor"));
+            flag = false;
+
+            //ERROR
+
+            /*FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_INFO, "ADDED", "Admins dont have supervisor"));
+            flag = true;*/
         }
 
         if (flag) {

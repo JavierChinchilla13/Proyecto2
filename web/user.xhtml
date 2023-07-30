@@ -108,14 +108,18 @@
                         <h:outputText value="#{Employee.employmentDate}"/>
                     </p:column>
                     
+                    <p:column headerText="Supervisor" sortBy="#{employeeController.getEmployeeName(Employee.idSupervisor)}" filterBy="#{employeeController.getEmployeeName(Employee.idSupervisor)}" filterMatchMode="contains">
+                        <h:outputText value="#{employeeController.getEmployeeName(Employee.idSupervisor)}"/>
+                    </p:column>
+                    
                     
 
                     <p:column headerText="Edit">
-                        <p:commandButton icon="pi pi-pencil" update=":form:manage-user-content" 
-                                         oncomplete="PF('manageUserDialog').show()"
+                        <p:commandButton icon="pi pi-pencil" update=":form:manage-user-content2" 
+                                         oncomplete="PF('manageUserDialog2').show()"
                                          styleClass="edit-button rounded-button ui-button-success" process="@this">
                             <f:setPropertyActionListener value="#{Employee}" target="#{employeeController.selectedEmployee}"/>
-                            <p:resetInput target=":form:manage-user-content"/>
+                            <p:resetInput target=":form:manage-user-content2"/>
                         </p:commandButton>
                     </p:column>
 
@@ -166,7 +170,7 @@
                                 <p:inputText id="password" value="#{employeeController.selectedEmployee.password}"/>
                             </div>
                             
-                            <div class="field col-12 md:col-4">
+                            <div class="p-field">
                                 <p:outputLabel for="type">Type</p:outputLabel>
                                 <p:selectOneMenu id="type" value="#{employeeController.selectedEmployee.type}">
                                     <f:selectItem itemLabel="Select One" itemValue=""/>
@@ -175,18 +179,23 @@
                                     <f:selectItem itemLabel="Employee" itemValue="3"/> 
                                 </p:selectOneMenu>
                             </div>
-                            <div class="field col-12 md:col-4">
+                            <div class="p-field">
                                 <p:outputLabel for="status">Status</p:outputLabel>
                                 <p:selectOneMenu id="status" value="#{employeeController.selectedEmployee.status}">
                                     <f:selectItem itemLabel="Select One" itemValue=""/>
                                     <f:selectItem itemLabel="Inactive" itemValue="4"/>
                                     <f:selectItem itemLabel="Active" itemValue="5"/> 
-                                    <f:selectItem itemLabel="Suspended" itemValue="6"/> 
+                                    
                                 </p:selectOneMenu>
                             </div>
-                             <div class="p-field">
-                                <p:outputLabel for="layoffDate2">Layoff Date</p:outputLabel>
-                                <p:calendar id="layoffDate2" value="#{employeeController.calendarFireDate}"/>
+                            <div class="p-field">
+                                <p:outputLabel for="supervisor">Supervisor</p:outputLabel>
+                                <p:selectOneMenu id="supervisor" value="#{employeeController.selectedEmployee.idSupervisor}"
+                                                 label="Supervisor">
+                                    <f:selectItem itemLabel=" " itemValue=""/>
+                                    <f:selectItems value="#{employeeController.supervisor}" var="Employee"
+                                                   itemLabel="#{Employee.firstName}" itemValue="#{Employee.id}"/>
+                                </p:selectOneMenu>
                             </div>
 
                         </p:outputPanel>
@@ -196,10 +205,81 @@
                         <p:commandButton value="Add" icon="pi pi-check"   actionListener="#{employeeController.saveUser()}" 
                                          update="form manage-user-content" process="manage-user-content @this"/>
                         
-                        <p:commandButton value="Save" icon="pi pi-check"  actionListener="#{employeeController.updateUser()}"
-                                         update="form manage-user-content" process="manage-user-content @this"/>
                         
                      <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageUserDialog').hide()" actionListener="#{employeeController.setEsNuevo(false)}"
+                                         class="ui-button-secondary"/>
+                    </f:facet>
+
+                </p:dialog>
+                
+                <p:dialog header="User detail" showEffect="fade" modal="true"
+                          widgetVar="manageUserDialog2" responsive="true">
+                    <p:outputPanel id="manage-user-content2" class="ui-fluid">
+
+                        <p:outputPanel>
+                            <div class="p-field2">
+                                <p:outputLabel for="name2">Name</p:outputLabel>
+                                <p:inputText id="name2" value="#{employeeController.selectedEmployee.firstName}"/>
+                            </div>
+                            <div class="p-field2">
+                                <p:outputLabel for="lastName2">LastName</p:outputLabel>
+                                <p:inputText id="lastName2" value="#{employeeController.selectedEmployee.lastName}"/>
+                            </div>
+                            <div class="p-field2">
+                                <p:outputLabel for="identification2">identification</p:outputLabel>
+                                <p:inputText id="identification2" value="#{employeeController.selectedEmployee.identification}"/>
+                            </div>
+                            <div class="p-field2">
+                                <p:outputLabel for="email2">Email</p:outputLabel>
+                                <p:inputText id="email2" value="#{employeeController.selectedEmployee.email}"/>
+                            </div>
+                            <div class="p-field2">
+                                <p:outputLabel for="phone2">Phone</p:outputLabel>
+                                <p:inputText id="phone2" value="#{employeeController.selectedEmployee.phone}"/>
+                            </div>
+
+                            <div class="p-field2">
+                                <p:outputLabel for="type2">Type</p:outputLabel>
+                                <p:selectOneMenu id="type2" value="#{employeeController.selectedEmployee.type}">
+                                    <f:selectItem itemLabel="Select One" itemValue=""/>
+                                    <f:selectItem itemLabel="Admin" itemValue="1"/>
+                                    <f:selectItem itemLabel="Manager" itemValue="2"/> 
+                                    <f:selectItem itemLabel="Employee" itemValue="3"/> 
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="p-field2">
+                                <p:outputLabel for="status2">Status</p:outputLabel>
+                                <p:selectOneMenu id="status2" value="#{employeeController.selectedEmployee.status}">
+                                    <f:selectItem itemLabel="Select One" itemValue=""/>
+                                    <f:selectItem itemLabel="Inactive" itemValue="4"/>
+                                    <f:selectItem itemLabel="Active" itemValue="5"/> 
+                                    <f:selectItem itemLabel="Suspended" itemValue="6"/> 
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="p-field2">
+                                <p:outputLabel for="supervisor2">Supervisor</p:outputLabel>
+                                <p:selectOneMenu id="supervisor2" value="#{employeeController.selectedEmployee.idSupervisor}"
+                                                 label="Supervisor">
+                                    <f:selectItem itemLabel=" " itemValue=""/>
+                                    <f:selectItems value="#{employeeController.supervisor}" var="Employee"
+                                                   itemLabel="#{Employee.firstName}" itemValue="#{Employee.id}"/>
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="p-field2">
+                                <p:outputLabel for="layoffDate2">Layoff Date</p:outputLabel>
+                                <p:calendar id="layoffDate2" value="#{employeeController.calendarFireDate}"/>
+                            </div>
+
+                        </p:outputPanel>
+
+                    </p:outputPanel>
+                    <f:facet name="footer">
+                        
+                        
+                        <p:commandButton value="Save" icon="pi pi-check"  actionListener="#{employeeController.updateUser()}"
+                                         update="form manage-user-content2" process="manage-user-content2 @this"/>
+                        
+                     <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageUserDialog2').hide()" actionListener="#{employeeController.setEsNuevo(false)}"
                                          class="ui-button-secondary"/>
                     </f:facet>
 
