@@ -41,7 +41,7 @@ public class VacationController implements Serializable {
     private Date endDate;
     private int vacationDays;
     private int dayDifference;
-     private int dayOff;
+    private int dayOff;
 
     public VacationController() {
     }
@@ -168,7 +168,6 @@ public class VacationController implements Serializable {
     }
 
     public boolean dateBefore() {
-
         boolean flag = true;
 
         if (flag) {
@@ -177,18 +176,36 @@ public class VacationController implements Serializable {
             LocalDate currentDate = LocalDate.now();
 
             if (startDate.isBefore(currentDate) || endDate.isBefore(currentDate)) {
-                // Fecha seleccionada es anterior a la fecha actual, mostrar mensaje de error
                 FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Selected date is before the current date"));
+                flag = false;
+            }
+            if (endDate.isBefore(startDate)) {
+                FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "End date can't be before start date"));
                 flag = false;
             }
         }
         return flag;
     }
 
+    public boolean verifyAmountOfVacations() {
+        LocalDate startDate = this.selectedSchedueleVacation.getStartDate().toLocalDate();
+        LocalDate endDate = this.selectedSchedueleVacation.getEndDate().toLocalDate();
+        long daysDifference = ChronoUnit.DAYS.between(startDate, endDate);
+        int days = (int) daysDifference;
+
+        if (daysDifference > this.vacationDays) {
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "The amount of days selected is more than your vacation days left"));
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public void saveSchedueleVacation(int pk) throws Exception {
 
         boolean flag2 = true;
         boolean flag = true;
+        boolean flag3 = true;
 
         if (this.selectedSchedueleVacation.getStartDate() == null) {
             //ERROR
@@ -204,16 +221,19 @@ public class VacationController implements Serializable {
         if (flag) {
             flag2 = dateBefore();
             if (flag2) {
-                if (this.vacationDays <= 0) {
-                    FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "You don't have vacation days left"));
-                } else {
-                    System.out.println("Saving Schedule Vacation");
-                    this.sVService.insert(sVService.getVacationIdByEmployeeId(pk), this.selectedSchedueleVacation.getStartDate(), this.selectedSchedueleVacation.getEndDate(), 17, "");
-                    dayDifference();
-                    //vService.updateVacationDays(pk, this.vacationDays);
-                    this.esNuevo = false;
-                    this.selectedSchedueleVacation = new ScheduleVacationTO();
-                    PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
+                flag3 = verifyAmountOfVacations();
+                if (flag3) {
+                    if (this.vacationDays <= 0) {
+                        FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "You don't have vacation days left"));
+                    } else {
+                        System.out.println("Saving Schedule Vacation");
+                        this.sVService.insert(sVService.getVacationIdByEmployeeId(pk), this.selectedSchedueleVacation.getStartDate(), this.selectedSchedueleVacation.getEndDate(), 17, "");
+                        dayDifference();
+                        //vService.updateVacationDays(pk, this.vacationDays);
+                        this.esNuevo = false;
+                        this.selectedSchedueleVacation = new ScheduleVacationTO();
+                        PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
+                    }
                 }
             }
         }
@@ -253,10 +273,11 @@ public class VacationController implements Serializable {
         }
         return this.vacationDays = 0;
     }
+
     public int getVacationDaysOff(int pk) {
         int day = 0;
         try {
-            
+
             day = sVService.getVacationDaysOff(pk);
             return day;
         } catch (Exception e) {
@@ -338,7 +359,7 @@ public class VacationController implements Serializable {
         this.redirect("/faces/vacations.xhtml");
 
     }
-    
+
     public ScheduleVacationTO getScheduleVacation(int PK) {
         ScheduleVacationTO foundVacation = null;
         try {
@@ -349,7 +370,7 @@ public class VacationController implements Serializable {
         }
         return foundVacation;
     }
-    
+
     public void deleteScheduleVacation(int PK) throws Exception {
 
         try {
@@ -364,6 +385,46 @@ public class VacationController implements Serializable {
 
         }
 
+    }
+
+    public List<ScheduleVacationTO> getNewScheduleVacations(int id) {
+        try {
+            return sVService.getNewScheduleVacation(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving the list of New Schedule Vacations"));
+
+        }
+        List<ScheduleVacationTO> list = new ArrayList<>();
+        return list;
+    }
+
+    public String statusToStrStatus(int status) {
+        String result = "";
+        switch (status) {
+            case 15:
+                result = "Approved";
+                break;
+            case 16:
+                result = "Denied";
+                break;
+            case 17:
+                result = "Pending";
+                break;
+        }
+        return result;
+    }
+
+    public List<ScheduleVacationTO> getOldScheduleVacations(int id) {
+        try {
+            return sVService.getOldScheduleVacation(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving the list of Old Schedule Vacations"));
+
+        }
+        List<ScheduleVacationTO> list = new ArrayList<>();
+        return list;
     }
 
 }

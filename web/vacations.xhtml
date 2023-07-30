@@ -76,7 +76,7 @@
                     </f:facet>
                 </p:dialog>
 
-                <p:dataTable var="vacations" value="#{vacationController.getScheduleVacationOf(employeeController.id)}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
+                <p:dataTable var="vacations" value="#{vacationController.getNewScheduleVacations(employeeController.id)}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                              {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No Vacations">
 
@@ -88,8 +88,8 @@
                         <h:outputText value="#{vacations.endDate}"/>
                     </p:column>
 
-                    <p:column headerText="Status" sortBy="#{vacations.idStatus}" filterBy="#{vacations.idStatus}" filterMatchMode="contains">
-                        <h:outputText value="#{vacations.idStatus}"/>
+                    <p:column headerText="Status" sortBy="#{vacationController.statusToStrStatus(vacations.idStatus)}" filterBy="#{vacationController.statusToStrStatus(vacations.idStatus)}" filterMatchMode="contains">
+                        <h:outputText value="#{vacationController.statusToStrStatus(vacations.idStatus)}"/>
                     </p:column>
 
                     <p:column headerText="Description" sortBy="#{vacations.description}" filterBy="#{vacations.description}" filterMatchMode="contains">
@@ -114,7 +114,7 @@
                           widgetVar="allVacationsDialog" responsive="true">
                     <p:outputPanel id="admin-all-vacations-view" class="ui-fluid">
 
-                        <p:dataTable var="Vacation" value="#{vacationController.allScheduleVacation}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
+                        <p:dataTable var="Vacation" value="#{vacationController.getOldScheduleVacations(employeeController.id)}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                                      {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                      emptyMessage="No Vacations">
 
@@ -126,8 +126,8 @@
                                 <h:outputText value="#{Vacation.endDate}"/>
                             </p:column>
 
-                            <p:column headerText="Status" sortBy="#{Vacation.idStatus}" filterBy="#{Vacation.idStatus}" filterMatchMode="contains">
-                                <h:outputText value="#{Vacation.idStatus}"/>
+                            <p:column headerText="Status" sortBy="#{vacationController.statusToStrStatus(Vacation.idStatus)}" filterBy="#{vacationController.statusToStrStatus(Vacation.idStatus)}" filterMatchMode="contains">
+                                <h:outputText value="#{vacationController.statusToStrStatus(Vacation.idStatus)}"/>
                             </p:column>
 
                             <p:column headerText="Description" sortBy="#{Vacation.description}" filterBy="#{Vacation.description}" filterMatchMode="contains">
