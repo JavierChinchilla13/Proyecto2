@@ -141,11 +141,7 @@
                             <p:column headerText="Name" sortBy="#{Document.name}" filterBy="#{Document.name}" filterMatchMode="contains">
                                 <h:outputText value="#{Document.name}"/>
                             </p:column>
-
-                            <p:column headerText="path" sortBy="#{Document.path}" filterBy="#{Document.path}" filterMatchMode="contains">
-                                <h:outputText value="#{Document.path}"/>
-                            </p:column>
-
+                            
                             <p:column headerText="Download">
                                 <p:commandButton value="Download" icon="pi pi-arrow-down" styleClass="rounded-button" 
                                                  actionListener="#{employeeController.prepareFileSC(Document.id)}">
