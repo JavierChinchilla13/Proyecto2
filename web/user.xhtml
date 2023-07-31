@@ -46,6 +46,13 @@
                                  styleClass="ui-button-success" style="margin-right: .5rem">
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
+                
+                
+                <p:commandButton value="View subordinates" icon="pi pi-eye" actionListener="#{employeeController.openNew}" rendered="#{employeeController.isAdmin || employeeController.isManager}"
+                                 update=":form:subordinates-all-per-view" oncomplete="PF('Subordinates').show()"
+                                 styleClass="ui-button-success" style="margin-right: .5rem">
+                    <p:resetInput target=":form:subordinates-all-per-view"/>
+                </p:commandButton>
 
                 <p:dataTable var="Employee" value="#{employeeController.activeEmployees}" rendered="#{employeeController.isManager || employeeController.isEmployee}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                              {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -239,8 +246,8 @@
                             </div>
 
                             <div class="p-field2">
-                                <p:outputLabel for="type2">Type</p:outputLabel>
-                                <p:selectOneMenu id="type2" value="#{employeeController.selectedEmployee.type}">
+                                <p:outputLabel for="type2" rendered="#{employeeController.isAdmin}">Type</p:outputLabel>
+                                <p:selectOneMenu id="type2" value="#{employeeController.selectedEmployee.type}" rendered="#{employeeController.isAdmin}">
                                     <f:selectItem itemLabel="Select One" itemValue=""/>
                                     <f:selectItem itemLabel="Admin" itemValue="1"/>
                                     <f:selectItem itemLabel="Manager" itemValue="2"/> 
@@ -248,8 +255,8 @@
                                 </p:selectOneMenu>
                             </div>
                             <div class="p-field2">
-                                <p:outputLabel for="status2">Status</p:outputLabel>
-                                <p:selectOneMenu id="status2" value="#{employeeController.selectedEmployee.status}">
+                                <p:outputLabel for="status2" rendered="#{employeeController.isAdmin}">Status</p:outputLabel>
+                                <p:selectOneMenu id="status2" value="#{employeeController.selectedEmployee.status}" rendered="#{employeeController.isAdmin}">
                                     <f:selectItem itemLabel="Select One" itemValue=""/>
                                     <f:selectItem itemLabel="Inactive" itemValue="4"/>
                                     <f:selectItem itemLabel="Active" itemValue="5"/> 
@@ -257,31 +264,96 @@
                                 </p:selectOneMenu>
                             </div>
                             <div class="p-field2">
-                                <p:outputLabel for="supervisor2">Supervisor</p:outputLabel>
+                                <p:outputLabel for="supervisor2" rendered="#{employeeController.isAdmin}">Supervisor</p:outputLabel>
                                 <p:selectOneMenu id="supervisor2" value="#{employeeController.selectedEmployee.idSupervisor}"
-                                                 label="Supervisor">
+                                                 label="Supervisor" rendered="#{employeeController.isAdmin}">
                                     <f:selectItem itemLabel=" " itemValue=""/>
                                     <f:selectItems value="#{employeeController.supervisor}" var="Employee"
                                                    itemLabel="#{Employee.firstName}" itemValue="#{Employee.id}"/>
                                 </p:selectOneMenu>
                             </div>
                             <div class="p-field2">
-                                <p:outputLabel for="layoffDate2">Layoff Date</p:outputLabel>
-                                <p:calendar id="layoffDate2" value="#{employeeController.calendarFireDate}"/>
+                                <p:outputLabel for="layoffDate2" rendered="#{employeeController.isAdmin}">Layoff Date</p:outputLabel>
+                                <p:calendar id="layoffDate2" value="#{employeeController.calendarFireDate}" rendered="#{employeeController.isAdmin}"/>
                             </div>
 
                         </p:outputPanel>
 
                     </p:outputPanel>
                     <f:facet name="footer">
-                        
-                        
+
+
                         <p:commandButton value="Save" icon="pi pi-check"  actionListener="#{employeeController.updateUser()}"
                                          update="form manage-user-content2" process="manage-user-content2 @this"/>
-                        
-                     <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageUserDialog2').hide()" actionListener="#{employeeController.setEsNuevo(false)}"
+
+                        <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageUserDialog2').hide()" actionListener="#{employeeController.setEsNuevo(false)}"
                                          class="ui-button-secondary"/>
                     </f:facet>
+
+                </p:dialog>
+
+
+                <p:dialog header="Subordinates" showEffect="fade" hideEffect="fade" modal="true"
+                          widgetVar="Subordinates" responsive="true">
+                    <p:outputPanel id="subordinates-all-per-view" class="ui-fluid">
+
+                        <p:dataTable var="Employee" value="#{employeeController.getSubordinates(employeeController.id)}"  paginator="true" rows="3" paginatorTemplate="{CurrentPageReport} 
+                                     {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     emptyMessage="No register users"  >
+                            
+
+                            <p:column headerText="Name" sortBy="#{Employee.fullName}" filterBy="#{Employee.fullName}" filterMatchMode="contains">
+                                <h:outputText value="#{Employee.fullName}"/>
+                            </p:column>
+
+                            <p:column headerText="Identification" sortBy="#{Employee.identification}" filterBy="#{Employee.identification}" filterMatchMode="contains">
+                                <h:outputText value="#{Employee.identification}"/>
+                            </p:column>
+
+                            <p:column headerText="Email" sortBy="#{Employee.email}" filterBy="#{Employee.email}" filterMatchMode="contains">
+                                <h:outputText value="#{Employee.email}"/>
+                            </p:column>
+
+                            <p:column headerText="Phone" sortBy="#{Employee.phone}" filterBy="#{Employee.phone}" filterMatchMode="contains">
+                                <h:outputText value="#{Employee.phone}"/>
+                            </p:column>
+
+                            <p:column headerText="Type" sortBy="#{employeeController.typeToStrType(Employee.type)}" filterBy="#{employeeController.typeToStrType(Employee.type)}" filterMatchMode="contains">
+                                <h:outputText value="#{employeeController.typeToStrType(Employee.type)}"/>
+                            </p:column>   
+
+                            <p:column headerText="Status" sortBy="#{employeeController.statusToStrStatus(Employee.status)}" filterBy="#{employeeController.statusToStrStatus(Employee.status)}" filterMatchMode="contains">
+                                <h:outputText value="#{employeeController.statusToStrStatus(Employee.status)}"/>
+                            </p:column>
+
+                            <p:column headerText="Employement Date" sortBy="#{Employee.employmentDate}" filterBy="#{Employee.employmentDate}" filterMatchMode="contains">
+                                <h:outputText value="#{Employee.employmentDate}"/>
+                            </p:column>
+
+                            <p:column headerText="Layoff Date" sortBy="#{Employee.layoffDate}" filterBy="#{Employee.layoffDate}" filterMatchMode="contains">
+                                <h:outputText value="#{Employee.layoffDate}"/>
+                            </p:column>
+
+
+
+                            <p:column headerText="Edit">
+                                <p:commandButton icon="pi pi-pencil" update=":form:manage-user-content2" 
+                                                 oncomplete="PF('manageUserDialog2').show()"
+                                                 styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                    <f:setPropertyActionListener value="#{Employee}" target="#{employeeController.selectedEmployee}"/>
+                                    <p:resetInput target=":form:manage-user-content2"/>
+                                </p:commandButton>
+                            </p:column>
+
+                            <p:column headerText="Suspend">
+                                <p:commandButton icon="pi pi-times" update="form" styleClass="rounded-button ui-button-danger"
+                                                 actionListener="#{employeeController.deleteUser(Employee.id)}">
+                                </p:commandButton>
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </p:outputPanel>  
 
                 </p:dialog>
 

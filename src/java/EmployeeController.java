@@ -130,6 +130,18 @@ public class EmployeeController implements Serializable {
         List<EmployeeTO> list = new ArrayList<>();
         return list;
     }
+    
+    public List<EmployeeTO> getSubordinates(int pk) {
+        try {
+            return service.getSubordinates(pk);
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving th list of employees"));
+
+        }
+        List<EmployeeTO> list = new ArrayList<>();
+        return list;
+    }
 
     public List<EmployeeTO> getSuspendedEmployees() {
         try {
@@ -544,6 +556,16 @@ public class EmployeeController implements Serializable {
     public void setCalendarFireDate(java.util.Date fireDate) {
         if (fireDate != null) {
             this.selectedEmployee.setLayoffDate(new java.sql.Date(fireDate.getTime()));
+        }
+    }
+    
+    public java.util.Date getEmployment() {
+        return (java.util.Date) this.selectedEmployee.getEmploymentDate();
+    }
+
+    public void setEmployment(java.util.Date employment) {
+        if (employment != null) {
+            this.selectedEmployee.setEmploymentDate(new java.sql.Date(employment.getTime()));
         }
     }
 

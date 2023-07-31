@@ -8,11 +8,37 @@
         <title>Suspended Workers</title>
     </h:head>
     <h:body>
+        <h3>Suspended Employees</h3>
         <p:growl id="message" showDetail="true"/>
         <h:form id="form">
             <div class="card">
 
-                <p:commandButton value="Return" icon="pi pi-arrow-down-left" actionListener="#{employeeController.returnUser}"
+                <p:tabMenu activeIndex="#{param.i}">
+                    <p:menuitem value="Home" outcome="landingPage" icon="pi pi-fw pi-home">
+                        <f:param name="i" value="0"/>
+                    </p:menuitem>
+                    <p:menuitem value="Suspended Employees" outcome="suspendedEmployees" icon="pi pi-fw pi-calendar">
+                        <f:param name="i" value="1"/>
+                    </p:menuitem>
+                    <p:menuitem value="Projects" outcome="projects" icon="pi pi-fw pi-calendar">
+                        <f:param name="i" value="2"/>
+                    </p:menuitem>
+                    <p:menuitem value="Vacations" outcome="vacations" icon="pi pi-fw pi-calendar">
+                        <f:param name="i" value="3"/>
+                    </p:menuitem>
+                    <p:menuitem value="Permits" outcome="permits" icon="pi pi-fw pi-calendar">
+                        <f:param name="i" value="4"/>
+                    </p:menuitem>
+                    <p:menuitem value="Documents" outcome="documents" icon="pi pi-fw pi-file">
+                        <f:param name="i" value="5"/>
+                    </p:menuitem>
+                    <p:menuitem value="Log Out" icon="pi pi-sign-out"  actionListener="#{employeeController.logOut()}">
+                        <f:param name="i" value="6"/>
+                    </p:menuitem>
+
+                </p:tabMenu>
+
+                <p:commandButton value="Return" icon="pi pi-arrow-down-left" actionListener="#{employeeController.returnUser()}"
 
                                  styleClass="ui-button-success" style="margin-right: .10rem">
                     <p:resetInput target=":form:manage-user-content"/>
@@ -103,6 +129,10 @@
                                     <f:selectItem itemLabel="Employee" itemValue="3"/> 
                                 </p:selectOneMenu>
                             </div>
+                            <div class="p-field2">
+                                <p:outputLabel for="employmentDate">Employment Date</p:outputLabel>
+                                <p:calendar id="employmentDate" value="#{employeeController.employment}"/>
+                            </div>
                             
                         </p:outputPanel>
 
@@ -123,4 +153,3 @@
         </h:form>
     </h:body>
 </html>
-

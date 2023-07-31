@@ -8,9 +8,37 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-       <h:form id="form">
+        <h3>Review Permits</h3>
+        <h:form id="form">
+
             
-         
+
+
+            <p:tabMenu activeIndex="#{param.i}">
+                <p:menuitem value="Home" outcome="landingPage" icon="pi pi-fw pi-home">
+                    <f:param name="i" value="0"/>
+                </p:menuitem>
+                <p:menuitem value="Users" outcome="user" icon="pi pi-fw pi-calendar">
+                    <f:param name="i" value="1"/>
+                </p:menuitem>
+                <p:menuitem value="Projects" outcome="projects" icon="pi pi-fw pi-calendar">
+                    <f:param name="i" value="2"/>
+                </p:menuitem>
+                <p:menuitem value="Vacations" outcome="vacations" icon="pi pi-fw pi-calendar">
+                    <f:param name="i" value="3"/>
+                </p:menuitem>
+                <p:menuitem value=" Review Permits" outcome="reviewPermits" icon="pi pi-fw pi-calendar">
+                    <f:param name="i" value="4"/>
+                </p:menuitem>
+                <p:menuitem value="Documents" outcome="documents" icon="pi pi-fw pi-file">
+                    <f:param name="i" value="5"/>
+                </p:menuitem>
+                <p:menuitem value="Log Out" icon="pi pi-sign-out"  actionListener="#{employeeController.logOut()}">
+                    <f:param name="i" value="6"/>
+                </p:menuitem>
+
+            </p:tabMenu>
+            
             <p:commandButton value="Return" icon="pi pi-arrow-down-left" actionListener="#{permitController.returnPermit}"
 
                              styleClass="ui-button-success" style="margin-right: .10rem">
@@ -19,7 +47,7 @@
 
             <p:dataTable var="Permit" value="#{permitController.searchByStatus(14)}"  paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                          {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                          emptyMessage="No existen usuarios registrados">
+                         emptyMessage="No existen usuarios registrados">
                 <f:facet name="header"> Permits </f:facet>
 
                 <p:column headerText="Employee Id" sortBy="#{employeeController.idToStrStatus(Permit.idEmployee)}" filterBy="#{employeeController.idToStrStatus(Permit.idEmployee)}" filterMatchMode="contains">
