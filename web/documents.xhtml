@@ -33,7 +33,7 @@
                     <p:menuitem value="Documents" outcome="documents" icon="pi pi-fw pi-file">
                         <f:param name="i" value="5"/>
                     </p:menuitem>
-                      <p:menuitem value="Log Out" icon="pi pi-sign-out"  actionListener="#{employeeController.logOut()}">
+                    <p:menuitem value="Log Out" icon="pi pi-sign-out"  actionListener="#{employeeController.logOut()}">
                         <f:param name="i" value="6"/>
                     </p:menuitem>
 
@@ -62,10 +62,6 @@
                         <h:outputText value="#{Document.name}"/>
                     </p:column>
 
-                    <p:column headerText="path" sortBy="#{Document.path}" filterBy="#{Document.path}" filterMatchMode="contains">
-                        <h:outputText value="#{Document.path}"/>
-                    </p:column>
-
                     <p:column headerText="Download">
                         <p:commandButton value="Download" icon="pi pi-arrow-down" styleClass="rounded-button"
                                          actionListener="#{employeeController.prepareFileSC(Document.id)}">
@@ -88,18 +84,57 @@
 
 
                 <p:commandButton value="Show all Documnets " icon="pi pi-eye" rendered="#{employeeController.isAdmin}"
-                                 update=":form:admin-all-docs-view" oncomplete="PF('AllDocsDialog').show()"
+                                 update=":form:select-person-docs-view" oncomplete="PF('SelectPersonDialog').show()"
                                  styleClass="ui-button-success" style="margin-right: .5rem">
-                    <p:resetInput target=":form:admin-all-docs-view"/>
+                    <p:resetInput target=":form:select-person-docs-view"/>
                 </p:commandButton>
 
+                <p:dialog header="Select Person" showEffect="fade" hideEffect="fade" modal="true"
+                          widgetVar="SelectPersonDialog" responsive="true">
+                    <p:outputPanel id="select-person-docs-view" class="ui-fluid">
+
+                        <p:dataTable id="Employees" var="Employee" value="#{employeeController.employees}" rendered="#{employeeController.isAdmin}" paginator="true" rows="3" paginatorTemplate="{CurrentPageReport} 
+                                     {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No register users"  >
+                            <f:facet name="header"> Employee List </f:facet>
+
+                            <p:column headerText="Name" sortBy="#{Employee.fullName}" filterBy="#{Employee.fullName}" filterMatchMode="contains">
+                                <h:outputText value="#{Employee.fullName}"/>
+                            </p:column>
+
+                            <p:column headerText="Identification" sortBy="#{Employee.identification}" filterBy="#{Employee.identification}" filterMatchMode="contains">
+                                <h:outputText value="#{Employee.identification}"/>
+                            </p:column>
+
+                            <p:column headerText="Email" sortBy="#{Employee.email}" filterBy="#{Employee.email}" filterMatchMode="contains">
+                                <h:outputText value="#{Employee.email}"/>
+                            </p:column>
+
+                            <p:column headerText="Supervisor" sortBy="#{employeeController.getEmployeeName(Employee.idSupervisor)}" filterBy="#{employeeController.getEmployeeName(Employee.idSupervisor)}" filterMatchMode="contains">
+                                <h:outputText value="#{employeeController.getEmployeeName(Employee.idSupervisor)}"/>
+                            </p:column>
 
 
-                <p:dialog header="All Documents" showEffect="fade" hideEffect="fade" modal="true"
+
+                            <p:column headerText="View Documents">
+                                <p:commandButton icon="pi pi-eye" update=":form:admin-all-docs-view" 
+                                                 oncomplete="PF('AllDocsDialog').show()"
+                                                 styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                    <f:setPropertyActionListener value="#{Employee}" target="#{employeeController.selectedEmployee}"/>
+                                    <p:resetInput target=":form:admin-all-docs-view"/>
+                                </p:commandButton>
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </p:outputPanel>  
+                </p:dialog>
+
+                <p:dialog header="Documents" showEffect="fade" hideEffect="fade" modal="true"
                           widgetVar="AllDocsDialog" responsive="true">
                     <p:outputPanel id="admin-all-docs-view" class="ui-fluid">
 
-                        <p:dataTable var="Document" value="#{employeeController.documents}" paginator="true" rows="3" paginatorTemplate="{CurrentPageReport} 
+                        <p:dataTable var="Document" value="#{employeeController.getDocumentsOf(employeeController.selectedEmployee.id)}" paginator="true" rows="3" paginatorTemplate="{CurrentPageReport} 
                                      {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                      emptyMessage="No documets">
 
@@ -130,7 +165,7 @@
 
                     </p:outputPanel>  
 
-                    
+
 
                 </p:dialog>
 
