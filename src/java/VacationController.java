@@ -146,6 +146,19 @@ public class VacationController implements Serializable {
     public void setVacationDays(int vacationDays) {
         this.vacationDays = vacationDays;
     }
+    
+    public String getEmployeeName(int pk) {
+        try {
+            
+            return sVService.getEmployeeName(pk);
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving th list of employees"));
+
+        }
+        
+        return "";
+    }
 
     public List<VacationTO> getVacation() {
         try {

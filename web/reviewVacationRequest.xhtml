@@ -24,6 +24,10 @@
                              {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="there are no vacations to approve or deny">
                     <f:facet name="header"> Vacation Request </f:facet>
+                    
+                    <p:column headerText="Vacation" sortBy="#{vacationController.getEmployeeName(Vacation.id)}" filterBy="#{vacationController.getEmployeeName(Vacation.id)}" filterMatchMode="contains">
+                        <h:outputText value="#{vacationController.getEmployeeName(Vacation.id)}"/>
+                    </p:column>
 
                     <p:column headerText="Start Date" sortBy="#{Vacation.startDate}" filterBy="#{Vacation.startDate}" filterMatchMode="contains">
                         <h:outputText value="#{Vacation.startDate}"/>
