@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Project</title>
+    </h:head>
+    <h:body>
+        <h3>Project:,  #{flash.name}</h3>
+        <p:growl id="message" showDetail="true"/>
+        <h:form id="form">
+            <p:growl id="message" showDetail="true"/>
+            <div class="card">
+                <p:tabMenu class="flo" activeIndex="#{param.id}">
+                    <p:menuitem value="Home" outcome="landingPage" icon="pi pi-fw pi-home">
+                        <f:param name="i" value="0"/>
+                    </p:menuitem>
+                    <p:menuitem value="Users" outcome="user" icon="pi pi-fw pi-calendar">
+                        <f:param name="i" value="1"/>
+                    </p:menuitem>
+                    <p:menuitem value="Projects" outcome="projects" icon="pi pi-fw pi-calendar">
+                        <f:param name="i" value="2"/>
+                    </p:menuitem>
+                    <p:menuitem value="Vacations" outcome="vacations" icon="pi pi-fw pi-calendar">
+                        <f:param name="i" value="3"/>
+                    </p:menuitem>
+                    <p:menuitem value="Permits" outcome="permits" icon="pi pi-fw pi-calendar">
+                        <f:param name="i" value="4"/>
+                    </p:menuitem>
+                    <p:menuitem value="Documents" outcome="documents" icon="pi pi-fw pi-file">
+                        <f:param name="i" value="5"/>
+                    </p:menuitem>
+
+                    <p:menuitem value="Log Out" icon="pi pi-sign-out"  actionListener="#{employeeController.logOut()}">
+                        <f:param name="i" value="6"/>
+                    </p:menuitem>
+
+                </p:tabMenu>
+
+                <br/>
+                
+                <p:commandButton value="Add person to project" icon="pi pi-plus" update="form" 
+                                 oncomplete="PF('manageProjectMembersToAddDialog').show()"
+                                 styleClass="ui-button-success" process="@this"
+                                 rendered="#{employeeController.isAdmin || employeeController.isManager}">
+                </p:commandButton>
+
+
+
+                <p:dataTable var="EmployeeOfProyect" value="#{projectController.employeesOfProyect}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
+                             {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados">
+
+                    <p:column headerText="Name" sortBy="#{EmployeeOfProyect.fullName}" filterBy="#{EmployeeOfProyect.fullName}" filterMatchMode="contains">
+                        <h:outputText value="#{EmployeeOfProyect.fullName}"/>
+                    </p:column>
+
+                    <p:column headerText="Identification" sortBy="#{EmployeeOfProyect.identification}" filterBy="#{EmployeeOfProyect.identification}" filterMatchMode="contains">
+                        <h:outputText value="#{EmployeeOfProyect.identification}"/>
+                    </p:column>
+
+                    <p:column headerText="Type" sortBy="#{employeeController.typeToStrType(EmployeeOfProyect.type)}" filterBy="#{employeeController.typeToStrType(EmployeeOfProyect.type)}" filterMatchMode="contains">
+                        <h:outputText value="#{employeeController.typeToStrType(EmployeeOfProyect.type)}"/>
+                    </p:column>  
+
+                    <p:column headerText="Remove" rendered="#{employeeController.isAdmin || employeeController.isManager}" >
+                        <p:commandButton icon="pi pi-times" update="form" styleClass="rounded-button ui-button-danger">
+
+                        </p:commandButton>
+                    </p:column>
+
+                </p:dataTable>
+
+
+                <p:dialog header="Project members avaible to add" showEffect="fade" modal="true"
+                          widgetVar="manageProjectMembersToAddDialog" responsive="true">
+                    <p:outputPanel id="manage-membersToAdd" class="ui-fluid">
+                        <p:outputPanel>
+
+
+                            <p:dataTable var="EmployeeNotOnProyect" value="#{projectController.employeesNotOnProyect}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
+                                         {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados">
+
+                                <p:column headerText="Name" sortBy="#{EmployeeNotOnProyect.fullName}" filterBy="#{EmployeeNotOnProyect.fullName}" filterMatchMode="contains">
+                                    <h:outputText value="#{EmployeeNotOnProyect.fullName}"/>
+                                </p:column>
+
+                                <p:column headerText="Identification" sortBy="#{EmployeeNotOnProyect.identification}" filterBy="#{EmployeeNotOnProyect.identification}" filterMatchMode="contains">
+                                    <h:outputText value="#{EmployeeNotOnProyect.identification}"/>
+                                </p:column>
+
+                                <p:column headerText="Type" sortBy="#{employeeController.typeToStrType(EmployeeNotOnProyect.type)}" filterBy="#{employeeController.typeToStrType(EmployeeNotOnProyect.type)}" filterMatchMode="contains">
+                                    <h:outputText value="#{employeeController.typeToStrType(EmployeeNotOnProyect.type)}"/>
+                                </p:column>  
+
+                                <p:column headerText="Add" rendered="#{employeeController.isAdmin || employeeController.isManager}" >
+                                    <p:commandButton icon="pi pi-plus" update=":form:manage-membersToAdd" styleClass="rounded-button ui-button-info"
+                                                     actionListener="#{projectController.addCollaboratorToProject(EmployeeNotOnProyect.id)}">
+
+                                    </p:commandButton>
+                                </p:column>
+
+                            </p:dataTable>
+
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageProjectMembersToAddDialog').hide()"
+                                                 styleClass="ui-button-secondary"/>
+                            </f:facet>
+
+                        </p:outputPanel>
+                    </p:outputPanel>
+                </p:dialog>
+                
+                
+                <p:commandButton value="View Activities" icon="pi pi-eye" 
+                                 update=":form:history-all-per-view" oncomplete="PF('AllDocsDialog').show()"
+                                 styleClass="ui-button-success" style="margin-right: .5rem">
+                    <p:resetInput target=":form:history-all-per-view"/>
+                </p:commandButton>
+                
+                
+                <p:dialog header="Activities" showEffect="fade" hideEffect="fade" modal="true"
+                          widgetVar="AllDocsDialog" responsive="true">
+                    <p:outputPanel id="history-all-per-view" class="ui-fluid">
+
+                        <p:dataTable var="Activity" value="#{projectController.getActivity(flash.id)}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
+                                     {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     emptyMessage="No permits">
+
+                            <p:column headerText="Name" sortBy="#{Activity.name}" filterBy="#{Activity.name}" filterMatchMode="contains">
+                                <h:outputText value="#{Activity.name}"/>
+                            </p:column>
+
+                            <p:column headerText="Description" sortBy="#{Activity.description}" filterBy="#{Activity.description}" filterMatchMode="contains">
+                                <h:outputText value="#{Activity.description}"/>
+                            </p:column>
+
+
+
+                        </p:dataTable>
+
+                    </p:outputPanel>  
+
+                </p:dialog>
+
+            </div>          
+        </h:form>
+    </h:body>
+</html>

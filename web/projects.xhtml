@@ -118,11 +118,11 @@
                     </p:column>
 
                     <p:column headerText="Members">
-                        <p:commandButton icon="pi pi-users" update=":form:manage-members" 
-                                         oncomplete="PF('manageProjectMembersDialog').show()"
+                        <p:commandButton icon="pi pi-users" update=":form:buttons" 
+                                         oncomplete="PF('buttons').show()"
                                          styleClass="rounded-button ui-button-info" process="@this">
                             <f:setPropertyActionListener value="#{Projects}" target="#{projectController.selectedProject}"/>
-                            <p:resetInput target=":form:manage-members"/>
+                            <p:resetInput target=":form:buttons"/>
                         </p:commandButton>
                     </p:column>
 
@@ -134,6 +134,28 @@
 
 
                 </p:dataTable>
+                
+                <p:dialog  showEffect="fade" modal="true"
+                          widgetVar="buttons" responsive="true">
+                    <p:outputPanel id="buttons" class="ui-fluid">
+
+                        <p:outputPanel>
+
+                            <p:commandButton icon="pi pi-users" update=":form:manage-members" 
+                                             actionListener="#{projectController.viewProject()}"
+                                             styleClass="rounded-button ui-button-info" process="@this" >
+                                
+                                <p:resetInput target=":form:manage-members"/>
+                            </p:commandButton>
+
+
+
+                        </p:outputPanel>
+
+                    </p:outputPanel>
+
+
+                </p:dialog>
 
                 <p:dataTable var="Project" value="#{projectController.projects}" rendered="#{employeeController.isEmployee}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                              {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"

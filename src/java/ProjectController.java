@@ -1,4 +1,6 @@
 
+import com.mycompany.edu.ulatina.hth_db_connetion.CreateActivityService;
+import com.mycompany.edu.ulatina.hth_db_connetion.CreateActivityTO;
 import com.mycompany.edu.ulatina.hth_db_connetion.EmployeeService;
 import com.mycompany.edu.ulatina.hth_db_connetion.EmployeeTO;
 import com.mycompany.edu.ulatina.hth_db_connetion.PermitTO;
@@ -16,6 +18,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.context.Flash;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.PrimeFaces;
 
@@ -29,7 +32,18 @@ public class ProjectController implements Serializable {
     private final ProjectXEmployeeService pXEService = new ProjectXEmployeeService();
     private boolean esNuevo;
     private final EmployeeService empService = new EmployeeService();
+    private CreateActivityTO selectedCreateActivity = new CreateActivityTO();
+    private final CreateActivityService cAService = new CreateActivityService();
 
+    public CreateActivityTO getSelectedCreateActivity() {
+        return selectedCreateActivity;
+    }
+
+    public void setSelectedCreateActivity(CreateActivityTO selectedCreateActivity) {
+        this.selectedCreateActivity = selectedCreateActivity;
+    }
+
+    
     public ProjectXEmployeeTO getSelectedProjectXEmployee() {
         return selectedProjectXEmployee;
     }
@@ -71,6 +85,18 @@ public class ProjectController implements Serializable {
 
         }
         List<EmployeeTO> list = new ArrayList<>();
+        return list;
+    }
+    
+    public List<CreateActivityTO> getActivity(int pk) {
+        try {
+            return cAService.getActividad(pk);
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving the list of employees of the project"));
+
+        }
+        List<CreateActivityTO> list = new ArrayList<>();
         return list;
     }
 
@@ -310,12 +336,23 @@ public class ProjectController implements Serializable {
     }
 
     public String getHeaderForProject() {
-        return "Members of Project: " + selectedProject.getName();
+        return "Members of Project: " ;
     }
     
     public void test(){
         System.out.println("\n\n\n\n\n\n Name: " + selectedProject.getName() + "\n\n\n\n\n\n");
         System.out.println("\n\n\n\n\n\n ID: " + selectedProject.getId()+ "\n\n\n\n\n\n");
+    }
+    
+    public void viewProject() throws Exception {
+        
+        Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
+            flash.put("name",selectedProject.getName());
+            flash.put("id",selectedProject.getId());
+
+        this.redirect("/faces/viewProject.xhtml");
+        
+        
     }
 
 }
