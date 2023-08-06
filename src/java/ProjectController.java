@@ -17,8 +17,10 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
+import javax.faces.event.ComponentSystemEvent;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.PrimeFaces;
 
@@ -34,6 +36,15 @@ public class ProjectController implements Serializable {
     private final EmployeeService empService = new EmployeeService();
     private CreateActivityTO selectedCreateActivity = new CreateActivityTO();
     private final CreateActivityService cAService = new CreateActivityService();
+    private int CAId;
+
+    public int getCAId() {
+        return CAId;
+    }
+
+    public void setCAId(int CAId) {
+        this.CAId = CAId;
+    }
 
     public CreateActivityTO getSelectedCreateActivity() {
         return selectedCreateActivity;
@@ -43,7 +54,6 @@ public class ProjectController implements Serializable {
         this.selectedCreateActivity = selectedCreateActivity;
     }
 
-    
     public ProjectXEmployeeTO getSelectedProjectXEmployee() {
         return selectedProjectXEmployee;
     }
@@ -87,10 +97,25 @@ public class ProjectController implements Serializable {
         List<EmployeeTO> list = new ArrayList<>();
         return list;
     }
-    
-    public List<CreateActivityTO> getActivity(int pk) {
+
+    public List<CreateActivityTO> getCActivity() {
         try {
-            return cAService.getActividad(pk);
+            return cAService.getActivity();
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving the list of employees of the project"));
+
+        }
+        List<CreateActivityTO> list = new ArrayList<>();
+        return list;
+    }
+
+    public List<CreateActivityTO> getActivity() {
+        try {
+            /*Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
+            flash.setKeepMessages(true);
+            pullFlash(null);*/
+            return cAService.getActividad(CAId);
         } catch (Exception e) {
             e.printStackTrace();
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving the list of employees of the project"));
@@ -120,6 +145,7 @@ public class ProjectController implements Serializable {
 
     public List<ProjectTO> getProjects() {
         try {
+            CAId = 0;
             return proService.getProjects();
         } catch (Exception e) {
             e.printStackTrace();
@@ -325,6 +351,61 @@ public class ProjectController implements Serializable {
 
     }
 
+    public void saveActivity() throws Exception {
+
+        boolean flag = true;
+
+        if (flag) {
+
+            System.out.println("Saving permit");
+            //Date day = (java.sql.Date) (java.sql.Date) selectedPermit.getDate();
+            CreateActivityTO i = new CreateActivityTO(0, CAId, this.selectedCreateActivity.getName(), this.selectedCreateActivity.getDescription());
+            this.cAService.insert(i);
+            //---this.servicioUsuario.listarUsuarios();
+            //this.listaUsuarios.add(selectedEmployee);//para simular       
+            this.esNuevo = false;
+            this.selectedCreateActivity = new CreateActivityTO();
+            PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
+        }
+
+    }
+
+    public void updateCreateActivity() throws Exception {
+
+        boolean flag = true;
+
+        if (flag) {
+
+            this.cAService.update(selectedCreateActivity, CAId, this.selectedCreateActivity.getName(), this.selectedCreateActivity.getDescription());
+            //---this.servicioUsuario.listarUsuarios();
+            //this.listaUsuarios.add(selectedEmployee);//para simular       
+            this.esNuevo = false;
+            this.selectedCreateActivity = new CreateActivityTO();
+            PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
+        }
+
+    }
+
+    public void deleteCActivity(int pk) throws Exception {
+
+        try {
+
+            cAService.delete(pk);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in suspending the user"));
+
+        }
+
+    }
+
+    public void pullFlash(ComponentSystemEvent e) {
+        Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
+        CAId = (int) flash.get("id");
+        System.out.println(CAId);
+    }
+
     public void addCollaboratorToProject(int employeePK) {
         try {
             System.out.println("\n\n\n\n\n\n\n\n\n\n             -----------------------> NOM:  " + selectedProject.getName() + "  ---  ID: " + selectedProject.getId() + "     EMP: " + employeePK);
@@ -336,23 +417,27 @@ public class ProjectController implements Serializable {
     }
 
     public String getHeaderForProject() {
-        return "Members of Project: " ;
+        return "Members of Project: ";
     }
-    
-    public void test(){
+
+    public void test() {
         System.out.println("\n\n\n\n\n\n Name: " + selectedProject.getName() + "\n\n\n\n\n\n");
-        System.out.println("\n\n\n\n\n\n ID: " + selectedProject.getId()+ "\n\n\n\n\n\n");
+        System.out.println("\n\n\n\n\n\n ID: " + selectedProject.getId() + "\n\n\n\n\n\n");
     }
-    
+
     public void viewProject() throws Exception {
-        
+
         Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
-            flash.put("name",selectedProject.getName());
-            flash.put("id",selectedProject.getId());
+        flash.put("name", selectedProject.getName());
+        flash.put("id", selectedProject.getId());
+
+        CAId = 0;
+
+        pullFlash(null);
+        System.out.println(CAId);
 
         this.redirect("/faces/viewProject.xhtml");
-        
-        
+
     }
 
 }

@@ -5,7 +5,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Projects</title>
     </h:head>
     <h:body>
         <h3>Welcome to HTH,  #{employeeController.firstName}</h3>
@@ -108,7 +108,7 @@
                         <h:outputText value="#{Projects.endingDate}"/>
                     </p:column>
 
-                    <p:column headerText="Editar">
+                    <p:column headerText="Edit">
                         <p:commandButton icon="pi pi-pencil" update=":form:manage-user-content" 
                                          oncomplete="PF('manageUserDialog').show()"
                                          styleClass="edit-button rounded-button ui-button-success" process="@this">
@@ -134,9 +134,9 @@
 
 
                 </p:dataTable>
-                
+
                 <p:dialog  showEffect="fade" modal="true"
-                          widgetVar="buttons" responsive="true">
+                           widgetVar="buttons" responsive="true">
                     <p:outputPanel id="buttons" class="ui-fluid">
 
                         <p:outputPanel>
@@ -144,7 +144,7 @@
                             <p:commandButton icon="pi pi-users" update=":form:manage-members" 
                                              actionListener="#{projectController.viewProject()}"
                                              styleClass="rounded-button ui-button-info" process="@this" >
-                                
+
                                 <p:resetInput target=":form:manage-members"/>
                             </p:commandButton>
 

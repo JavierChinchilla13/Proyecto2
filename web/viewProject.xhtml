@@ -5,10 +5,10 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Project</title>
+        <title>#{flash.name}</title>
     </h:head>
     <h:body>
-        <h3>Project:,  #{flash.name}</h3>
+        <h3>Project:  #{flash.name}</h3>
         <p:growl id="message" showDetail="true"/>
         <h:form id="form">
             <p:growl id="message" showDetail="true"/>
@@ -20,7 +20,7 @@
                     <p:menuitem value="Users" outcome="user" icon="pi pi-fw pi-calendar">
                         <f:param name="i" value="1"/>
                     </p:menuitem>
-                    <p:menuitem value="Projects" outcome="projects" icon="pi pi-fw pi-calendar">
+                    <p:menuitem value="#{flash.name}"  outcome="viewProject" icon="pi pi-fw pi-calendar">
                         <f:param name="i" value="2"/>
                     </p:menuitem>
                     <p:menuitem value="Vacations" outcome="vacations" icon="pi pi-fw pi-calendar">
@@ -39,14 +39,29 @@
 
                 </p:tabMenu>
 
-                <br/>
-                
-                <p:commandButton value="Add person to project" icon="pi pi-plus" update="form" 
+                <p:commandButton value="Add person" icon="pi pi-plus" update="form" 
                                  oncomplete="PF('manageProjectMembersToAddDialog').show()"
-                                 styleClass="ui-button-success" process="@this"
+                                 styleClass="ui-button-success" process="@this" style="margin-right: .5rem"
                                  rendered="#{employeeController.isAdmin || employeeController.isManager}">
                 </p:commandButton>
 
+                <p:commandButton value="Create activity" icon="pi pi-plus" rendered="#{employeeController.isAdmin || employeeController.isManager}"
+                                 actionListener="#{employeeController.openNew}"
+                                 update=":form:create-activity" oncomplete="PF('createActivityToAddDialog').show()"
+                                 styleClass="ui-button-success" style="margin-right: .5rem">
+                    <p:resetInput target=":form:create-activity"/>
+                </p:commandButton>
+
+
+                <br/>
+
+                <br/>
+
+                <p:commandButton value="Return"  actionListener="#{projectController.returnToProjectPage()}"
+
+                                 styleClass="ui-button-success" style="margin-right: .10rem">
+                    <p:resetInput target=":form:manage-user-content"/>
+                </p:commandButton>
 
 
                 <p:dataTable var="EmployeeOfProyect" value="#{projectController.employeesOfProyect}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
@@ -114,22 +129,22 @@
                         </p:outputPanel>
                     </p:outputPanel>
                 </p:dialog>
-                
-                
+
+
                 <p:commandButton value="View Activities" icon="pi pi-eye" 
                                  update=":form:history-all-per-view" oncomplete="PF('AllDocsDialog').show()"
                                  styleClass="ui-button-success" style="margin-right: .5rem">
                     <p:resetInput target=":form:history-all-per-view"/>
                 </p:commandButton>
-                
-                
+
+
                 <p:dialog header="Activities" showEffect="fade" hideEffect="fade" modal="true"
                           widgetVar="AllDocsDialog" responsive="true">
                     <p:outputPanel id="history-all-per-view" class="ui-fluid">
 
-                        <p:dataTable var="Activity" value="#{projectController.getActivity(flash.id)}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
+                        <p:dataTable var="Activity" value="#{projectController.getActivity()}" paginator="true" rows="4" paginatorTemplate="{CurrentPageReport} 
                                      {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                     emptyMessage="No permits">
+                                     emptyMessage="No Activvities">
 
                             <p:column headerText="Name" sortBy="#{Activity.name}" filterBy="#{Activity.name}" filterMatchMode="contains">
                                 <h:outputText value="#{Activity.name}"/>
@@ -139,6 +154,20 @@
                                 <h:outputText value="#{Activity.description}"/>
                             </p:column>
 
+                            <p:column headerText="Edit">
+                                <p:commandButton icon="pi pi-pencil" update=":form:create-activity2" 
+                                                 oncomplete="PF('createActivityToAddDialog2').show()"
+                                                 styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                    <f:setPropertyActionListener value="#{Activity}" target="#{projectController.selectedCreateActivity}"/>
+                                    <p:resetInput target=":form:create-activity2"/>
+                                </p:commandButton>
+                            </p:column>
+                            <p:column headerText="Delete">
+                                <p:commandButton icon="pi pi-times" update="form:history-all-per-view" styleClass="rounded-button ui-button-danger"
+                                                 actionListener="#{projectController.deleteCActivity(Activity.id)}">
+                                </p:commandButton>
+                            </p:column>
+
 
 
                         </p:dataTable>
@@ -146,6 +175,65 @@
                     </p:outputPanel>  
 
                 </p:dialog>
+
+
+                <p:dialog header="Create activity" showEffect="fade" modal="true"
+                          widgetVar="createActivityToAddDialog" responsive="true">
+                    <p:outputPanel id="create-activity" class="ui-fluid">
+
+                        <p:outputPanel>
+
+                            <div class="p-field">
+                                <p:outputLabel for="name">Name</p:outputLabel>
+                                <p:inputText id="name" value="#{projectController.selectedCreateActivity.name}"/>
+                            </div>
+                            <div class="p-field">
+                                <p:outputLabel for="description">Description</p:outputLabel>
+                                <p:inputText id="description" value="#{projectController.selectedCreateActivity.description}"/>
+                            </div>
+
+                        </p:outputPanel>
+
+                    </p:outputPanel>
+                    <f:facet name="footer">
+                        <p:commandButton value="Creste" icon="pi pi-check"  actionListener="#{projectController.saveActivity()}" 
+                                         update="form create-activity" process="create-activity @this"/>
+
+
+                    </f:facet>
+
+                </p:dialog>
+
+
+                <p:dialog header="Create activity" showEffect="fade" modal="true"
+                          widgetVar="createActivityToAddDialog2" responsive="true">
+                    <p:outputPanel id="create-activity2" class="ui-fluid">
+
+                        <p:outputPanel>
+
+                            <div class="p-field">
+                                <p:outputLabel for="name2">Name</p:outputLabel>
+                                <p:inputText id="name2" value="#{projectController.selectedCreateActivity.name}"/>
+                            </div>
+                            <div class="p-field">
+                                <p:outputLabel for="description2">Description</p:outputLabel>
+                                <p:inputText id="description2" value="#{projectController.selectedCreateActivity.description}"/>
+                            </div>
+
+                        </p:outputPanel>
+
+                    </p:outputPanel>
+                    <f:facet name="footer">
+                        <p:commandButton value="Update" icon="pi pi-check"  actionListener="#{projectController.updateCreateActivity()}" 
+                                         update="form create-activity2" process="create-activity2 @this"/>
+
+
+                    </f:facet>
+
+                </p:dialog>
+
+
+
 
             </div>          
         </h:form>
