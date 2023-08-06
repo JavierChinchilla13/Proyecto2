@@ -354,6 +354,12 @@ public class ProjectController implements Serializable {
     public void saveActivity() throws Exception {
 
         boolean flag = true;
+        
+        if (this.selectedCreateActivity.getName() == null || this.selectedCreateActivity.getName().equals("")) {
+            //ERROR
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "FeedBack is Empty"));
+            flag = false;
+        }
 
         if (flag) {
 
@@ -373,6 +379,12 @@ public class ProjectController implements Serializable {
     public void updateCreateActivity() throws Exception {
 
         boolean flag = true;
+        
+        if (this.selectedCreateActivity.getName() == null || this.selectedCreateActivity.getName().equals("")) {
+            //ERROR
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "FeedBack is Empty"));
+            flag = false;
+        }
 
         if (flag) {
 
@@ -409,7 +421,7 @@ public class ProjectController implements Serializable {
     public void addCollaboratorToProject(int employeePK) {
         try {
             System.out.println("\n\n\n\n\n\n\n\n\n\n             -----------------------> NOM:  " + selectedProject.getName() + "  ---  ID: " + selectedProject.getId() + "     EMP: " + employeePK);
-            proService.addCollaborator(selectedProject.getId(), employeePK);
+            proService.addCollaborator(CAId, employeePK);
         } catch (Exception e) {
             e.printStackTrace();
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in addingPersonToProject"));
