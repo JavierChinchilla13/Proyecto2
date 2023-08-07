@@ -80,6 +80,15 @@
                         <h:outputText value="#{employeeController.typeToStrType(EmployeeOfProyect.type)}"/>
                     </p:column>  
 
+                    <p:column headerText="Activity Options" rendered="#{employeeController.isAdmin || employeeController.isManager}" >
+
+                        <p:commandButton icon="pi pi-eye" update="form:activity-options" styleClass="rounded-button ui-button-info"
+                                         oncomplete="PF('activityOptionsDialog').show()" process="@this">
+                            <p:resetInput target=":form:buttons"/>
+
+                        </p:commandButton>
+                    </p:column>   
+
                     <p:column headerText="Remove" rendered="#{employeeController.isAdmin || employeeController.isManager}" >
                         <p:commandButton icon="pi pi-times" update="form" styleClass="rounded-button ui-button-danger">
 
@@ -229,6 +238,39 @@
 
 
                     </f:facet>
+
+                </p:dialog>
+
+
+                <p:dialog  showEffect="fade" modal="true" header="Activity Options" 
+                           widgetVar="activityOptionsDialog" responsive="true">
+                    <p:outputPanel id="activity-options" class="ui-fluid">
+
+                        <p:outputPanel>
+
+
+
+
+                            <p:panelGrid columns="1">
+                                <p:commandButton value="Add Activity" icon="pi pi-save" update=":form:activity-options" 
+                                                 oncomplete="PF('').show()"
+                                                 styleClass="ui-button-success" process="@this"
+                                                 rendered="#{employeeController.isAdmin || employeeController.isManager}">
+                                </p:commandButton>
+                                <p:commandButton value="Remove Activity" icon="pi pi-times" update=":form:activity-options" 
+                                                 oncomplete="PF('').show()"
+                                                 styleClass="ui-button-success" process="@this"
+                                                 rendered="#{employeeController.isAdmin || employeeController.isManager}">
+                                </p:commandButton>
+                            </p:panelGrid>
+
+
+
+
+                        </p:outputPanel>
+
+                    </p:outputPanel>
+
 
                 </p:dialog>
 
