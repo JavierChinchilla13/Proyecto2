@@ -474,4 +474,45 @@ public class ProjectController implements Serializable {
     public String getActivityName(int pk) throws Exception{
         return actService.getActivityName(pk);
     }
+    
+    public List<ProjectXEmployeeTO> getFeedbackFrom() throws Exception{
+         try {
+             
+             System.out.println(selectedEmployee.getId());
+            return pXEService.getSearchPXE(CAId, selectedEmployee.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving the list of employees of the project"));
+
+        }
+        List<ProjectXEmployeeTO> list = new ArrayList<>();
+        return list;
+    }
+    
+    public void updateFeedback() throws Exception {
+
+        boolean flag = true;
+        
+        if (this.selectedProjectXEmployee.getFeedBack() == null || this.selectedProjectXEmployee.getFeedBack().equals("")) {
+            //ERROR
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "FeedBack is Empty"));
+            flag = false;
+        }
+
+        if (flag) {
+
+            this.pXEService.update(selectedProjectXEmployee, this.selectedProjectXEmployee.getIdProject(), this.selectedProjectXEmployee.getIdEmployee(), this.selectedProjectXEmployee.getHoursInvested(), this.selectedProjectXEmployee.getFeedBack());
+            //---this.servicioUsuario.listarUsuarios();
+            //this.listaUsuarios.add(selectedEmployee);//para simular       
+            this.esNuevo = false;
+            this.selectedCreateActivity = new CreateActivityTO();
+            PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
+        }
+
+    }
+    
+    
+    
+    
+    
 }

@@ -87,6 +87,13 @@
                             <f:setPropertyActionListener value="#{EmployeeOfProyect}" target="#{projectController.selectedEmployee}"/>
                         </p:commandButton>
                     </p:column>   
+                    
+                    <p:column headerText="Feedback" >
+                        <p:commandButton icon="pi pi-eye" update="form:feedback-options" styleClass="rounded-button ui-button-info"
+                                         oncomplete="PF('feedbackOptionsDialog').show()" process="@this">
+                            <f:setPropertyActionListener value="#{EmployeeOfProyect}" target="#{projectController.selectedEmployee}"/>
+                        </p:commandButton>
+                    </p:column>  
 
                     <p:column headerText="Remove" rendered="#{employeeController.isAdmin || employeeController.isManager}" >
                         <p:commandButton icon="pi pi-times" update="form" styleClass="rounded-button ui-button-danger">
@@ -274,6 +281,68 @@
 
                     </p:outputPanel>
 
+
+                </p:dialog>
+                
+                
+                <p:dialog  showEffect="fade" modal="true" header="Feedback" 
+                           widgetVar="feedbackOptionsDialog" responsive="true">
+                    <p:outputPanel id="feedback-options" class="ui-fluid">
+
+                        <p:outputPanel>
+
+                            
+
+                            <p:dataTable var="Feedback" value="#{projectController.feedbackFrom}" paginator="true" rows="4" paginatorTemplate="{CurrentPageReport} 
+                                         {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         emptyMessage="No Feedback">
+
+                                <p:column headerText="Feedback" sortBy="#{Feedback.feedBack}" filterBy="#{Feedback.feedBack}" filterMatchMode="contains">
+                                    <h:outputText value="#{Feedback.feedBack}"/>
+                                </p:column>
+
+                                <p:column headerText="Edit">
+                                    <p:commandButton icon="pi pi-pencil" update=":form:manage-user-content" 
+                                                     oncomplete="PF('manageUserDialog').show()"
+                                                     styleClass="edit-button rounded-button ui-button-success" process="@this"
+                                                     rendered="#{employeeController.isAdmin || employeeController.isManager}">
+                                        <f:setPropertyActionListener value="#{Feedback}" target="#{projectController.selectedProjectXEmployee}"/>
+                                        <p:resetInput target=":form:manage-user-content"/>
+                                    </p:commandButton>
+                                </p:column>
+
+
+                            </p:dataTable>
+
+                        </p:outputPanel>
+
+                    </p:outputPanel>
+
+
+                </p:dialog>
+                
+                
+                <p:dialog header="User detail" showEffect="fade" modal="true"
+                          widgetVar="manageUserDialog" responsive="true">
+                    <p:outputPanel id="manage-user-content" class="ui-fluid">
+
+                        <p:outputPanel>
+                            <div class="p-field">
+                                <p:outputLabel for="feedback">Feedback</p:outputLabel>
+                                <p:inputText id="feedback" value="#{projectController.selectedProjectXEmployee.feedBack}"/>
+                            </div>
+
+                        </p:outputPanel>
+
+
+                    </p:outputPanel>
+                    <f:facet name="footer">
+                        
+                        <p:commandButton value="Save" icon="pi pi-check"   actionListener="#{projectController.updateFeedback()}"
+                                         update="form manage-user-content" process="manage-user-content @this"/>
+
+
+                    </f:facet>
 
                 </p:dialog>
 
