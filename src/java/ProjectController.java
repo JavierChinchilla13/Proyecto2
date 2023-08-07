@@ -420,7 +420,6 @@ public class ProjectController implements Serializable {
 
     public void addCollaboratorToProject(int employeePK) {
         try {
-            System.out.println("\n\n\n\n\n\n\n\n\n\n             -----------------------> NOM:  " + selectedProject.getName() + "  ---  ID: " + selectedProject.getId() + "     EMP: " + employeePK);
             proService.addCollaborator(CAId, employeePK);
         } catch (Exception e) {
             e.printStackTrace();

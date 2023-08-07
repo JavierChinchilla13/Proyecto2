@@ -117,8 +117,8 @@
                         </p:commandButton>
                     </p:column>
 
-                    <p:column headerText="Members">
-                        <p:commandButton icon="pi pi-users" update=":form:buttons" 
+                    <p:column headerText="Options">
+                        <p:commandButton icon="pi pi-eye" update=":form:buttons" 
                                          oncomplete="PF('buttons').show()"
                                          styleClass="rounded-button ui-button-info" process="@this">
                             <f:setPropertyActionListener value="#{Projects}" target="#{projectController.selectedProject}"/>
@@ -135,13 +135,14 @@
 
                 </p:dataTable>
 
-                <p:dialog  showEffect="fade" modal="true"
+                <p:dialog  showEffect="fade" modal="true" header="Options" 
                            widgetVar="buttons" responsive="true">
                     <p:outputPanel id="buttons" class="ui-fluid">
 
                         <p:outputPanel>
 
                             <p:commandButton icon="pi pi-users" update=":form:manage-members" 
+                                             value="Members"
                                              actionListener="#{projectController.viewProject()}"
                                              styleClass="rounded-button ui-button-info" process="@this" >
 
