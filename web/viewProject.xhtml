@@ -251,8 +251,8 @@
                                          {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                          emptyMessage="No Activvities">
 
-                                <p:column headerText="Name" sortBy="#{Activity.id}" filterBy="#{Activity.name}" filterMatchMode="contains">
-                                    <h:outputText value="#{Activity.name}"/>
+                                <p:column headerText="Name" sortBy="#{projectController.getActivityName(Activity.id)}" filterBy="#{projectController.getActivityName(Activity.id)}" filterMatchMode="contains">
+                                    <h:outputText value="#{projectController.getActivityName(Activity.id)}"/>
                                 </p:column>
 
                                 <p:column headerText="Horas" sortBy="#{Activity.hours}" filterBy="#{Activity.hours}" filterMatchMode="contains">

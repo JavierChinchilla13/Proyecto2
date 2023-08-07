@@ -470,4 +470,8 @@ public class ProjectController implements Serializable {
         List<ActivityTO> list = new ArrayList<>();
         return list;
     }
+    
+    public String getActivityName(int pk) throws Exception{
+        return actService.getActivityName(pk);
+    }
 }
