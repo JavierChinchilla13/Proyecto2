@@ -1,4 +1,6 @@
 
+import com.mycompany.edu.ulatina.hth_db_connetion.ActivityService;
+import com.mycompany.edu.ulatina.hth_db_connetion.ActivityTO;
 import com.mycompany.edu.ulatina.hth_db_connetion.CreateActivityService;
 import com.mycompany.edu.ulatina.hth_db_connetion.CreateActivityTO;
 import com.mycompany.edu.ulatina.hth_db_connetion.EmployeeService;
@@ -36,6 +38,9 @@ public class ProjectController implements Serializable {
     private final EmployeeService empService = new EmployeeService();
     private CreateActivityTO selectedCreateActivity = new CreateActivityTO();
     private final CreateActivityService cAService = new CreateActivityService();
+    private final ActivityService actService = new ActivityService();
+    
+    private EmployeeTO selectedEmployee = new EmployeeTO();
     private int CAId;
 
     public int getCAId() {
@@ -48,6 +53,14 @@ public class ProjectController implements Serializable {
 
     public CreateActivityTO getSelectedCreateActivity() {
         return selectedCreateActivity;
+    }
+
+    public EmployeeTO getSelectedEmployee() {
+        return selectedEmployee;
+    }
+    
+    public void setSelectedEmployee(EmployeeTO emp){
+        this.selectedEmployee = emp;
     }
 
     public void setSelectedCreateActivity(CreateActivityTO selectedCreateActivity) {
@@ -431,11 +444,6 @@ public class ProjectController implements Serializable {
         return "Members of Project: ";
     }
 
-    public void test() {
-        System.out.println("\n\n\n\n\n\n Name: " + selectedProject.getName() + "\n\n\n\n\n\n");
-        System.out.println("\n\n\n\n\n\n ID: " + selectedProject.getId() + "\n\n\n\n\n\n");
-    }
-
     public void viewProject() throws Exception {
 
         Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
@@ -451,4 +459,15 @@ public class ProjectController implements Serializable {
 
     }
 
+    public List<ActivityTO> getActivitiesFrom() throws Exception{
+         try {
+            return actService.getSearchActivity(selectedEmployee.getId() , CAId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving the list of employees of the project"));
+
+        }
+        List<ActivityTO> list = new ArrayList<>();
+        return list;
+    }
 }

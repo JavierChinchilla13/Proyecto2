@@ -80,12 +80,11 @@
                         <h:outputText value="#{employeeController.typeToStrType(EmployeeOfProyect.type)}"/>
                     </p:column>  
 
-                    <p:column headerText="Activity Options" rendered="#{employeeController.isAdmin || employeeController.isManager}" >
+                    <p:column headerText="Activities" rendered="#{employeeController.isAdmin || employeeController.isManager}" >
 
                         <p:commandButton icon="pi pi-eye" update="form:activity-options" styleClass="rounded-button ui-button-info"
                                          oncomplete="PF('activityOptionsDialog').show()" process="@this">
-                            <p:resetInput target=":form:buttons"/>
-
+                            <f:setPropertyActionListener value="#{EmployeeOfProyect}" target="#{projectController.selectedEmployee}"/>
                         </p:commandButton>
                     </p:column>   
 
@@ -242,30 +241,34 @@
                 </p:dialog>
 
 
-                <p:dialog  showEffect="fade" modal="true" header="Activity Options" 
+                <p:dialog  showEffect="fade" modal="true" header="Activities" 
                            widgetVar="activityOptionsDialog" responsive="true">
                     <p:outputPanel id="activity-options" class="ui-fluid">
 
                         <p:outputPanel>
+                            
+                            <p:dataTable var="Activity" value="#{projectController.activitiesFrom}" paginator="true" rows="4" paginatorTemplate="{CurrentPageReport} 
+                                         {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         emptyMessage="No Activvities">
 
+                                <p:column headerText="Name" sortBy="#{Activity.id}" filterBy="#{Activity.name}" filterMatchMode="contains">
+                                    <h:outputText value="#{Activity.name}"/>
+                                </p:column>
 
+                                <p:column headerText="Horas" sortBy="#{Activity.hours}" filterBy="#{Activity.hours}" filterMatchMode="contains">
+                                    <h:outputText value="#{Activity.hours}"/>
+                                </p:column>
+                                
+                            </p:dataTable>
 
-
-                            <p:panelGrid columns="1">
-                                <p:commandButton value="Add Activity" icon="pi pi-save" update=":form:activity-options" 
-                                                 oncomplete="PF('').show()"
-                                                 styleClass="ui-button-success" process="@this"
-                                                 rendered="#{employeeController.isAdmin || employeeController.isManager}">
-                                </p:commandButton>
-                                <p:commandButton value="Remove Activity" icon="pi pi-times" update=":form:activity-options" 
-                                                 oncomplete="PF('').show()"
-                                                 styleClass="ui-button-success" process="@this"
-                                                 rendered="#{employeeController.isAdmin || employeeController.isManager}">
-                                </p:commandButton>
-                            </p:panelGrid>
-
-
-
+                            <p:commandButton value="Asign Activity" icon="pi pi-save" update=":form:activity-options" 
+                                             styleClass="ui-button-success" process="@this"
+                                             rendered="#{employeeController.isAdmin || employeeController.isManager}">
+                            </p:commandButton>
+                            <p:commandButton value="Remove Activity" icon="pi pi-times" update=":form:activity-options" 
+                                             styleClass="ui-button-success" process="@this"
+                                             rendered="#{employeeController.isAdmin || employeeController.isManager}">
+                            </p:commandButton>
 
                         </p:outputPanel>
 
