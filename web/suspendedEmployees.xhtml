@@ -38,6 +38,11 @@
 
                 </p:tabMenu>
 
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
+                </p:confirmDialog>
+
                 <p:commandButton value="Return" icon="pi pi-arrow-down-left" actionListener="#{employeeController.returnUser()}"
 
                                  styleClass="ui-button-success" style="margin-right: .10rem">
@@ -133,16 +138,18 @@
                                 <p:outputLabel for="employmentDate">Employment Date</p:outputLabel>
                                 <p:calendar id="employmentDate" value="#{employeeController.employment}"/>
                             </div>
-                            
+
                         </p:outputPanel>
 
                     </p:outputPanel>
                     <f:facet name="footer">
-                        
-                        <p:commandButton value="Rehire" icon="pi pi-check"   actionListener="#{employeeController.rehire(employeeController.selectedEmployee.id)}" 
-                                         update="form manage-user-content" process="manage-user-content @this"/>
 
-                        
+                        <p:commandButton value="Rehire" icon="pi pi-check"   actionListener="#{employeeController.rehire(employeeController.selectedEmployee.id)}" 
+                                         update="form manage-user-content" process="manage-user-content @this">
+                            <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
+
+
                     </f:facet>
 
                 </p:dialog>

@@ -8,9 +8,9 @@
         <title>Vacations Page</title>
     </h:head>
     <h:body>
-        
+
         <h3>Page to see the information about your Vacations</h3>
-        
+
         <h:form id="form">
             <p:growl id="message" showDetail="true"/>
             <div class="card">
@@ -35,25 +35,30 @@
                     <p:menuitem value="Documents" outcome="documents" icon="pi pi-fw pi-file">
                         <f:param name="i" value="5"/>
                     </p:menuitem>
-                      <p:menuitem value="Log Out" icon="pi pi-sign-out"  actionListener="#{employeeController.logOut()}">
+                    <p:menuitem value="Log Out" icon="pi pi-sign-out"  actionListener="#{employeeController.logOut()}">
                         <f:param name="i" value="6"/>
                     </p:menuitem>
 
                 </p:tabMenu>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
+                </p:confirmDialog>
 
                 <p:commandButton value="Ask for Vacations" icon="pi pi-plus" actionListener="#{vacationController.openNew()}"
                                  update=":form:manage-user-content" oncomplete="PF('manageUserDialog').show()"
                                  styleClass="ui-button-success" style="margin-right: .5rem; margin-top: .5rem">
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
-                
+
                 <p:commandButton value="Review Vacation Request" icon="pi pi-check" rendered="#{employeeController.isAdmin}" actionListener="#{vacationController.reviewVacationRequest()}"
                                  styleClass="ui-button-success" style="margin-right: .10rem">
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
 
                 <h3>You have #{ vacationController.getVacationDaysOff(employeeController.id) + vacationController.getVacationDaysOfEmployee(employeeController.id)} vacation days left </h3>
-                
+
                 <p:dialog header="Vacation detail" showEffect="fade" modal="true"
                           widgetVar="manageUserDialog" responsive="true">
                     <p:outputPanel id="manage-user-content" class="ui-fluid">
@@ -72,7 +77,9 @@
 
                     <f:facet name="footer">
                         <p:commandButton value="Request Vacation" icon="pi pi-check" actionListener="#{vacationController.saveSchedueleVacation(employeeController.id)}"
-                                         update="form manage-user-content" process="manage-user-content @this"/>
+                                         update="form manage-user-content" process="manage-user-content @this">
+                            <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
                     </f:facet>
                 </p:dialog>
 
@@ -95,10 +102,11 @@
                     <p:column headerText="Description" sortBy="#{vacations.description}" filterBy="#{vacations.description}" filterMatchMode="contains">
                         <h:outputText value="#{vacations.description}"/>
                     </p:column>
-                    
+
                     <p:column headerText="Delete">
                         <p:commandButton icon="pi pi-times" update="form" styleClass="rounded-button ui-button-danger"
                                          actionListener="#{vacationController.deleteScheduleVacation(vacations.id)}">
+                            <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
                     </p:column>
 
@@ -139,7 +147,7 @@
 
                     </p:outputPanel>  
 
-                    
+
 
                 </p:dialog>
 

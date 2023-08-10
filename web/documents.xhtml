@@ -40,7 +40,10 @@
                 </p:tabMenu>
 
 
-
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
+                </p:confirmDialog>
 
                 <p:growl id="messages" showDetail="true"/>
 
@@ -72,6 +75,7 @@
                     <p:column headerText="Delete">
                         <p:commandButton value="Delete" icon="pi pi-trash" update="form" actionListener="#{employeeController.deleteDocument(Document.id)}" 
                                          styleClass="rounded-button ui-button-danger">
+                            <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
                     </p:column>
                 </p:dataTable>
@@ -141,7 +145,7 @@
                             <p:column headerText="Name" sortBy="#{Document.name}" filterBy="#{Document.name}" filterMatchMode="contains">
                                 <h:outputText value="#{Document.name}"/>
                             </p:column>
-                            
+
                             <p:column headerText="Download">
                                 <p:commandButton value="Download" icon="pi pi-arrow-down" styleClass="rounded-button" 
                                                  actionListener="#{employeeController.prepareFileSC(Document.id)}">

@@ -8,7 +8,7 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        
+
         <h3>Welcome to HTH,  #{employeeController.firstName}</h3>
         <p:growl id="message" showDetail="true"/>
         <h:form id="form">
@@ -34,26 +34,30 @@
                     <p:menuitem value="Documents" outcome="documents" icon="pi pi-fw pi-file">
                         <f:param name="i" value="5"/>
                     </p:menuitem>
-                      <p:menuitem value="Log Out" icon="pi pi-sign-out"  actionListener="#{employeeController.logOut()}">
+                    <p:menuitem value="Log Out" icon="pi pi-sign-out"  actionListener="#{employeeController.logOut()}">
                         <f:param name="i" value="6"/>
                     </p:menuitem>
-                                   
+
                 </p:tabMenu>
-                
-                
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
+                </p:confirmDialog>
+
                 <p:commandButton value="Request permit" icon="pi pi-plus" actionListener="#{permitController.openNew}"
                                  update=":form:manage-user-content" oncomplete="PF('manageUserDialog').show()"
                                  styleClass="ui-button-success" style="margin-right: .5rem">
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
-                
+
                 <p:commandButton value="Review permits" icon="pi pi-check" rendered="#{employeeController.isAdmin}" actionListener="#{permitController.reiviewPermit}"
-                                 
+
                                  styleClass="ui-button-success" style="margin-right: .10rem">
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
-                
-                 
+
+
                 <p:dataTable var="Permit" value="#{permitController.getNewPermits(employeeController.id)}"  paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                              {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados">
@@ -78,13 +82,14 @@
                     <p:column headerText="Delete">
                         <p:commandButton icon="pi pi-times" update="form" styleClass="rounded-button ui-button-danger"
                                          actionListener="#{permitController.deletePermit(Permit.id)}">
+                            <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
                     </p:column>
 
 
                 </p:dataTable>
 
-                
+
 
                 <p:dialog header="Permit" showEffect="fade" modal="true"
                           widgetVar="manageUserDialog" responsive="true">
@@ -95,7 +100,7 @@
                             <div class="field col-12 md:col-4">
                                 <p:outputLabel for="date" value="Date"/>
                                 <p:calendar id="date" value="#{permitController.calendarFireDate}"/>
-                                
+
                             </div>
                             <div class="p-field">
                                 <p:outputLabel for="description">Description</p:outputLabel>
@@ -106,7 +111,9 @@
                     </p:outputPanel>
                     <f:facet name="footer">
                         <p:commandButton value="Request" icon="pi pi-check"   actionListener="#{permitController.savePermit(employeeController.id)}"
-                                         update="form manage-user-content" process="manage-user-content @this"/>
+                                         update="form manage-user-content" process="manage-user-content @this">
+                            <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
 
                     </f:facet>
 
@@ -151,7 +158,7 @@
 
                 </p:dialog>
 
-                
+
             </div>         
         </h:form>
     </h:body>

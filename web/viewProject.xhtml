@@ -39,6 +39,11 @@
 
                 </p:tabMenu>
 
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
+                </p:confirmDialog>
+
                 <p:commandButton value="Add person" icon="pi pi-plus" update="form" 
                                  oncomplete="PF('manageProjectMembersToAddDialog').show()"
                                  styleClass="ui-button-success" process="@this" style="margin-right: .5rem"
@@ -87,7 +92,7 @@
                             <f:setPropertyActionListener value="#{EmployeeOfProyect}" target="#{projectController.selectedEmployee}"/>
                         </p:commandButton>
                     </p:column>   
-                    
+
                     <p:column headerText="Feedback" >
                         <p:commandButton icon="pi pi-eye" update="form:feedback-options" styleClass="rounded-button ui-button-info"
                                          oncomplete="PF('feedbackOptionsDialog').show()" process="@this">
@@ -180,6 +185,7 @@
                             <p:column headerText="Delete">
                                 <p:commandButton icon="pi pi-times" update="form:history-all-per-view" styleClass="rounded-button ui-button-danger"
                                                  actionListener="#{projectController.deleteCActivity(Activity.id)}">
+                                    <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
                                 </p:commandButton>
                             </p:column>
 
@@ -212,7 +218,9 @@
                     </p:outputPanel>
                     <f:facet name="footer">
                         <p:commandButton value="Creste" icon="pi pi-check"  actionListener="#{projectController.saveActivity()}" 
-                                         update="form create-activity" process="create-activity @this"/>
+                                         update="form create-activity" process="create-activity @this">
+                            <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
 
 
                     </f:facet>
@@ -240,7 +248,9 @@
                     </p:outputPanel>
                     <f:facet name="footer">
                         <p:commandButton value="Update" icon="pi pi-check"  actionListener="#{projectController.updateCreateActivity()}" 
-                                         update="form create-activity2" process="create-activity2 @this"/>
+                                         update="form create-activity2" process="create-activity2 @this">
+                            <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
 
 
                     </f:facet>
@@ -253,7 +263,7 @@
                     <p:outputPanel id="activity-options" class="ui-fluid">
 
                         <p:outputPanel>
-                            
+
                             <p:dataTable var="Activity" value="#{projectController.activitiesFrom}" paginator="true" rows="4" paginatorTemplate="{CurrentPageReport} 
                                          {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                          emptyMessage="No Activvities">
@@ -265,16 +275,18 @@
                                 <p:column headerText="Horas" sortBy="#{Activity.hours}" filterBy="#{Activity.hours}" filterMatchMode="contains">
                                     <h:outputText value="#{Activity.hours}"/>
                                 </p:column>
-                                
+
                             </p:dataTable>
 
                             <p:commandButton value="Asign Activity" icon="pi pi-save" update=":form:activity-options" 
                                              styleClass="ui-button-success" process="@this"
                                              rendered="#{employeeController.isAdmin || employeeController.isManager}">
+                                <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
                             </p:commandButton>
                             <p:commandButton value="Remove Activity" icon="pi pi-times" update=":form:activity-options" 
                                              styleClass="ui-button-success" process="@this"
                                              rendered="#{employeeController.isAdmin || employeeController.isManager}">
+                                <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
                             </p:commandButton>
 
                         </p:outputPanel>
@@ -283,15 +295,15 @@
 
 
                 </p:dialog>
-                
-                
+
+
                 <p:dialog  showEffect="fade" modal="true" header="Feedback" 
                            widgetVar="feedbackOptionsDialog" responsive="true">
                     <p:outputPanel id="feedback-options" class="ui-fluid">
 
                         <p:outputPanel>
 
-                            
+
 
                             <p:dataTable var="Feedback" value="#{projectController.feedbackFrom}" paginator="true" rows="4" paginatorTemplate="{CurrentPageReport} 
                                          {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -320,8 +332,8 @@
 
 
                 </p:dialog>
-                
-                
+
+
                 <p:dialog header="User detail" showEffect="fade" modal="true"
                           widgetVar="manageUserDialog" responsive="true">
                     <p:outputPanel id="manage-user-content" class="ui-fluid">
@@ -337,9 +349,11 @@
 
                     </p:outputPanel>
                     <f:facet name="footer">
-                        
+
                         <p:commandButton value="Save" icon="pi pi-check"   actionListener="#{projectController.updateFeedback()}"
-                                         update="form manage-user-content" process="manage-user-content @this"/>
+                                         update="form manage-user-content" process="manage-user-content @this">
+                            <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
 
 
                     </f:facet>
