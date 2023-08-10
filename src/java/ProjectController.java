@@ -5,6 +5,8 @@ import com.mycompany.edu.ulatina.hth_db_connetion.CreateActivityService;
 import com.mycompany.edu.ulatina.hth_db_connetion.CreateActivityTO;
 import com.mycompany.edu.ulatina.hth_db_connetion.EmployeeService;
 import com.mycompany.edu.ulatina.hth_db_connetion.EmployeeTO;
+import com.mycompany.edu.ulatina.hth_db_connetion.FeedbackService;
+import com.mycompany.edu.ulatina.hth_db_connetion.FeedbackTO;
 import com.mycompany.edu.ulatina.hth_db_connetion.PermitTO;
 import com.mycompany.edu.ulatina.hth_db_connetion.ProjectService;
 import com.mycompany.edu.ulatina.hth_db_connetion.ProjectTO;
@@ -39,9 +41,20 @@ public class ProjectController implements Serializable {
     private CreateActivityTO selectedCreateActivity = new CreateActivityTO();
     private final CreateActivityService cAService = new CreateActivityService();
     private final ActivityService actService = new ActivityService();
+    private FeedbackTO selectedFeedback = new FeedbackTO();
+    private final FeedbackService fService = new FeedbackService();
     
     private EmployeeTO selectedEmployee = new EmployeeTO();
     private int CAId;
+    
+    
+    public FeedbackTO getSelectedFeedback() {
+        return selectedFeedback;
+    }
+
+    public void setSelectedFeedback(FeedbackTO selectedFeedback) {
+        this.selectedFeedback = selectedFeedback;
+    }
 
     public int getCAId() {
         return CAId;
@@ -341,7 +354,7 @@ public class ProjectController implements Serializable {
         this.redirect("/faces/projects.xhtml");
 
     }
-
+    /*
     public void saveFeedBack() throws Exception {
 
         boolean flag = true;
@@ -362,7 +375,7 @@ public class ProjectController implements Serializable {
 
         }
 
-    }
+    }*/
 
     public void saveActivity() throws Exception {
 
@@ -475,7 +488,21 @@ public class ProjectController implements Serializable {
         return actService.getActivityName(pk);
     }
     
-    public List<ProjectXEmployeeTO> getFeedbackFrom() throws Exception{
+    public List<FeedbackTO> getFeedbackFrom() throws Exception{
+         try {
+             
+            // System.out.println(selectedEmployee.getId());
+            return fService.getFeedback(selectedEmployee.getId(), CAId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving the list of employees of the project"));
+
+        }
+        List<FeedbackTO> list = new ArrayList<>();
+        return list;
+    }
+    
+    /*public List<ProjectXEmployeeTO> getFeedbackFrom() throws Exception{
          try {
              
              System.out.println(selectedEmployee.getId());
@@ -509,7 +536,7 @@ public class ProjectController implements Serializable {
             PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
         }
 
-    }
+    }*/
     
     
     

@@ -52,45 +52,9 @@
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
 
-                <p:commandButton value="Add FeedBack" icon="pi pi-plus" actionListener="#{projectController.openNewPXE()}" rendered="#{employeeController.isAdmin}"
-                                 update=":form:add-FeedBack" oncomplete="PF('addFeedback').show()"
-                                 styleClass="ui-button-success" style="margin-right: .5rem; margin-top: .5rem">
-                    <p:resetInput target=":form:add-FeedBack"/>
-                </p:commandButton>
+                
 
-                <p:commandButton value="Review FeedBack" icon="pi pi-check" actionListener="#{projectController.reviewProjectFeedBack()}"
-                                 styleClass="ui-button-success" style="margin-right: .10rem">
-                    <p:resetInput target=":form:manage-user-content"/>
-                </p:commandButton>
-
-                <p:dialog header="Add FeedBack" showEffect="fade" modal="true"
-                          widgetVar="addFeedback" responsive="true">
-                    <p:outputPanel id="add-FeedBack" class="ui-fluid">
-
-                        <div class="p-field">
-                            <p:outputLabel for="projectId">Project Id</p:outputLabel>
-                            <p:inputText id="projectId" value="#{projectController.selectedProject.id}"/>
-                        </div>
-
-                        <div class="p-field">
-                            <p:outputLabel for="employeeId">Employee Id</p:outputLabel>
-                            <p:inputText id="employeeId" value="#{projectController.selectedProjectXEmployee.idEmployee}"/>
-                        </div>
-
-                        <div class="p-field">
-                            <p:outputLabel for="feedBack">FeedBack</p:outputLabel>
-                            <p:inputText id="feedBack" value="#{projectController.selectedProjectXEmployee.feedBack}"/>
-                        </div>
-
-                    </p:outputPanel>
-
-                    <f:facet name="footer">
-                        <p:commandButton value="Add FeedBack" icon="pi pi-check" actionListener="#{projectController.saveFeedBack()}"
-                                         update="form add-FeedBack" process="add-FeedBack @this">
-                            <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
-                        </p:commandButton>
-                    </f:facet>
-                </p:dialog>
+                
 
 
                 <p:dataTable var="Projects" value="#{projectController.projects}" rendered="#{employeeController.isAdmin || employeeController.isManager}"  paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 

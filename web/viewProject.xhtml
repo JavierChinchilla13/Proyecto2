@@ -303,25 +303,28 @@
 
                         <p:outputPanel>
 
-
+                            
 
                             <p:dataTable var="Feedback" value="#{projectController.feedbackFrom}" paginator="true" rows="4" paginatorTemplate="{CurrentPageReport} 
                                          {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                          emptyMessage="No Feedback">
 
-                                <p:column headerText="Feedback" sortBy="#{Feedback.feedBack}" filterBy="#{Feedback.feedBack}" filterMatchMode="contains">
-                                    <h:outputText value="#{Feedback.feedBack}"/>
+                                <p:column headerText="Name" sortBy="#{Feedback.name}" filterBy="#{Feedback.name}" filterMatchMode="contains">
+                                    <h:outputText value="#{Feedback.name}"/>
                                 </p:column>
+                                
+                                <p:column headerText="Name" sortBy="#{Feedback.description}" filterBy="#{Feedback.description}" filterMatchMode="contains">
+                                    <h:outputText value="#{Feedback.description}"/>
+                                </p:column>
+                                <p:column headerText="Name" sortBy="#{Feedback.dateOfFeedback}" filterBy="#{Feedback.dateOfFeedback}" filterMatchMode="contains">
+                                    <h:outputText value="#{Feedback.dateOfFeedback}"/>
+                                </p:column>
+                                <p:column headerText="Name" sortBy="#{employeeController.idToStrStatus(Feedback.idCreator)}" filterBy="#{employeeController.idToStrStatus(Feedback.idCreator)}" filterMatchMode="contains">
+                                    <h:outputText value="#{employeeController.idToStrStatus(Feedback.idCreator)}"/>
+                                </p:column>
+                               
 
-                                <p:column headerText="Edit">
-                                    <p:commandButton icon="pi pi-pencil" update=":form:manage-user-content" 
-                                                     oncomplete="PF('manageUserDialog').show()"
-                                                     styleClass="edit-button rounded-button ui-button-success" process="@this"
-                                                     rendered="#{employeeController.isAdmin || employeeController.isManager}">
-                                        <f:setPropertyActionListener value="#{Feedback}" target="#{projectController.selectedProjectXEmployee}"/>
-                                        <p:resetInput target=":form:manage-user-content"/>
-                                    </p:commandButton>
-                                </p:column>
+                                
 
 
                             </p:dataTable>
@@ -334,31 +337,7 @@
                 </p:dialog>
 
 
-                <p:dialog header="User detail" showEffect="fade" modal="true"
-                          widgetVar="manageUserDialog" responsive="true">
-                    <p:outputPanel id="manage-user-content" class="ui-fluid">
-
-                        <p:outputPanel>
-                            <div class="p-field">
-                                <p:outputLabel for="feedback">Feedback</p:outputLabel>
-                                <p:inputText id="feedback" value="#{projectController.selectedProjectXEmployee.feedBack}"/>
-                            </div>
-
-                        </p:outputPanel>
-
-
-                    </p:outputPanel>
-                    <f:facet name="footer">
-
-                        <p:commandButton value="Save" icon="pi pi-check"   actionListener="#{projectController.updateFeedback()}"
-                                         update="form manage-user-content" process="manage-user-content @this">
-                            <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
-                        </p:commandButton>
-
-
-                    </f:facet>
-
-                </p:dialog>
+               
 
 
 
