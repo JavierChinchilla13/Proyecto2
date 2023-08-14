@@ -180,11 +180,13 @@
 
                     <p:column headerText="Members">
                         <p:commandButton icon="pi pi-users" update=":form:manage-members" 
-                                         oncomplete="PF('manageProjectMembersDialog').show()"
-                                         styleClass="rounded-button ui-button-info" process="@this">
-                            <f:setPropertyActionListener value="#{Project}" target="#{projectController.selectedProject}"/>
-                            <p:resetInput target=":form:manage-members"/>
-                        </p:commandButton>
+                                             value="Members"
+                                             actionListener="#{projectController.viewProject()}"
+                                             styleClass="rounded-button ui-button-info" process="@this" >
+
+                                <p:resetInput target=":form:manage-members"/>
+                            </p:commandButton>
+                       
                     </p:column>
 
                 </p:dataTable>

@@ -80,7 +80,7 @@
                         <h:outputText value="#{employeeController.typeToStrType(EmployeeOfProyect.type)}"/>
                     </p:column>  
 
-                    <p:column headerText="Activities" rendered="#{employeeController.isAdmin || employeeController.isManager}" >
+                    <p:column headerText="Activities" >
 
                         <p:commandButton icon="pi pi-eye" update="form:activity-options" styleClass="rounded-button ui-button-info"
                                          oncomplete="PF('activityOptionsDialog').show()" process="@this">
@@ -169,7 +169,7 @@
                                 <h:outputText value="#{Activity.description}"/>
                             </p:column>
 
-                            <p:column headerText="Edit">
+                            <p:column headerText="Edit" rendered="#{employeeController.isAdmin || employeeController.isManager}">
                                 <p:commandButton icon="pi pi-pencil" update=":form:create-activity2" 
                                                  oncomplete="PF('createActivityToAddDialog2').show()"
                                                  styleClass="edit-button rounded-button ui-button-success" process="@this">
@@ -177,7 +177,7 @@
                                     <p:resetInput target=":form:create-activity2"/>
                                 </p:commandButton>
                             </p:column>
-                            <p:column headerText="Delete">
+                            <p:column headerText="Delete" rendered="#{employeeController.isAdmin || employeeController.isManager}">
                                 <p:commandButton icon="pi pi-times" update="form:history-all-per-view" styleClass="rounded-button ui-button-danger"
                                                  actionListener="#{projectController.deleteCActivity(Activity.id)}">
                                 </p:commandButton>
@@ -345,7 +345,7 @@
                                 <p:column headerText="Status" sortBy="#{projectController.statusToStr(Feedback.idStatus)}" filterBy="#{projectController.statusToStr(Feedback.idStatus)}" filterMatchMode="contains">
                                     <h:outputText value="#{projectController.statusToStr(Feedback.idStatus)}"/>
                                 </p:column>
-                                <p:column headerText="Edit">
+                                <p:column headerText="Edit" rendered="#{employeeController.isAdmin || employeeController.isManager}">
                                     <p:commandButton icon="pi pi-pencil" update=":form:update-pe-feedback" 
                                                      oncomplete="PF('updatePEFeedback').show()"
                                                      styleClass="edit-button rounded-button ui-button-success" process="@this">
@@ -353,7 +353,7 @@
                                         <p:resetInput target=":form:update-pe-feedback"/>
                                     </p:commandButton>
                                 </p:column>
-                                <p:column headerText="Delete">
+                                <p:column headerText="Delete" rendered="#{employeeController.isAdmin || employeeController.isManager}">
                                     <p:commandButton icon="pi pi-times" update=":form:feedback-options" styleClass="rounded-button ui-button-danger"
                                                      actionListener="#{projectController.deletePEFeedback(Feedback.id)}">
                                     </p:commandButton>
