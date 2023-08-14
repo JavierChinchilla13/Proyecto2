@@ -738,9 +738,10 @@ public class ProjectController implements Serializable {
     public void assignActivity(int idCActivity) throws Exception{
         int idEmployee = selectedEmployee.getId();
         double hours = 0;
-        actService.insert(idEmployee, idCActivity, hours);
+        actService.insert(idEmployee, idCActivity, hours); 
     }
     public void removeActivity(int idAct) throws Exception{
+        System.out.println("\n\n\n\n\n\n\n\n\n hours to add: " + idAct + "\n\n\n");
         actService.delete(idAct);
     }
     

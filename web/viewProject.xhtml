@@ -268,7 +268,7 @@
 
                                 <p:column headerText="Add hours">
                                     <p:commandButton icon="pi pi-clock" update=":form:activity-options" oncomplete="PF('addHoursDialog').show()"
-                                                     styleClass="ui-button-success" style="margin-right: .5rem">
+                                                     styleClass="ui-button-info" style="margin-right: .5rem">
                                         <f:setPropertyActionListener value="#{Activity}" target="#{projectController.selectedActivity}"/>
                                         <p:resetInput target=":form:create-activity"/>
                                     </p:commandButton>
@@ -277,7 +277,7 @@
                                 <p:column headerText="Remove Activity">
                                     <p:commandButton icon="pi pi-times" update=":form:activity-options" 
                                                      styleClass="ui-button-danger" process="@this"
-                                                     actionListener="#{projectController.removeActivity(ActivityFrom.id)}"
+                                                     actionListener="#{projectController.removeActivity(Activity.id)}"
                                                      rendered="#{employeeController.isAdmin || employeeController.isManager}">
                                     </p:commandButton>
                                 </p:column>
@@ -313,7 +313,7 @@
                             </div>
 
                             <p:commandButton value="Add" icon="pi pi-plus"  actionListener="#{projectController.addHours(projectController.selectedActivity.id)}" 
-                                             update="form create-activity2 growl" process="create-activity2 @this">
+                                             update="form add-hours growl" process="add-hours @this">
                                 
                             </p:commandButton>
 
