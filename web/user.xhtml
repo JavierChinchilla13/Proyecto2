@@ -141,8 +141,154 @@
                             <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
                     </p:column>
+                    
+                    <p:column headerText="Feedback" >
+                        <p:commandButton icon="pi pi-eye" update="form:feedback-options" styleClass="rounded-button ui-button-info"
+                                         oncomplete="PF('feedbackOptionsDialog').show()" process="@this">
+                            <f:setPropertyActionListener value="#{Employee}" target="#{projectController.selectedEmployee}"/>
+                        </p:commandButton>
+                    </p:column>  
 
                 </p:dataTable>
+                
+                <p:dialog  showEffect="fade" modal="true" header="Feedback" 
+                           widgetVar="feedbackOptionsDialog" responsive="true">
+                    <p:outputPanel id="feedback-options" class="ui-fluid">
+
+                        <p:outputPanel>
+
+                            <p:commandButton value="Add feedback" icon="pi pi-plus" rendered="#{employeeController.isAdmin || employeeController.isManager}" 
+                                             update=":form:feedback-options" oncomplete="PF('addPEFeedback').show()"
+                                             styleClass="ui-button-success" process="@this">
+                                
+                            </p:commandButton>
+                            
+
+                            <p:dataTable var="Feedback" value="#{projectController.EFeedbackFrom}" paginator="true" rows="4" paginatorTemplate="{CurrentPageReport} 
+                                         {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         emptyMessage="No Feedback">
+
+                                <p:column headerText=" Feedback Name" sortBy="#{Feedback.name}" filterBy="#{Feedback.name}" filterMatchMode="contains">
+                                    <h:outputText value="#{Feedback.name}"/>
+                                </p:column>
+
+                                <p:column headerText="Description" sortBy="#{Feedback.description}" filterBy="#{Feedback.description}" filterMatchMode="contains">
+                                    <h:outputText value="#{Feedback.description}"/>
+                                </p:column>
+                                <p:column headerText="Date" sortBy="#{Feedback.dateOfFeedback}" filterBy="#{Feedback.dateOfFeedback}" filterMatchMode="contains">
+                                    <h:outputText value="#{Feedback.dateOfFeedback}"/>
+                                </p:column>
+                                <p:column headerText="Creator" sortBy="#{employeeController.idToStrStatus(Feedback.idCreator)}" filterBy="#{employeeController.idToStrStatus(Feedback.idCreator)}" filterMatchMode="contains">
+                                    <h:outputText value="#{employeeController.idToStrStatus(Feedback.idCreator)}"/>
+                                </p:column>
+                                <p:column headerText="Status" sortBy="#{projectController.statusToStr(Feedback.idStatus)}" filterBy="#{projectController.statusToStr(Feedback.idStatus)}" filterMatchMode="contains">
+                                    <h:outputText value="#{projectController.statusToStr(Feedback.idStatus)}"/>
+                                </p:column>
+                                 <p:column headerText="Edit">
+                                    <p:commandButton icon="pi pi-pencil" update=":form:update-pe-feedback" 
+                                                     oncomplete="PF('updatePEFeedback').show()"
+                                                     styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                        <f:setPropertyActionListener value="#{Feedback}" target="#{projectController.selectedFeedback}"/>
+                                        <p:resetInput target=":form:update-pe-feedback"/>
+                                    </p:commandButton>
+                                </p:column>
+                                <p:column headerText="Delete">
+                                    <p:commandButton icon="pi pi-times" update=":form:feedback-options" styleClass="rounded-button ui-button-danger"
+                                                     actionListener="#{projectController.deleteEFeedback(Feedback.id)}">
+                                    </p:commandButton>
+                                </p:column>
+                                
+                                
+
+
+
+
+                            </p:dataTable>
+
+                        </p:outputPanel>
+
+                    </p:outputPanel>
+
+
+                </p:dialog>
+                
+                 <p:dialog header="Create activity" showEffect="fade" modal="true"
+                          widgetVar="addPEFeedback" responsive="true">
+                    <p:outputPanel id="add-pe-feedback" class="ui-fluid">
+
+                        <p:outputPanel>
+
+                            <div class="p-field">
+                                <p:outputLabel for="namePE" rendered="#{employeeController.isAdmin || employeeController.isManager}" >Name</p:outputLabel>
+                                <p:inputText id="namePE" rendered="#{employeeController.isAdmin || employeeController.isManager}" value="#{projectController.selectedFeedback.name}"/>
+                            </div>
+                            <div class="p-field">
+                                <p:outputLabel for="descriptionPE" rendered="#{employeeController.isAdmin || employeeController.isManager}" >Description</p:outputLabel>
+                                <p:inputText id="descriptionPE" rendered="#{employeeController.isAdmin || employeeController.isManager}" value="#{projectController.selectedFeedback.description}"/>
+                            </div>
+                            <div class="p-field">
+                                <p:outputLabel for="statusPE">Status</p:outputLabel>
+                                <p:selectOneMenu id="statusPE" value="#{projectController.selectedFeedback.idStatus}">
+
+                                    <f:selectItem itemLabel="Pending" itemValue="18"/>
+                                    <f:selectItem itemLabel="Completed" itemValue="19"/> 
+                                    <f:selectItem itemLabel="Failed" itemValue="20"/> 
+                                </p:selectOneMenu>
+                            </div>
+                        </p:outputPanel>
+
+                    </p:outputPanel>
+                    <f:facet name="footer">
+
+                        <p:commandButton value="Add" icon="pi pi-check"  actionListener="#{projectController.saveEFeedBack(employeeController.id)}" 
+                                         update="form add-pe-feedback" process="add-pe-feedback @this"/>
+                        
+                        
+
+                    </f:facet>
+
+                </p:dialog>
+                
+                <p:dialog header="update activity" showEffect="fade" modal="true"
+                          widgetVar="updatePEFeedback" responsive="true">
+                    <p:outputPanel id="update-pe-feedback" class="ui-fluid">
+
+                        <p:outputPanel>
+
+                            <div class="p-field2">
+                                <p:outputLabel for="namePE2">Name</p:outputLabel>
+                                <p:inputText id="namePE2" value="#{projectController.selectedFeedback.name}"/>
+                            </div>
+                            <div class="p-field2">
+                                <p:outputLabel for="descriptionPE2">Description</p:outputLabel>
+                                <p:inputText id="descriptionPE2" value="#{projectController.selectedFeedback.description}"/>
+                            </div>
+                            <div class="p-field2">
+                                <p:outputLabel for="statusPE2">Status</p:outputLabel>
+                                <p:selectOneMenu id="statusPE2" value="#{projectController.selectedFeedback.idStatus}">
+
+                                    <f:selectItem itemLabel="Pending" itemValue="18"/>
+                                    <f:selectItem itemLabel="Completed" itemValue="19"/> 
+                                    <f:selectItem itemLabel="Failed" itemValue="20"/> 
+                                </p:selectOneMenu>
+                            </div>
+                        </p:outputPanel>
+
+                    </p:outputPanel>
+                    <f:facet name="footer">
+
+                        <p:commandButton value="Save" icon="pi pi-check"  actionListener="#{projectController.updateEFeedback(employeeController.id)}" 
+                                         update="form update-pe-feedback" process="update-pe-feedback @this"/>
+
+
+
+                    </f:facet>
+
+                </p:dialog>
+                
+                
+                
+                
 
 
                 <p:commandButton value="View suspended" icon="pi pi-check" rendered="#{employeeController.isAdmin}" actionListener="#{employeeController.viewSuspended()}"
