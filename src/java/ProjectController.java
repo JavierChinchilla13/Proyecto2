@@ -701,9 +701,10 @@ public class ProjectController implements Serializable {
         
 
     }
-    
-   
-    
-    
+    public void assignActivity(int idCActivity) throws Exception{
+        int idEmployee = selectedEmployee.getId();
+        double hours = 0;
+        actService.insert(idEmployee, idCActivity, hours);
+    }
     
 }

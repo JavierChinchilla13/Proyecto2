@@ -299,6 +299,12 @@
                                 <p:column headerText="Description" sortBy="#{CActivity.description}" filterBy="#{CActivity.description}" filterMatchMode="contains">
                                     <h:outputText value="#{CActivity.description}"/>
                                 </p:column>
+                                
+                                <p:column headerText="add">
+                                    <p:commandButton icon="pi pi-check" update="form:assign-Activity" styleClass="rounded-button ui-button-succes"
+                                                     actionListener="#{projectController.assignActivity(CActivity.id)}">
+                                </p:commandButton>
+                                </p:column>
                             </p:dataTable>
 
                         </p:outputPanel>
