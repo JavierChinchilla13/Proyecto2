@@ -87,7 +87,7 @@
                             <f:setPropertyActionListener value="#{EmployeeOfProyect}" target="#{projectController.selectedEmployee}"/>
                         </p:commandButton>
                     </p:column>   
-                    
+
                     <p:column headerText="Feedback" >
                         <p:commandButton icon="pi pi-eye" update="form:feedback-options" styleClass="rounded-button ui-button-info"
                                          oncomplete="PF('feedbackOptionsDialog').show()" process="@this">
@@ -253,10 +253,10 @@
                     <p:outputPanel id="activity-options" class="ui-fluid">
 
                         <p:outputPanel>
-                            
-                            <p:dataTable var="Activity" value="#{projectController.activitiesFrom}" paginator="true" rows="4" paginatorTemplate="{CurrentPageReport} 
+
+                            <p:dataTable var="Activity" value="#{projectController.activitiesFrom}" paginator="true" rows="3" paginatorTemplate="{CurrentPageReport} 
                                          {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                         emptyMessage="No Activvities">
+                                         rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No Activities">
 
                                 <p:column headerText="Name" sortBy="#{projectController.getActivityName(Activity.id)}" filterBy="#{projectController.getActivityName(Activity.id)}" filterMatchMode="contains">
                                     <h:outputText value="#{projectController.getActivityName(Activity.id)}"/>
@@ -265,7 +265,23 @@
                                 <p:column headerText="Horas" sortBy="#{Activity.hours}" filterBy="#{Activity.hours}" filterMatchMode="contains">
                                     <h:outputText value="#{Activity.hours}"/>
                                 </p:column>
-                                
+
+                                <p:column headerText="Add hours">
+                                    <p:commandButton icon="pi pi-clock" update=":form:activity-options" oncomplete="PF('addHoursDialog').show()"
+                                                     styleClass="ui-button-success" style="margin-right: .5rem">
+                                        <f:setPropertyActionListener value="#{Activity}" target="#{projectController.selectedActivity}"/>
+                                        <p:resetInput target=":form:create-activity"/>
+                                    </p:commandButton>
+                                </p:column>
+
+                                <p:column headerText="Remove Activity">
+                                    <p:commandButton icon="pi pi-times" update=":form:activity-options" 
+                                                     styleClass="ui-button-danger" process="@this"
+                                                     actionListener="#{projectController.removeActivity(ActivityFrom.id)}"
+                                                     rendered="#{employeeController.isAdmin || employeeController.isManager}">
+                                    </p:commandButton>
+                                </p:column>
+
                             </p:dataTable>
 
                             <p:commandButton value="Assign Activity" icon="pi pi-check" update=":form:activity-options" 
@@ -273,17 +289,39 @@
                                              oncomplete="PF('AssingActivityDialog').show()"
                                              rendered="#{employeeController.isAdmin || employeeController.isManager}">
                             </p:commandButton>
-                            <p:commandButton value="Remove Activity" icon="pi pi-times" update=":form:activity-options" 
-                                             styleClass="ui-button-danger" process="@this"
-                                             rendered="#{employeeController.isAdmin || employeeController.isManager}">
-                            </p:commandButton>
 
                         </p:outputPanel>
                     </p:outputPanel>
 
                 </p:dialog>
-                
-                 <p:dialog  showEffect="fade" modal="true" header="Assign Activity" 
+
+                <p:dialog  showEffect="fade" modal="true" header="Add hours" 
+                           widgetVar="addHoursDialog" responsive="true">
+                    <p:outputPanel id="add-hours" class="ui-fluid">
+
+                        <p:outputPanel>
+
+                            <p:growl id="growl" showDetail="true"/>
+                            
+                            <div class="ui-fluid formgrid grid">
+                                <div class="field col-12 md:col-4">
+                                    <p:panelGrid columns="2">
+                                        <p:outputLabel for="numInput" value="Hours" />
+                                        <p:inputText id ="numInput" value="#{projectController.numOfHoursToAdd}" placeholder="Enter the number of hours to add"/>
+                                    </p:panelGrid>
+                                </div>
+                            </div>
+
+                            <p:commandButton value="Add" icon="pi pi-plus"  actionListener="#{projectController.addHours(projectController.selectedActivity.id)}" 
+                                             update="form create-activity2 growl" process="create-activity2 @this">
+                                
+                            </p:commandButton>
+
+                        </p:outputPanel>
+                    </p:outputPanel>
+                </p:dialog>
+
+                <p:dialog  showEffect="fade" modal="true" header="Assign Activity" 
                            widgetVar="AssingActivityDialog" responsive="true">
                     <p:outputPanel id="assign-activity" class="ui-fluid">
                         <p:outputPanel>
@@ -295,23 +333,23 @@
                                 <p:column headerText="Name" sortBy="#{CActivity.name}" filterBy="#{CActivity.name}" filterMatchMode="contains">
                                     <h:outputText value="#{CActivity.name}"/>
                                 </p:column>
-                                
+
                                 <p:column headerText="Description" sortBy="#{CActivity.description}" filterBy="#{CActivity.description}" filterMatchMode="contains">
                                     <h:outputText value="#{CActivity.description}"/>
                                 </p:column>
-                                
+
                                 <p:column headerText="add">
                                     <p:commandButton icon="pi pi-check" update="form:assign-activity" styleClass="rounded-button ui-button-succes"
                                                      actionListener="#{projectController.assignActivity(CActivity.id)}">
-                                </p:commandButton>
+                                    </p:commandButton>
                                 </p:column>
                             </p:dataTable>
 
                         </p:outputPanel>
                     </p:outputPanel>
                 </p:dialog>
-                
-                
+
+
                 <p:dialog  showEffect="fade" modal="true" header="Feedback" 
                            widgetVar="feedbackOptionsDialog" responsive="true">
                     <p:outputPanel id="feedback-options" class="ui-fluid">
@@ -321,9 +359,9 @@
                             <p:commandButton value="Add feedback" icon="pi pi-plus" rendered="#{employeeController.isAdmin || employeeController.isManager}" 
                                              update=":form:feedback-options" oncomplete="PF('addPEFeedback').show()"
                                              styleClass="ui-button-success" process="@this">
-                                
+
                             </p:commandButton>
-                            
+
 
                             <p:dataTable var="Feedback" value="#{projectController.feedbackFrom}" paginator="true" rows="4" paginatorTemplate="{CurrentPageReport} 
                                          {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -403,8 +441,8 @@
 
                         <p:commandButton value="Add" icon="pi pi-check"  actionListener="#{projectController.saveFeedBack(employeeController.id)}" 
                                          update="form add-pe-feedback" process="add-pe-feedback @this"/>
-                        
-                        
+
+
 
                     </f:facet>
 
@@ -446,10 +484,6 @@
                     </f:facet>
 
                 </p:dialog>
-
-
-
-
 
 
             </div>          

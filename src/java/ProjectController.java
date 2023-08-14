@@ -44,9 +44,15 @@ public class ProjectController implements Serializable {
     private EmployeeTO selectedEmployee = new EmployeeTO();
     private FeedbackTO selectedFeedback = new FeedbackTO();
     private final FeedbackService fService = new FeedbackService();
+    private ActivityTO selectedActivity = new ActivityTO();
+    
+    private double numOfHoursToAdd;
     
     private int CAId;
 
+    public ProjectController() {
+    }
+    
     public FeedbackTO getSelectedFeedback() {
         return selectedFeedback;
     }
@@ -55,6 +61,21 @@ public class ProjectController implements Serializable {
         this.selectedFeedback = selectedFeedback;
     }
 
+    public double getNumOfHoursToAdd() {
+        return numOfHoursToAdd;
+    }
+
+    public void setNumOfHoursToAdd(double numOfHoursToAdd) {
+        this.numOfHoursToAdd = numOfHoursToAdd;
+    }
+
+    public ActivityTO getSelectedActivity() {
+        return selectedActivity;
+    }
+
+    public void setSelectedActivity(ActivityTO selectedActivity) {
+        this.selectedActivity = selectedActivity;
+    }
     
     
     
@@ -718,6 +739,18 @@ public class ProjectController implements Serializable {
         int idEmployee = selectedEmployee.getId();
         double hours = 0;
         actService.insert(idEmployee, idCActivity, hours);
+    }
+    public void removeActivity(int idAct) throws Exception{
+        actService.delete(idAct);
+    }
+    
+    public void addHours(int idActivity) throws Exception{
+        double hoursToAdd = this.getNumOfHoursToAdd();
+        ActivityTO act = actService.searchByPk(idActivity);
+        double hoursAct = act.getHours();
+        System.out.println("\n\n\n\n\n\n\n\n\n hours to add: " + hoursToAdd+ "\n\n\n");
+        double totalhours = hoursAct + hoursToAdd;
+        actService.update(act, act.getIdEmployee(), act.getIdActivity(), totalhours);
     }
     
 }
