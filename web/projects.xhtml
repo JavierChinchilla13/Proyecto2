@@ -57,7 +57,7 @@
 
 
 
-                <p:dataTable var="Projects" value="#{projectController.projects}" rendered="#{employeeController.isAdmin || employeeController.isManager}"  paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
+                <p:dataTable var="Projects" value="#{projectController.projects}" rendered="#{employeeController.isAdmin }"  paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                              {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No projects">
                     <f:facet name="header"> Projects </f:facet>
@@ -87,8 +87,38 @@
                         </p:commandButton>
                     </p:column>
 
+                </p:dataTable>
+                
+                
+                <p:dataTable var="Projects" value="#{projectController.getMyProjects(employeeController.id)}" rendered="#{employeeController.isManager}"  paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
+                             {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No projects">
+                    <f:facet name="header"> Projects </f:facet>
 
+                    <p:column headerText="Name" sortBy="#{Projects.name}" filterBy="#{Projects.name}" filterMatchMode="contains">
+                        <h:outputText value="#{Projects.name}"/>
+                    </p:column>
 
+                    <p:column headerText="Status" sortBy="#{projectController.statusToStrStatus(Projects.status)}" filterBy="#{projectController.statusToStrStatus(Projects.status)}" filterMatchMode="contains">
+                        <h:outputText value="#{projectController.statusToStrStatus(Projects.status)}"/>
+                    </p:column>
+
+                    <p:column headerText="Starting Date" sortBy="#{Projects.startingDate}" filterBy="#{Projects.startingDate}" filterMatchMode="contains">
+                        <h:outputText value="#{Projects.startingDate}"/>
+                    </p:column>
+
+                    <p:column headerText="Ending Date" sortBy="#{Projects.endingDate}" filterBy="#{Projects.endingDate}" filterMatchMode="contains">
+                        <h:outputText value="#{Projects.endingDate}"/>
+                    </p:column>
+
+                    <p:column headerText="Options">
+                        <p:commandButton icon="pi pi-eye" update=":form:buttons" 
+                                         oncomplete="PF('buttons').show()"
+                                         styleClass="rounded-button ui-button-info" process="@this">
+                            <f:setPropertyActionListener value="#{Projects}" target="#{projectController.selectedProject}"/>
+                            <p:resetInput target=":form:buttons"/>
+                        </p:commandButton>
+                    </p:column>
 
                 </p:dataTable>
 
@@ -126,7 +156,7 @@
 
                 </p:dialog>
 
-                <p:dataTable var="Project" value="#{projectController.projects}" rendered="#{employeeController.isEmployee}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
+                <p:dataTable var="Project" value="#{projectController.getMyProjects(employeeController.id)}" rendered="#{employeeController.isEmployee}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                              {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No projects">
                     <f:facet name="header"> Projects </f:facet>

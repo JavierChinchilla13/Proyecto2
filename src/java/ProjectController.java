@@ -183,6 +183,19 @@ public class ProjectController implements Serializable {
         List<ProjectTO> list = new ArrayList<>();
         return list;
     }
+    
+    public List<ProjectTO> getMyProjects(int pk) {
+        try {
+            CAId = 0;
+            return proService.getMYProjects(pk);
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving th list of employees"));
+
+        }
+        List<ProjectTO> list = new ArrayList<>();
+        return list;
+    }
 
     public List<ProjectXEmployeeTO> getPXEInfoFromEmployee(int pk) {
         try {
