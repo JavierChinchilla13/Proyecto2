@@ -268,20 +268,41 @@
                                 
                             </p:dataTable>
 
-                            <p:commandButton value="Asign Activity" icon="pi pi-save" update=":form:activity-options" 
+                            <p:commandButton value="Assign Activity" icon="pi pi-check" update=":form:activity-options" 
                                              styleClass="ui-button-success" process="@this"
+                                             oncomplete="PF('AssingActivityDialog').show()"
                                              rendered="#{employeeController.isAdmin || employeeController.isManager}">
                             </p:commandButton>
                             <p:commandButton value="Remove Activity" icon="pi pi-times" update=":form:activity-options" 
-                                             styleClass="ui-button-success" process="@this"
+                                             styleClass="ui-button-danger" process="@this"
                                              rendered="#{employeeController.isAdmin || employeeController.isManager}">
                             </p:commandButton>
 
                         </p:outputPanel>
-
                     </p:outputPanel>
 
+                </p:dialog>
+                
+                 <p:dialog  showEffect="fade" modal="true" header="Assign Activity" 
+                           widgetVar="AssingActivityDialog" responsive="true">
+                    <p:outputPanel id="assign-activity" class="ui-fluid">
+                        <p:outputPanel>
 
+                            <p:dataTable var="CActivity" value="#{projectController.activitiesNotAssignedTo}" paginator="true" rows="4" paginatorTemplate="{CurrentPageReport} 
+                                         {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         emptyMessage="No Activvities">
+
+                                <p:column headerText="Name" sortBy="#{CActivity.name}" filterBy="#{CActivity.name}" filterMatchMode="contains">
+                                    <h:outputText value="#{CActivity.name}"/>
+                                </p:column>
+                                
+                                <p:column headerText="Description" sortBy="#{CActivity.description}" filterBy="#{CActivity.description}" filterMatchMode="contains">
+                                    <h:outputText value="#{CActivity.description}"/>
+                                </p:column>
+                            </p:dataTable>
+
+                        </p:outputPanel>
+                    </p:outputPanel>
                 </p:dialog>
                 
                 

@@ -52,9 +52,9 @@
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
 
-                
 
-                
+
+
 
 
                 <p:dataTable var="Projects" value="#{projectController.projects}" rendered="#{employeeController.isAdmin || employeeController.isManager}"  paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
@@ -78,15 +78,6 @@
                         <h:outputText value="#{Projects.endingDate}"/>
                     </p:column>
 
-                    <p:column headerText="Edit">
-                        <p:commandButton icon="pi pi-pencil" update=":form:manage-user-content" 
-                                         oncomplete="PF('manageUserDialog').show()"
-                                         styleClass="edit-button rounded-button ui-button-success" process="@this">
-                            <f:setPropertyActionListener value="#{Projects}" target="#{projectController.selectedProject}"/>
-                            <p:resetInput target=":form:manage-user-content"/>
-                        </p:commandButton>
-                    </p:column>
-
                     <p:column headerText="Options">
                         <p:commandButton icon="pi pi-eye" update=":form:buttons" 
                                          oncomplete="PF('buttons').show()"
@@ -96,12 +87,7 @@
                         </p:commandButton>
                     </p:column>
 
-                    <p:column headerText="Delete">
-                        <p:commandButton icon="pi pi-times" update="form" styleClass="rounded-button ui-button-danger"
-                                         actionListener="#{projectController.deleteProject(Projects.id)}">
-                            <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
-                        </p:commandButton>
-                    </p:column>
+
 
 
                 </p:dataTable>
@@ -112,6 +98,13 @@
 
                         <p:outputPanel>
 
+                            <p:commandButton icon="pi pi-pencil" update=":form:manage-user-content" 
+                                             oncomplete="PF('manageUserDialog').show()"
+                                             value="Edit Project"
+                                             styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                <p:resetInput target=":form:manage-user-content"/>
+                            </p:commandButton>
+
                             <p:commandButton icon="pi pi-users" update=":form:manage-members" 
                                              value="Members"
                                              actionListener="#{projectController.viewProject()}"
@@ -120,7 +113,11 @@
                                 <p:resetInput target=":form:manage-members"/>
                             </p:commandButton>
 
-
+                            <p:commandButton icon="pi pi-times" update="form" styleClass="rounded-button ui-button-danger"
+                                             value ="Delete"
+                                             actionListener="#{projectController.deleteProject(projectController.selectedProject.id)}">
+                                <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
+                            </p:commandButton>
 
                         </p:outputPanel>
 
@@ -293,7 +290,7 @@
 
                 </p:dialog>
 
-            </div>          
+            </div> 
         </h:form>
     </h:body>
 </html>

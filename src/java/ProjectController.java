@@ -466,6 +466,18 @@ public class ProjectController implements Serializable {
         return list;
     }
     
+    public List<CreateActivityTO> getActivitiesNotAssignedTo() throws Exception{
+         try {
+            return cAService.getActivitiesNotAssignedTo(selectedEmployee.getId(), selectedProject.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving the list of employees of the project"));
+
+        }
+        List<CreateActivityTO> list = new ArrayList<>();
+        return list;
+    }
+    
     public String getActivityName(int pk) throws Exception{
         return actService.getActivityName(pk);
     }
