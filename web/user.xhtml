@@ -194,7 +194,8 @@
                                 </p:column>
                                 <p:column headerText="Delete">
                                     <p:commandButton icon="pi pi-times" update=":form:feedback-options" styleClass="rounded-button ui-button-danger"
-                                                     actionListener="#{projectController.deleteEFeedback(Feedback.id)}">
+                                                     actionListener="#{projectController.deleteEmpFeedback(Feedback.id)}">
+                                        <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
                                     </p:commandButton>
                                 </p:column>
                                 

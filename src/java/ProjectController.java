@@ -559,19 +559,7 @@ public class ProjectController implements Serializable {
 
     }
     
-    public void deletePEFeedback() throws Exception {
-
-        try {
-
-            fService.delete(selectedFeedback.getId());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in suspending the user"));
-
-        }
-
-    }
+    
     
     public void saveFeedBack(int pk) throws Exception {
 
@@ -678,11 +666,37 @@ public class ProjectController implements Serializable {
 
     }
     
-    public void deleteFeedback(int pk) throws Exception {
+    public void deleteEmpFeedback(int pk) throws Exception {
 
         try {
 
-            fService.delete(pk);
+            fService.deleteEmp(pk);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in suspending the user"));
+
+        }
+
+    }
+    public void deletePjFeedback(int pk) throws Exception {
+
+        try {
+
+            fService.deletePj(pk);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in suspending the user"));
+
+        }
+
+    }
+    public void deleteActFeedback(int pk) throws Exception {
+
+        try {
+
+            fService.deleteAct(pk);
 
         } catch (Exception e) {
             e.printStackTrace();
