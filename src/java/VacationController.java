@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -46,6 +47,31 @@ public class VacationController implements Serializable {
     public VacationController() {
     }
 
+    @PostConstruct
+    public void init() {
+        vacaciones();
+    }
+
+    public boolean vacaciones() {
+        boolean flag = true;
+        LocalDate dateNow = LocalDate.now();
+        int dateYear = LocalDate.now().getYear();
+        LocalDate manualDate = LocalDate.of(dateYear, 8, 13);//10 , 1
+
+        if (dateNow.isAfter(manualDate)) {
+            if (this.vacationDays >= 12) {
+                flag = true;
+            } else {
+                flag = false;
+            }
+        } else {
+            flag = false;
+        }
+
+        return flag;
+
+    }
+    
     public VacationController(boolean esNuevo, Date date, Date startDate, Date endDate) {
         this.esNuevo = esNuevo;
         this.date = date;
