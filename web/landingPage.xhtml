@@ -33,13 +33,13 @@
                     <p:menuitem value="Documents" outcome="documents" icon="pi pi-fw pi-file">
                         <f:param name="i" value="5"/>
                     </p:menuitem>
-                      <p:menuitem value="Log Out" icon="pi pi-sign-out"  actionListener="#{employeeController.logOut()}">
+                    <p:menuitem value="Log Out" icon="pi pi-sign-out"  actionListener="#{employeeController.logOut()}">
                         <f:param name="i" value="6"/>
                     </p:menuitem>
-                    
+
                 </p:tabMenu>
-                
-                
+
+
                 <p:panelGrid columns="2">
 
                     <h:outputText value="Name:"/>
@@ -50,6 +50,21 @@
 
                     <h:outputText value="Email"/>
                     <h:outputText value="#{employeeController.email} "/>
+                    
+                    <h:outputText value="Vacation Days Available"/>
+                    <h:outputText value="#{ vacationController.getVacationDaysOff(employeeController.id) + vacationController.getVacationDaysOfEmployee(employeeController.id)}"/>
+
+                    <h:outputText value="Phone"/>
+                    <h:outputText value="#{employeeController.phone} "/>
+
+                    <h:outputText value="Type"/>
+                    <h:outputText value="#{employeeController.typeToStrType(employeeController.type)} "/>
+
+                    <h:outputText value="Employment Day"/>
+                    <h:outputText value="#{employeeController.employmentDay} "/>
+
+                    <h:outputText value="Supervisor"/>
+                    <h:outputText value="#{employeeController.idToStringEmployeeName(employeeController.idSupervisor)} "/>
 
                 </p:panelGrid>
 

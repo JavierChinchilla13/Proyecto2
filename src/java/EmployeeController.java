@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -62,9 +63,6 @@ public class EmployeeController implements Serializable {
     private UploadedFile originalImageFile;
 
     private StreamedContent fileSC;
-    
-    
-    
 
     public EmployeeController() {
 
@@ -130,7 +128,7 @@ public class EmployeeController implements Serializable {
         List<EmployeeTO> list = new ArrayList<>();
         return list;
     }
-    
+
     public List<EmployeeTO> getSubordinates(int pk) {
         try {
             return service.getSubordinates(pk);
@@ -154,10 +152,10 @@ public class EmployeeController implements Serializable {
         List<EmployeeTO> list = new ArrayList<>();
         return list;
     }
-    
+
     public List<EmployeeTO> getSupervisor() {
         try {
-            
+
             return service.getSupervisor();
         } catch (Exception e) {
             e.printStackTrace();
@@ -278,7 +276,6 @@ public class EmployeeController implements Serializable {
         return service;
     }
 
-    
     public EmployeeTO getEmployee(int PK) {
         EmployeeTO foundEmp = null;
         try {
@@ -289,7 +286,7 @@ public class EmployeeController implements Serializable {
         }
         return foundEmp;
     }
-    
+
     public String getEmployeeName(int PK) {
         String foundEmp = "";
         try {
@@ -558,7 +555,7 @@ public class EmployeeController implements Serializable {
             this.selectedEmployee.setLayoffDate(new java.sql.Date(fireDate.getTime()));
         }
     }
-    
+
     public java.util.Date getEmployment() {
         return (java.util.Date) this.selectedEmployee.getEmploymentDate();
     }
@@ -857,6 +854,32 @@ public class EmployeeController implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public String idToStringEmployeeName(int employeeID) throws Exception {
+
+        EmployeeService serv = new EmployeeService();
+        EmployeeTO test = serv.searchByPK(employeeID);
+        this.esNuevo = false;
+        this.selectedEmployee = new EmployeeTO();
+        String result = (test.getFirstName() + " " + test.getLastName());
+        return result;
+    }
+
+    public String getPhone() {
+        return em.getPhone();
+    }
+
+    public int getType() {
+        return em.getType();
+    }
+
+    public Date getEmploymentDay() {
+        return em.getEmploymentDate();
+    }
+
+    public int getIdSupervisor() {
+        return em.getIdSupervisor();
     }
 
 }
