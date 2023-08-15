@@ -845,4 +845,15 @@ public class ProjectController implements Serializable {
         actService.update(act, act.getIdEmployee(), act.getIdActivity(), totalhours);
     }
     
+    public void deleteEmployeeFromProject(int employeeID) throws Exception {
+
+        try {
+            pXEService.deleteEmployeeFromProject(selectedProject.getId(), employeeID);
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Couldn't delete employee from project"));
+
+        }
+
+    }
 }
