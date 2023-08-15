@@ -52,7 +52,7 @@
 
             <p:dataTable var="Permit" value="#{permitController.searchByStatus(14)}"  paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                          {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rendered="#{employeeController.isAdmin }"
-                         emptyMessage="No existen usuarios registrados">
+                         emptyMessage="No existen usuarios registrados" style="background-color: purple">
                 <f:facet name="header"> Permits </f:facet>
 
                 <p:column headerText="Employee Id" sortBy="#{employeeController.idToStrStatus(Permit.idEmployee)}" filterBy="#{employeeController.idToStrStatus(Permit.idEmployee)}" filterMatchMode="contains">
@@ -86,7 +86,7 @@
             
             <p:dataTable var="Permit" value="#{permitController.searchBySupervisor(14, employeeController.id)}"  paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                          {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rendered="#{employeeController.isManager }"
-                         emptyMessage="No existen usuarios registrados">
+                         emptyMessage="No existen usuarios registrados" style="background-color: purple">
                 <f:facet name="header"> Permits </f:facet>
 
                 <p:column headerText="Employee Id" sortBy="#{employeeController.idToStrStatus(Permit.idEmployee)}" filterBy="#{employeeController.idToStrStatus(Permit.idEmployee)}" filterMatchMode="contains">
@@ -160,7 +160,7 @@
 
                     <p:dataTable var="Permit" value="#{permitController.permits}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                                  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No permits">
+                                 rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No permits" style="background-color: purple">
 
                         <p:column headerText="Employee Id" sortBy="#{employeeController.idToStrStatus(Permit.idEmployee)}" filterBy="#{employeeController.idToStrStatus(Permit.idEmployee)}" filterMatchMode="contains">
                             <h:outputText value="#{employeeController.idToStrStatus(Permit.idEmployee)}"/>

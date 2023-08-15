@@ -8,18 +8,20 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        <h:form>
-            Welcome to HTH
-            <p:growl id="message" showDetail="true"/>
+        <div class="card" style="text-align:center">
+            <h:form>
+                Welcome to HTH
+                <p:growl id="message" showDetail="true" />
 
-            <p:panelGrid columns="2">
-                User:  <p:inputText value="#{employeeController.user}" />
-                Password:  <p:password value="#{employeeController.pasword}" />
-                <h:outputText></h:outputText>
-                <p:commandButton value="Log In" actionListener="#{employeeController.logIn()}" update="message"/>
-            </p:panelGrid>
-            
-        </h:form>
+                <p:panelGrid columns="2" style="border:0px !important; background:none;margin:0 auto">
+                    User:  <p:inputText value="#{employeeController.user}" />
+                    Password:  <p:password value="#{employeeController.pasword}" />
+                    <h:outputText></h:outputText>
+                    <p:commandButton value="Log In" actionListener="#{employeeController.logIn()}" update="message"/>
+                </p:panelGrid>
+
+            </h:form>
+        </div>
     </h:body>
 </html>
 

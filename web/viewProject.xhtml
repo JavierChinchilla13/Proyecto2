@@ -86,7 +86,7 @@
 
                             <p:dataTable var="Feedback2" value="#{projectController.PFeedbackFrom}" paginator="true" rows="4" paginatorTemplate="{CurrentPageReport} 
                                          {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                         emptyMessage="No Feedback">
+                                         emptyMessage="No Feedback" style="background-color: black">
 
                                 <p:column headerText="Feedback Name" sortBy="#{Feedback2.name}" filterBy="#{Feedback2.name}" filterMatchMode="contains">
                                     <h:outputText value="#{Feedback2.name}"/>
@@ -207,7 +207,7 @@
 
                 <p:dataTable var="EmployeeOfProyect" value="#{projectController.employeesOfProyect}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                              {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados">
+                             rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados" style="background-color: chartreuse">
 
                     <p:column headerText="Name" sortBy="#{EmployeeOfProyect.fullName}" filterBy="#{EmployeeOfProyect.fullName}" filterMatchMode="contains">
                         <h:outputText value="#{EmployeeOfProyect.fullName}"/>
@@ -281,7 +281,7 @@
 
                             <p:dataTable var="EmployeeNotOnProyect" value="#{projectController.employeesNotOnProyect}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                                          {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                         rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados">
+                                         rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados" style="background-color: chartreuse">
 
                                 <p:column headerText="Name" sortBy="#{EmployeeNotOnProyect.fullName}" filterBy="#{EmployeeNotOnProyect.fullName}" filterMatchMode="contains">
                                     <h:outputText value="#{EmployeeNotOnProyect.fullName}"/>
@@ -328,7 +328,7 @@
 
                         <p:dataTable var="Activity" value="#{projectController.getActivity()}" paginator="true" rows="4" paginatorTemplate="{CurrentPageReport} 
                                      {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                     emptyMessage="No Activvities">
+                                     emptyMessage="No Activvities" style="background-color: chartreuse">
 
                             <p:column headerText="Name" sortBy="#{Activity.name}" filterBy="#{Activity.name}" filterMatchMode="contains">
                                 <h:outputText value="#{Activity.name}"/>
@@ -425,7 +425,7 @@
 
                             <p:dataTable var="Activity" value="#{projectController.activitiesFrom}" paginator="true" rows="3" paginatorTemplate="{CurrentPageReport} 
                                          {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                         rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No Activities">
+                                         rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No Activities" style="background-color: chartreuse">
 
                                 <p:column headerText="Name" sortBy="#{projectController.getActivityName(Activity.id)}" filterBy="#{projectController.getActivityName(Activity.id)}" filterMatchMode="contains">
                                     <h:outputText value="#{projectController.getActivityName(Activity.id)}"/>
@@ -497,7 +497,7 @@
 
                             <p:dataTable var="CActivity" value="#{projectController.activitiesNotAssignedTo}" paginator="true" rows="4" paginatorTemplate="{CurrentPageReport} 
                                          {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                         emptyMessage="No Activvities">
+                                         emptyMessage="No Activvities" style="background-color: chartreuse">
 
                                 <p:column headerText="Name" sortBy="#{CActivity.name}" filterBy="#{CActivity.name}" filterMatchMode="contains">
                                     <h:outputText value="#{CActivity.name}"/>
@@ -534,7 +534,7 @@
 
                             <p:dataTable var="Feedback" value="#{projectController.feedbackFrom}" paginator="true" rows="4" paginatorTemplate="{CurrentPageReport} 
                                          {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                         emptyMessage="No Feedback">
+                                         emptyMessage="No Feedback" style="background-color: black">
 
                                 <p:column headerText=" Feedback Name" sortBy="#{Feedback.name}" filterBy="#{Feedback.name}" filterMatchMode="contains">
                                     <h:outputText value="#{Feedback.name}"/>

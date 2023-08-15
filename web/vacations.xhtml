@@ -85,7 +85,7 @@
 
                 <p:dataTable var="vacations" value="#{vacationController.getNewScheduleVacations(employeeController.id)}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                              {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No Vacations">
+                             rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No Vacations" style="background-color: orangered">
 
                     <p:column headerText="Start Date" sortBy="#{vacations.startDate}" filterBy="#{vacations.startDate}" filterMatchMode="contains">
                         <h:outputText value="#{vacations.startDate}"/>
@@ -124,7 +124,7 @@
 
                         <p:dataTable var="Vacation" value="#{vacationController.getOldScheduleVacations(employeeController.id)}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                                      {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                     emptyMessage="No Vacations">
+                                     emptyMessage="No Vacations" style="background-color: orangered">
 
                             <p:column headerText="Start Date" sortBy="#{Vacation.startDate}" filterBy="#{Vacation.startDate}" filterMatchMode="contains">
                                 <h:outputText value="#{Vacation.startDate}"/>
