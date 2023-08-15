@@ -220,29 +220,55 @@
                     <p:column headerText="Type" sortBy="#{employeeController.typeToStrType(EmployeeOfProyect.type)}" filterBy="#{employeeController.typeToStrType(EmployeeOfProyect.type)}" filterMatchMode="contains">
                         <h:outputText value="#{employeeController.typeToStrType(EmployeeOfProyect.type)}"/>
                     </p:column>  
-
-                    <p:column headerText="Activities" >
-
-                        <p:commandButton icon="pi pi-eye" update="form:activity-options" styleClass="rounded-button ui-button-info"
-                                         oncomplete="PF('activityOptionsDialog').show()" process="@this">
+                    
+                    <p:column headerText="Options">
+                        <p:commandButton icon="pi pi-eye" update=":form:buttons" 
+                                         oncomplete="PF('buttons').show()"
+                                         styleClass="rounded-button ui-button-info" process="@this">
                             <f:setPropertyActionListener value="#{EmployeeOfProyect}" target="#{projectController.selectedEmployee}"/>
-                        </p:commandButton>
-                    </p:column>   
-
-                    <p:column headerText="Feedback" >
-                        <p:commandButton icon="pi pi-eye" update="form:feedback-options" styleClass="rounded-button ui-button-info"
-                                         oncomplete="PF('feedbackOptionsDialog').show()" process="@this">
-                            <f:setPropertyActionListener value="#{EmployeeOfProyect}" target="#{projectController.selectedEmployee}"/>
-                        </p:commandButton>
-                    </p:column>  
-
-                    <p:column headerText="Remove" rendered="#{employeeController.isAdmin || employeeController.isManager}" >
-                        <p:commandButton icon="pi pi-times" update="form" styleClass="rounded-button ui-button-danger">
-
+                            <p:resetInput target=":form:buttons"/>
                         </p:commandButton>
                     </p:column>
 
+                    
+
                 </p:dataTable>
+
+
+                <p:dialog  showEffect="fade" modal="true" header="Options" 
+                           widgetVar="buttons" responsive="true">
+                    <p:outputPanel id="buttons" class="ui-fluid">
+
+                        <p:outputPanel>
+
+                            
+
+                                <p:commandButton icon="pi pi-eye" update="form:activity-options" styleClass="rounded-button ui-button-info"
+                                                 oncomplete="PF('activityOptionsDialog').show()" process="@this"
+                                                 value="Activity" >
+                                    <p:resetInput target=":form:activity-options"/>
+                                </p:commandButton>
+                            
+ 
+                                <p:commandButton icon="pi pi-eye" update="form:feedback-options" styleClass="rounded-button ui-button-info"
+                                                 oncomplete="PF('feedbackOptionsDialog').show()" process="@this"
+                                                 value="Feedback" >
+                                    <p:resetInput target=":form:feedback-options"/>
+                                </p:commandButton>
+                            
+                                <p:commandButton icon="pi pi-times" update="form" styleClass="rounded-button ui-button-danger"
+                                                 value ="Delete" rendered="#{employeeController.isAdmin || employeeController.isManager}">
+                                    <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
+                                </p:commandButton>
+                          
+
+                        </p:outputPanel>
+
+                    </p:outputPanel>
+
+
+                </p:dialog>
+                
 
 
                 <p:dialog header="Project members avaible to add" showEffect="fade" modal="true"
