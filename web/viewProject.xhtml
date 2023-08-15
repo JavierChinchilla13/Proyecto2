@@ -51,7 +51,14 @@
                                  styleClass="ui-button-success" style="margin-right: .5rem">
                     <p:resetInput target=":form:create-activity"/>
                 </p:commandButton>
-
+                
+                <p:commandButton value="General Feedback" icon="pi pi-plus" 
+                                 update="form:feedback-options2" oncomplete="PF('feedbackOptionsDialog2').show()"
+                                 styleClass="ui-button-success" style="margin-right: .5rem">
+                    <p:resetInput target=":form:feedback-options2"/>
+                    
+                </p:commandButton>
+                
 
                 <br/>
 
@@ -62,6 +69,140 @@
                                  styleClass="ui-button-success" style="margin-right: .10rem">
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
+                
+                
+                <p:dialog  showEffect="fade" modal="true" header="Feedback" 
+                           widgetVar="feedbackOptionsDialog2" responsive="true">
+                    <p:outputPanel id="feedback-options2" class="ui-fluid">
+
+                        <p:outputPanel>
+
+                            <p:commandButton value="Add feedback" icon="pi pi-plus" rendered="#{employeeController.isAdmin || employeeController.isManager}" 
+                                             update=":form:feedback-options2" oncomplete="PF('addPFeedback').show()"
+                                             styleClass="ui-button-success" process="@this">
+                                
+                            </p:commandButton>
+                            
+
+                            <p:dataTable var="Feedback2" value="#{projectController.PFeedbackFrom}" paginator="true" rows="4" paginatorTemplate="{CurrentPageReport} 
+                                         {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         emptyMessage="No Feedback">
+
+                                <p:column headerText="Feedback Name" sortBy="#{Feedback2.name}" filterBy="#{Feedback2.name}" filterMatchMode="contains">
+                                    <h:outputText value="#{Feedback2.name}"/>
+                                </p:column>
+
+                                <p:column headerText="Description" sortBy="#{Feedback2.description}" filterBy="#{Feedback2.description}" filterMatchMode="contains">
+                                    <h:outputText value="#{Feedback2.description}"/>
+                                </p:column>
+                                <p:column headerText="Date" sortBy="#{Feedback2.dateOfFeedback}" filterBy="#{Feedback2.dateOfFeedback}" filterMatchMode="contains">
+                                    <h:outputText value="#{Feedback2.dateOfFeedback}"/>
+                                </p:column>
+                                <p:column headerText="Creator" sortBy="#{employeeController.idToStrStatus(Feedback2.idCreator)}" filterBy="#{employeeController.idToStrStatus(Feedback2.idCreator)}" filterMatchMode="contains">
+                                    <h:outputText value="#{employeeController.idToStrStatus(Feedback2.idCreator)}"/>
+                                </p:column>
+                                <p:column headerText="Status" sortBy="#{projectController.statusToStr(Feedback2.idStatus)}" filterBy="#{projectController.statusToStr(Feedback2.idStatus)}" filterMatchMode="contains">
+                                    <h:outputText value="#{projectController.statusToStr(Feedback2.idStatus)}"/>
+                                </p:column>
+                                 <p:column headerText="Edit">
+                                    <p:commandButton icon="pi pi-pencil" update=":form:update-p-feedback" 
+                                                     oncomplete="PF('updatePFeedback').show()"
+                                                     styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                        <f:setPropertyActionListener value="#{Feedback2}" target="#{projectController.selectedFeedback}"/>
+                                        <p:resetInput target=":form:update-p-feedback"/>
+                                    </p:commandButton>
+                                </p:column>
+                                <p:column headerText="Delete">
+
+                                    <p:commandButton icon="pi pi-times" update=":form:feedback-options2" styleClass="rounded-button ui-button-danger"
+                                                     actionListener="#{projectController.deleteFeedback(Feedback2.id)}">
+                                        <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
+                                    </p:commandButton>
+                                </p:column>
+
+
+                            </p:dataTable>
+
+                        </p:outputPanel>
+
+                    </p:outputPanel>
+
+
+                </p:dialog>
+                
+                 <p:dialog header="Add feedback" showEffect="fade" modal="true"
+                          widgetVar="addPFeedback" responsive="true">
+                    <p:outputPanel id="add-p-feedback" class="ui-fluid">
+
+                        <p:outputPanel>
+
+                            <div class="p-field">
+                                <p:outputLabel for="nameP2" rendered="#{employeeController.isAdmin || employeeController.isManager}" >Name</p:outputLabel>
+                                <p:inputText id="nameP2" rendered="#{employeeController.isAdmin || employeeController.isManager}" value="#{projectController.selectedFeedback.name}"/>
+                            </div>
+                            <div class="p-field">
+                                <p:outputLabel for="descriptionP2" rendered="#{employeeController.isAdmin || employeeController.isManager}" >Description</p:outputLabel>
+                                <p:inputText id="descriptionP2" rendered="#{employeeController.isAdmin || employeeController.isManager}" value="#{projectController.selectedFeedback.description}"/>
+                            </div>
+                            <div class="p-field">
+                                <p:outputLabel for="statusP2">Status</p:outputLabel>
+                                <p:selectOneMenu id="statusP2" value="#{projectController.selectedFeedback.idStatus}">
+
+                                    <f:selectItem itemLabel="Pending" itemValue="18"/>
+                                    <f:selectItem itemLabel="Completed" itemValue="19"/> 
+                                    <f:selectItem itemLabel="Failed" itemValue="20"/> 
+                                </p:selectOneMenu>
+                            </div>
+                        </p:outputPanel>
+
+                    </p:outputPanel>
+                    <f:facet name="footer">
+
+                        <p:commandButton value="Add" icon="pi pi-check"  actionListener="#{projectController.savePFeedBack(employeeController.id)}" 
+                                         update="form add-p-feedback" process="add-p-feedback @this"/>
+                        
+                        
+
+                    </f:facet>
+
+                </p:dialog>
+                
+                <p:dialog header="Update feedback" showEffect="fade" modal="true"
+                          widgetVar="updatePFeedback" responsive="true">
+                    <p:outputPanel id="update-p-feedback" class="ui-fluid">
+
+                        <p:outputPanel>
+
+                            <div class="p-field2">
+                                <p:outputLabel for="nameP">Name</p:outputLabel>
+                                <p:inputText id="nameP" value="#{projectController.selectedFeedback.name}"/>
+                            </div>
+                            <div class="p-field2">
+                                <p:outputLabel for="descriptionP">Description</p:outputLabel>
+                                <p:inputText id="descriptionP" value="#{projectController.selectedFeedback.description}"/>
+                            </div>
+                            <div class="p-field2">
+                                <p:outputLabel for="statusP">Status</p:outputLabel>
+                                <p:selectOneMenu id="statusP" value="#{projectController.selectedFeedback.idStatus}">
+
+                                    <f:selectItem itemLabel="Pending" itemValue="18"/>
+                                    <f:selectItem itemLabel="Completed" itemValue="19"/> 
+                                    <f:selectItem itemLabel="Failed" itemValue="20"/> 
+                                </p:selectOneMenu>
+                            </div>
+                        </p:outputPanel>
+
+                    </p:outputPanel>
+                    <f:facet name="footer">
+
+                        <p:commandButton value="Save" icon="pi pi-check"  actionListener="#{projectController.updatePFeedback(employeeController.id)}" 
+                                         update="form update-p-feedback" process="update-p-feedback @this"/>
+
+
+
+                    </f:facet>
+
+                </p:dialog>
 
 
                 <p:dataTable var="EmployeeOfProyect" value="#{projectController.employeesOfProyect}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
@@ -391,9 +532,9 @@
                                         <p:resetInput target=":form:update-pe-feedback"/>
                                     </p:commandButton>
                                 </p:column>
-                                <p:column headerText="Delete" rendered="#{employeeController.isAdmin || employeeController.isManager}">
+                                <p:column headerText="Delete">
                                     <p:commandButton icon="pi pi-times" update=":form:feedback-options" styleClass="rounded-button ui-button-danger"
-                                                     actionListener="#{projectController.deletePEFeedback(Feedback.id)}">
+                                                     actionListener="#{projectController.deleteFeedback(Feedback.id)}">
                                     </p:commandButton>
                                 </p:column>
 

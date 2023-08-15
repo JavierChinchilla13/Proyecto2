@@ -192,7 +192,7 @@ public class ProjectController implements Serializable {
         this.selectedProjectXEmployee = new ProjectXEmployeeTO();
     }
 
-    public List<ProjectTO> getProjects() {
+    public List<ProjectTO> getProjects () {
         try {
             CAId = 0;
             return proService.getProjects();
@@ -559,11 +559,11 @@ public class ProjectController implements Serializable {
 
     }
     
-    public void deletePEFeedback(int pk) throws Exception {
+    public void deletePEFeedback() throws Exception {
 
         try {
 
-            fService.delete(pk);
+            fService.delete(selectedFeedback.getId());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -678,7 +678,7 @@ public class ProjectController implements Serializable {
 
     }
     
-    public void deleteEFeedback(int pk) throws Exception {
+    public void deleteFeedback(int pk) throws Exception {
 
         try {
 
@@ -735,6 +735,97 @@ public class ProjectController implements Serializable {
         
 
     }
+    
+    
+    public List<FeedbackTO> getPFeedbackFrom() throws Exception{
+         try {
+         
+            return fService.getPFeedback(CAId);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving the list of employees of the project"));
+
+        }
+        List<FeedbackTO> list = new ArrayList<>();
+        return list;
+    }
+    
+    public void updatePFeedback( int pk) throws Exception {
+
+        boolean flag = true;
+        
+        if (this.selectedFeedback.getName() == null || this.selectedFeedback.getName().equals("")) {
+            //ERROR
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "FeedBack name is Empty"));
+            flag = false;
+        }
+        if (this.selectedFeedback.getDescription() == null || this.selectedFeedback.getDescription().equals("")) {
+            //ERROR
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "FeedBack description is Empty"));
+            flag = false;
+        }
+        
+
+        if (flag) {
+
+            this.fService.update(selectedFeedback, this.selectedFeedback.getName(), this.selectedFeedback.getDescription(), this.selectedFeedback.getDateOfFeedback(), this.selectedFeedback.getIdStatus(), 21, pk);
+            //---this.servicioUsuario.listarUsuarios();
+            //this.listaUsuarios.add(selectedEmployee);//para simular       
+            this.esNuevo = false;
+            this.selectedFeedback= new FeedbackTO();
+            PrimeFaces.current().executeScript("PF('updateEFeedback').hide()");
+        }
+
+    }
+    
+    
+    
+    public void savePFeedBack(int pk) throws Exception {
+
+        boolean flag = true;
+        
+        
+        /*if (this.selectedFeedback.getName() == null || this.selectedFeedback.getName().equals("")) {
+            //ERROR
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "FeedBack name is Empty"));
+            flag = false;
+        }
+        if (this.selectedFeedback.getDescription() == null || this.selectedFeedback.getDescription().equals("")) {
+            //ERROR
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "FeedBack description is Empty"));
+            flag = false;
+        }*/
+        
+
+        if (flag) {
+            
+            
+           
+            this.fService.insert(this.selectedFeedback.getName(), this.selectedFeedback.getDescription(), this.selectedFeedback.getDateOfFeedback(), this.selectedFeedback.getIdStatus(), 21, pk);
+            //pass = true;
+
+            this.esNuevo = false;
+            this.selectedFeedback = new FeedbackTO();
+            //this.selectedProject = new ProjectTO();
+            
+            System.out.println(selectedEmployee.getId());
+            
+            this.fService.insertPj(CAId);
+            
+            //System.out.println(this.selectedEmployee.getId() );
+            
+            
+
+            System.out.println("Salvando feedback");
+            PrimeFaces.current().executeScript("PF('addFeedback').hide()");
+
+        }
+        
+
+    }
+
+    
     public void assignActivity(int idCActivity) throws Exception{
         int idEmployee = selectedEmployee.getId();
         double hours = 0;
