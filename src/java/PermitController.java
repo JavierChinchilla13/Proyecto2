@@ -170,6 +170,18 @@ public class PermitController implements Serializable{
         return list;
     }
     
+    public List<PermitTO> searchBySupervisor(int stat, int supervisor){
+        try {
+            return pService.searchBySupervisor(stat, supervisor);
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving th list of employees"));
+
+        }
+        List<PermitTO> list = new ArrayList<>();
+        return list;
+    }
+    
     public List<PermitTO> getPermits() {
         try {
             return pService.getPermits();

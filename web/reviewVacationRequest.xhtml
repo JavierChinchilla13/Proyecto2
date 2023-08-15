@@ -26,7 +26,7 @@
 
 
                 <p:dataTable var="Vacation" value="#{vacationController.pendingVacationRequest}"  paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
-                             {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rendered="#{employeeController.isAdmin }"
                              rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="there are no vacations to approve or deny">
                     <f:facet name="header"> Vacation Request </f:facet>
 
@@ -60,6 +60,43 @@
                     </p:column>
 
                 </p:dataTable>
+                
+                <p:dataTable var="Vacation" value="#{vacationController.getPendingVacationRequestSupervisor(employeeController.id)}"  paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
+                             {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rendered="#{employeeController.isManager}"
+                             rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="there are no vacations to approve or deny">
+                    <f:facet name="header"> Vacation Request </f:facet>
+
+                    <p:column headerText="Vacation" sortBy="#{vacationController.getEmployeeName(Vacation.id)}" filterBy="#{vacationController.getEmployeeName(Vacation.id)}" filterMatchMode="contains">
+                        <h:outputText value="#{vacationController.getEmployeeName(Vacation.id)}"/>
+                    </p:column>
+
+                    <p:column headerText="Start Date" sortBy="#{Vacation.startDate}" filterBy="#{Vacation.startDate}" filterMatchMode="contains">
+                        <h:outputText value="#{Vacation.startDate}"/>
+                    </p:column>
+
+                    <p:column headerText="End Date" sortBy="#{Vacation.endDate}" filterBy="#{Vacation.endDate}" filterMatchMode="contains">
+                        <h:outputText value="#{Vacation.endDate}"/>
+                    </p:column>
+
+                    <p:column headerText="Status" sortBy="#{Vacation.idStatus}" filterBy="#{Vacation.idStatus}" filterMatchMode="contains">
+                        <h:outputText value="#{Vacation.idStatus}"/>
+                    </p:column>
+
+                    <p:column headerText="Description" sortBy="#{Vacation.description}" filterBy="#{Vacation.description}" filterMatchMode="contains">
+                        <h:outputText value="#{Vacation.description}"/>
+                    </p:column>
+
+                    <p:column>
+                        <p:commandButton icon="pi pi-pencil" update=":form:approve-deny-vacation" 
+                                         oncomplete="PF('approveDenyVacationDialog').show()"
+                                         styleClass="edit-button rounded-button ui-button-success" process="@this">
+                            <f:setPropertyActionListener value="#{Vacation}" target="#{vacationController.selectedSchedueleVacation}"/>
+                            <p:resetInput target=":form:approve-deny-vacation"/>
+                        </p:commandButton>
+                    </p:column>
+
+                </p:dataTable>
+                
 
                 <p:dialog header="Vacation Request" showEffect="fade" modal="true"
                           widgetVar="approveDenyVacationDialog" responsive="true">

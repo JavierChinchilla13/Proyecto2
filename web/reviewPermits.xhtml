@@ -51,7 +51,41 @@
             </p:commandButton>
 
             <p:dataTable var="Permit" value="#{permitController.searchByStatus(14)}"  paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
-                         {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rendered="#{employeeController.isAdmin }"
+                         emptyMessage="No existen usuarios registrados">
+                <f:facet name="header"> Permits </f:facet>
+
+                <p:column headerText="Employee Id" sortBy="#{employeeController.idToStrStatus(Permit.idEmployee)}" filterBy="#{employeeController.idToStrStatus(Permit.idEmployee)}" filterMatchMode="contains">
+                    <h:outputText value="#{employeeController.idToStrStatus(Permit.idEmployee)}"/>
+                </p:column>
+
+                <p:column headerText="Date" sortBy="#{Permit.date}" filterBy="#{Permit.date}" filterMatchMode="contains">
+                    <h:outputText value="#{Permit.date}"/>
+                </p:column>
+
+                <p:column headerText="Description" sortBy="#{Permit.description}" filterBy="#{Permit.description}" filterMatchMode="contains">
+                    <h:outputText value="#{Permit.description}"/>
+                </p:column>
+
+                <p:column headerText="Status" sortBy="#{permitController.statusToStrStatus(Permit.status)}" filterBy="#{permitController.statusToStrStatus(Permit.status)}" filterMatchMode="contains">
+                    <h:outputText value="#{permitController.statusToStrStatus(Permit.status)}"/>
+                </p:column>
+
+                <p:column>
+                    <p:commandButton icon="pi pi-pencil" update=":form:manage-user-content" 
+                                     oncomplete="PF('manageUserDialog').show()"
+                                     styleClass="edit-button rounded-button ui-button-success" process="@this">
+                        <f:setPropertyActionListener value="#{Permit}" target="#{permitController.selectedPermit}"/>
+                        <p:resetInput target=":form:manage-user-content"/>
+                    </p:commandButton>
+                </p:column>
+
+
+            </p:dataTable>
+            
+            
+            <p:dataTable var="Permit" value="#{permitController.searchBySupervisor(14, employeeController.id)}"  paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
+                         {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rendered="#{employeeController.isManager }"
                          emptyMessage="No existen usuarios registrados">
                 <f:facet name="header"> Permits </f:facet>
 
@@ -113,7 +147,7 @@
 
             </p:dialog>
 
-            <p:commandButton value="Permits History " icon="pi pi-eye" 
+            <p:commandButton value="Permits History " icon="pi pi-eye" rendered="#{employeeController.isAdmin }"
                              update=":form:history-all-per-view" oncomplete="PF('AllDocsDialog').show()"
                              styleClass="ui-button-success" style="margin-right: .5rem">
                 <p:resetInput target=":form:history-all-per-view"/>

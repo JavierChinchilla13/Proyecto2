@@ -51,11 +51,12 @@
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
 
-                <p:commandButton value="Review permits" icon="pi pi-check" rendered="#{employeeController.isAdmin}" actionListener="#{permitController.reiviewPermit}"
+                <p:commandButton value="Review permits" icon="pi pi-check" rendered="#{employeeController.isAdmin || employeeController.isManager}" actionListener="#{permitController.reiviewPermit}"
 
                                  styleClass="ui-button-success" style="margin-right: .10rem">
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
+                
 
 
                 <p:dataTable var="Permit" value="#{permitController.getNewPermits(employeeController.id)}"  paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
@@ -163,4 +164,3 @@
         </h:form>
     </h:body>
 </html>
-
