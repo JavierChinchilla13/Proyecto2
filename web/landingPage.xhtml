@@ -65,7 +65,7 @@
                     <h:outputText value="#{employeeController.employmentDay} "/>
 
                     <h:outputText value="Supervisor" rendered="#{employeeController.isManager || employeeController.isEmployee}"/>
-                    <h:outputText value="#{employeeController.idToStringEmployeeName(employeeController.idSupervisor)} "/>
+                    <h:outputText value="#{employeeController.idToStringEmployeeName(employeeController.idSupervisor)} " rendered="#{employeeController.isManager || employeeController.isEmployee}"/>
 
                 </p:panelGrid>
 

@@ -6,7 +6,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Users</title>
-        
+
     </h:head>
     <h:body>
         <h3>Welcome to HTH,  #{employeeController.firstName}</h3>
@@ -46,7 +46,7 @@
                     <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
                     <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
                 </p:confirmDialog>
-                
+
                 <p:commandButton value="New User " icon="pi pi-plus" rendered="#{employeeController.isAdmin}" actionListener="#{employeeController.openNew}"
                                  update=":form:manage-user-content" oncomplete="PF('manageUserDialog').show()"
                                  styleClass="ui-button-success" style="margin-right: .5rem">
@@ -127,31 +127,44 @@
 
 
 
-                    <p:column headerText="Edit">
-                        <p:commandButton icon="pi pi-pencil" update=":form:manage-user-content2" 
-                                         oncomplete="PF('manageUserDialog2').show()"
-                                         styleClass="edit-button rounded-button ui-button-success" process="@this">
+                    <p:column headerText="Options">
+                        <p:commandButton icon="pi pi-eye" update=":form:manage-user-content2" 
+                                         oncomplete="PF('userOptionsDialog').show()"
+                                         styleClass="edit-button rounded-button ui-button-info" process="@this">
                             <f:setPropertyActionListener value="#{Employee}" target="#{employeeController.selectedEmployee}"/>
                             <p:resetInput target=":form:manage-user-content2"/>
                         </p:commandButton>
                     </p:column>
 
-                    <p:column headerText="Suspend">
-                        <p:commandButton icon="pi pi-times" update="form" styleClass="rounded-button ui-button-danger"
-                                         actionListener="#{employeeController.deleteUser(Employee.id)}">
-                            <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
-                        </p:commandButton>
-                    </p:column>
-                    
-                    <p:column headerText="Feedback" >
-                        <p:commandButton icon="pi pi-eye" update="form:feedback-options" styleClass="rounded-button ui-button-info"
-                                         oncomplete="PF('feedbackOptionsDialog').show()" process="@this">
-                            <f:setPropertyActionListener value="#{Employee}" target="#{projectController.selectedEmployee}"/>
-                        </p:commandButton>
-                    </p:column>  
-
                 </p:dataTable>
-                
+
+                <p:dialog  showEffect="fade" modal="true" header="Feedback" 
+                           widgetVar="userOptionsDialog" responsive="true">
+                    <p:outputPanel id="user-options" class="ui-fluid">
+                        <p:outputPanel>
+
+                            <p:commandButton icon="pi pi-pencil" update=":form:manage-user-content2" 
+                                             oncomplete="PF('manageUserDialog2').show()"
+                                             value="Edit"
+                                             styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                <p:resetInput target=":form:manage-user-content2"/>
+                            </p:commandButton>
+
+                            <p:commandButton icon="pi pi-times" update="form" styleClass="rounded-button ui-button-danger"
+                                             value="Suspend"
+                                             actionListener="#{employeeController.deleteUser(employeeController.selectedEmployee.id)}">
+                                <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
+                            </p:commandButton>
+
+                            <p:commandButton icon="pi pi-eye" update="form:feedback-options" styleClass="rounded-button ui-button-info"
+                                             value="Feedback"
+                                             oncomplete="PF('feedbackOptionsDialog').show()" process="@this">
+                            </p:commandButton>
+
+                        </p:outputPanel>
+                    </p:outputPanel>
+                </p:dialog>
+
                 <p:dialog  showEffect="fade" modal="true" header="Feedback" 
                            widgetVar="feedbackOptionsDialog" responsive="true">
                     <p:outputPanel id="feedback-options" class="ui-fluid">
@@ -161,9 +174,9 @@
                             <p:commandButton value="Add feedback" icon="pi pi-plus" rendered="#{employeeController.isAdmin || employeeController.isManager}" 
                                              update=":form:feedback-options" oncomplete="PF('addPEFeedback').show()"
                                              styleClass="ui-button-success" process="@this">
-                                
+
                             </p:commandButton>
-                            
+
 
                             <p:dataTable var="Feedback" value="#{projectController.EFeedbackFrom}" paginator="true" rows="4" paginatorTemplate="{CurrentPageReport} 
                                          {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -185,7 +198,7 @@
                                 <p:column headerText="Status" sortBy="#{projectController.statusToStr(Feedback.idStatus)}" filterBy="#{projectController.statusToStr(Feedback.idStatus)}" filterMatchMode="contains">
                                     <h:outputText value="#{projectController.statusToStr(Feedback.idStatus)}"/>
                                 </p:column>
-                                 <p:column headerText="Edit">
+                                <p:column headerText="Edit">
                                     <p:commandButton icon="pi pi-pencil" update=":form:update-pe-feedback" 
                                                      oncomplete="PF('updatePEFeedback').show()"
                                                      styleClass="edit-button rounded-button ui-button-success" process="@this">
@@ -199,8 +212,8 @@
                                         <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
                                     </p:commandButton>
                                 </p:column>
-                                
-                                
+
+
 
 
 
@@ -213,8 +226,8 @@
 
 
                 </p:dialog>
-                
-                 <p:dialog header="Add feedback" showEffect="fade" modal="true"
+
+                <p:dialog header="Add feedback" showEffect="fade" modal="true"
                           widgetVar="addPEFeedback" responsive="true">
                     <p:outputPanel id="add-pe-feedback" class="ui-fluid">
 
@@ -244,13 +257,13 @@
 
                         <p:commandButton value="Add" icon="pi pi-check"  actionListener="#{projectController.saveEFeedBack(employeeController.id)}" 
                                          update="form add-pe-feedback" process="add-pe-feedback @this"/>
-                        
-                        
+
+
 
                     </f:facet>
 
                 </p:dialog>
-                
+
                 <p:dialog header="Update feedback" showEffect="fade" modal="true"
                           widgetVar="updatePEFeedback" responsive="true">
                     <p:outputPanel id="update-pe-feedback" class="ui-fluid">
@@ -287,10 +300,10 @@
                     </f:facet>
 
                 </p:dialog>
-                
-                
-                
-                
+
+
+
+
 
 
                 <p:commandButton value="View suspended" icon="pi pi-check" rendered="#{employeeController.isAdmin}" actionListener="#{employeeController.viewSuspended()}"

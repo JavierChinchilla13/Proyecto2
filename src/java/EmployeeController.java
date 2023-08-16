@@ -857,7 +857,7 @@ public class EmployeeController implements Serializable {
     }
 
     public String idToStringEmployeeName(int employeeID) throws Exception {
-
+        System.out.println("\n\n\n\n\n\n\n" + employeeID);
         EmployeeService serv = new EmployeeService();
         EmployeeTO test = serv.searchByPK(employeeID);
         this.esNuevo = false;
