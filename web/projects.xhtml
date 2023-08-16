@@ -46,10 +46,10 @@
                     <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
                 </p:confirmDialog>
 
-                <p:commandButton value="New Project" icon="pi pi-plus" rendered="#{employeeController.isAdmin || employeeController.isManager}" actionListener="#{permitController.openNew}"
-                                 update=":form:manage-user-content" oncomplete="PF('manageUserDialog').show()"
+                <p:commandButton value="New Project" icon="pi pi-plus" rendered="#{employeeController.isAdmin || employeeController.isManager}" actionListener="#{projectController.openNew}"
+                                 update=":form:manage-user-content2" oncomplete="PF('manageUserDialog2').show()"
                                  styleClass="ui-button-success" style="margin-right: .5rem">
-                    <p:resetInput target=":form:manage-user-content"/>
+                    <p:resetInput target=":form:manage-user-content2"/>
                 </p:commandButton>
 
 
@@ -88,8 +88,8 @@
                     </p:column>
 
                 </p:dataTable>
-                
-                
+
+
                 <p:dataTable var="Projects" value="#{projectController.getMyProjects(employeeController.id)}" rendered="#{employeeController.isManager}"  paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                              {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No projects" style="background-color: chartreuse">
@@ -180,13 +180,13 @@
 
                     <p:column headerText="Members">
                         <p:commandButton icon="pi pi-users" update=":form:manage-members" 
-                                             value="Members"
-                                             actionListener="#{projectController.viewProject()}"
-                                             styleClass="rounded-button ui-button-info" process="@this" >
+                                         value="Members"
+                                         actionListener="#{projectController.viewProject()}"
+                                         styleClass="rounded-button ui-button-info" process="@this" >
 
-                                <p:resetInput target=":form:manage-members"/>
-                            </p:commandButton>
-                       
+                            <p:resetInput target=":form:manage-members"/>
+                        </p:commandButton>
+
                     </p:column>
 
                 </p:dataTable>
@@ -308,10 +308,6 @@
 
                     </p:outputPanel>
                     <f:facet name="footer">
-                        <p:commandButton value="Create Project" icon="pi pi-check"   actionListener="#{projectController.saveProject()}"
-                                         update="form manage-user-content" process="manage-user-content @this">
-                            <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
-                        </p:commandButton>
                         <p:commandButton value="Update Project" icon="pi pi-check"   actionListener="#{projectController.updateProject()}"
                                          update="form manage-user-content" process="manage-user-content @this">
                             <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
@@ -321,6 +317,49 @@
                     </f:facet>
 
                 </p:dialog>
+
+
+                <p:dialog header="User detail" showEffect="fade" modal="true"
+                          widgetVar="manageUserDialog2" responsive="true">
+                    <p:outputPanel id="manage-user-content2" class="ui-fluid">
+                        
+                        <p:outputPanel>
+                            <div class="p-field2">
+                                <p:outputLabel for="name2">Name</p:outputLabel>
+                                <p:inputText id="name2" value="#{projectController.selectedProject.name}"/>
+                            </div>
+                            <div class="p-field2">
+                                <p:outputLabel for="status2">Status</p:outputLabel>
+                                <p:selectOneMenu id="status2" value="#{projectController.selectedProject.status}">
+                                    <f:selectItem itemLabel="Select One" itemValue=""/>
+                                    <f:selectItem itemLabel="Inprogress" itemValue="10"/>
+                                    <f:selectItem itemLabel="Completed" itemValue="11"/> 
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="p-field2">
+                                <p:outputLabel for="startingDate2">Starting Date</p:outputLabel>
+                                <p:calendar id="startingDate2" value="#{projectController.startingDate}"/>
+                            </div>
+                            <div class="p-field2">
+                                <p:outputLabel for="endingDate2">Ending Date</p:outputLabel>
+                                <p:calendar id="endingDate2" value="#{projectController.endingDate}"/>
+                            </div>
+
+                        </p:outputPanel>
+                        
+                    </p:outputPanel>
+                    
+                    <f:facet name="footer">
+                        
+                        <p:commandButton value="Create Project" icon="pi pi-check"   actionListener="#{projectController.saveProject()}"
+                                         update="form:manage-user-content2" process="manage-user-content2 @this">
+                            <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
+                        
+                    </f:facet>
+                    
+                </p:dialog>
+
 
             </div> 
         </h:form>

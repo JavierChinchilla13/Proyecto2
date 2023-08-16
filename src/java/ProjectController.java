@@ -177,6 +177,10 @@ public class ProjectController implements Serializable {
     public boolean isEsNuevo() {
         return esNuevo;
     }
+    
+    public boolean isNoEsNuevo() {
+        return !esNuevo;
+    }
 
     public void setEsNuevo(boolean esNuevo) {
         this.esNuevo = esNuevo;
