@@ -881,5 +881,9 @@ public class EmployeeController implements Serializable {
     public int getIdSupervisor() {
         return em.getIdSupervisor();
     }
+    
+    public int getIdCurrentEmployee() throws Exception{
+        return service.searchIdByEmailPass(user, pasword);
+    }
 
 }

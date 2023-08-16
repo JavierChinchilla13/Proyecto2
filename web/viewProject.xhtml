@@ -290,7 +290,7 @@
 
                             <p:dataTable var="EmployeeNotOnProyect" value="#{projectController.employeesNotOnProyect}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                                          {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                         rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados" style="background-color: chartreuse">
+                                         rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No users registered" style="background-color: chartreuse">
 
                                 <p:column headerText="Name" sortBy="#{EmployeeNotOnProyect.fullName}" filterBy="#{EmployeeNotOnProyect.fullName}" filterMatchMode="contains">
                                     <h:outputText value="#{EmployeeNotOnProyect.fullName}"/>
@@ -327,11 +327,66 @@
 
 
 
-                <p:commandButton value="View Activities" icon="pi pi-eye" 
+                <p:commandButton value="View All Activities" icon="pi pi-eye" 
                                  update=":form:history-all-per-view" oncomplete="PF('AllDocsDialog').show()"
                                  styleClass="ui-button-success" style="margin-right: .5rem">
                     <p:resetInput target=":form:history-all-per-view"/>
                 </p:commandButton>
+                
+                <p:commandButton value="Manage your activities" icon="pi pi-eye" 
+                                 update=":form:activity-options" oncomplete="PF('activityOptionsDialog').show()"
+                                 styleClass="ui-button-info" style="margin-right: .5rem" rendered="#{employeeController.isEmployee}">
+                    <p:resetInput target=":form:activity-options"/>
+                </p:commandButton>
+                
+                <p:dialog  showEffect="fade" modal="true" header="Activities" 
+                           widgetVar="activityOptionsDialogEmployee" responsive="true" rendered="#{employeeController.isEmployee}">
+                    <p:outputPanel id="activity-options-employee" class="ui-fluid">
+
+                        <p:outputPanel>
+
+                            <p:dataTable var="ActivityE" value="#{projectController.getActivitiesFromPK(employeeController.idCurrentEmployee)}" paginator="true" rows="3" paginatorTemplate="{CurrentPageReport} 
+                                         {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No activities" style="background-color: chartreuse">
+
+                                <p:column headerText="Name" sortBy="#{projectController.getActivityName(ActivityE.id)}" filterBy="#{projectController.getActivityName(ActivityE.id)}" filterMatchMode="contains">
+                                    <h:outputText value="#{projectController.getActivityName(ActivityE.id)}"/>
+                                </p:column>
+
+                                <p:column headerText="Horas" sortBy="#{ActivityE.hours}" filterBy="#{ActivityE.hours}" filterMatchMode="contains">
+                                    <h:outputText value="#{ActivityE.hours}"/>
+                                </p:column>
+
+                                <p:column headerText="Add hours">
+                                    <p:commandButton icon="pi pi-clock" update=":form:activity-options" oncomplete="PF('addHoursDialog').show()"
+                                                     styleClass="ui-button-info" style="margin-right: .5rem">
+                                        <f:setPropertyActionListener value="#{ActivityE}" target="#{projectController.selectedActivity}"/>
+                                        <p:resetInput target=":form:activity-options"/>
+                                    </p:commandButton>
+                                </p:column>
+
+                                <p:column headerText="Remove Activity">
+                                    <p:commandButton icon="pi pi-times" update=":form:activity-options" 
+                                                     styleClass="ui-button-danger" process="@this"
+                                                     actionListener="#{projectController.removeActivity(ActivityE.id)}"
+                                                     rendered="#{employeeController.isAdmin || employeeController.isManager}">
+                                        <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
+                                    </p:commandButton>
+                                </p:column>
+
+                            </p:dataTable>
+
+                            <p:commandButton value="Assign Activity" icon="pi pi-check" update=":form:assign-activity" 
+                                             styleClass="ui-button-success" process="@this"
+                                             oncomplete="PF('AssingActivityDialog').show()"
+                                             rendered="#{employeeController.isAdmin || employeeController.isManager}">
+                                <p:resetInput target=":form:assign-activity"/>
+                            </p:commandButton>
+
+                        </p:outputPanel>
+                    </p:outputPanel>
+
+                </p:dialog>
 
 
                 <p:dialog header="Activities" showEffect="fade" hideEffect="fade" modal="true"
@@ -514,7 +569,7 @@
 
                             <p:dataTable var="CActivity" value="#{projectController.activitiesNotAssignedTo}" paginator="true" rows="4" paginatorTemplate="{CurrentPageReport} 
                                          {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                         emptyMessage="No Activvities" style="background-color: chartreuse">
+                                         emptyMessage="No Activities" style="background-color: chartreuse">
 
                                 <p:column headerText="Name" sortBy="#{CActivity.name}" filterBy="#{CActivity.name}" filterMatchMode="contains">
                                     <h:outputText value="#{CActivity.name}"/>
