@@ -40,6 +40,12 @@
                     </p:menuitem>
 
                 </p:tabMenu>
+                
+                <div class="col-12 md:col-4">
+                    <p:staticMessage severity="warn" summary="Use vacations" detail="You have more than 12 vacation days, please use them."
+                                     style="width: 100%; margin-bottom: .30rem;margin-left: .30rem;margin-right: .30rem;margin-top: .30rem"
+                                     rendered="#{vacationController.vacaciones()}" />
+                </div>
 
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
                     <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
