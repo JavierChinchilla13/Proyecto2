@@ -44,7 +44,7 @@
                 <div class="col-12 md:col-4">
                     <p:staticMessage severity="warn" summary="Use vacations" detail="You have more than 12 vacation days, please use them."
                                      style="width: 100%; margin-bottom: .30rem;margin-left: .30rem;margin-right: .30rem;margin-top: .30rem"
-                                     rendered="#{vacationController.vacaciones()}" />
+                                     rendered="#{vacationController.vacaciones(vacationController.getVacationDaysOff(employeeController.id) + vacationController.getVacationDaysOfEmployee(employeeController.id))}" />
                 </div>
 
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
@@ -124,6 +124,12 @@
                     <p:resetInput target=":form:admin-all-vacations-view"/>
                 </p:commandButton>
 
+                <p:commandButton value="Show all your request" icon="pi pi-eye" 
+                                 update=":form:admin-all-vacations-view2" oncomplete="PF('allVacationsDialog2').show()"
+                                 styleClass="ui-button-info" style="margin-right: .5rem; margin-top: .75rem" >
+                    <p:resetInput target=":form:admin-all-vacations-view2"/>
+                </p:commandButton>
+
                 <p:dialog header="All Vacations" showEffect="fade" hideEffect="fade" modal="true"
                           widgetVar="allVacationsDialog" responsive="true">
                     <p:outputPanel id="admin-all-vacations-view" class="ui-fluid">
@@ -131,6 +137,10 @@
                         <p:dataTable var="Vacation" value="#{vacationController.getOldScheduleVacations(employeeController.id)}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                                      {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                      emptyMessage="No Vacations" style="background-color: orangered">
+
+                            <p:column headerText="Employee" sortBy="#{vacationController.getEmployeeName(Vacation.id)}" filterBy="#{vacationController.getEmployeeName(Vacation.id)}" filterMatchMode="contains">
+                                <h:outputText value="#{vacationController.getEmployeeName(Vacation.id)}"/>
+                            </p:column>
 
                             <p:column headerText="Start Date" sortBy="#{Vacation.startDate}" filterBy="#{Vacation.startDate}" filterMatchMode="contains">
                                 <h:outputText value="#{Vacation.startDate}"/>
@@ -154,6 +164,37 @@
                     </p:outputPanel>  
 
 
+
+                </p:dialog>
+
+
+                <p:dialog header="Your vacations" showEffect="fade" hideEffect="fade" modal="true"
+                          widgetVar="allVacationsDialog2" responsive="true">
+                    <p:outputPanel id="admin-all-vacations-view2" class="ui-fluid">
+
+                        <p:dataTable var="Vacations" value="#{vacationController.getScheduleVacationOf(employeeController.id)}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
+                                     {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No Vacations" style="background-color: orangered">
+
+                            <p:column headerText="Start Date" sortBy="#{Vacations.startDate}" filterBy="#{Vacations.startDate}" filterMatchMode="contains">
+                                <h:outputText value="#{Vacations.startDate}"/>
+                            </p:column>
+
+                            <p:column headerText="End Date" sortBy="#{Vacations.endDate}" filterBy="#{Vacations.endDate}" filterMatchMode="contains">
+                                <h:outputText value="#{Vacations.endDate}"/>
+                            </p:column>
+
+                            <p:column headerText="Status" sortBy="#{vacationController.statusToStrStatus(Vacations.idStatus)}" filterBy="#{vacationController.statusToStrStatus(Vacations.idStatus)}" filterMatchMode="contains">
+                                <h:outputText value="#{vacationController.statusToStrStatus(Vacations.idStatus)}"/>
+                            </p:column>
+
+                            <p:column headerText="Description" sortBy="#{Vacations.description}" filterBy="#{Vacations.description}" filterMatchMode="contains">
+                                <h:outputText value="#{Vacations.description}"/>
+                            </p:column>
+
+                        
+                        </p:dataTable>
+                    </p:outputPanel>  
 
                 </p:dialog>
 

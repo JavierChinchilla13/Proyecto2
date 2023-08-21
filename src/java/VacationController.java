@@ -163,17 +163,18 @@ public class VacationController implements Serializable {
     
     @PostConstruct
     public void init() {
-        vacaciones();
+        vacaciones(0);
     }
 
-    public boolean vacaciones() {
+    public boolean vacaciones(int vac) {
         boolean flag = true;
+        
         LocalDate dateNow = LocalDate.now();
         int dateYear = LocalDate.now().getYear();
         LocalDate manualDate = LocalDate.of(dateYear, 1, 1);//10 , 1
 
         if (dateNow.isAfter(manualDate)) {
-            if (this.vacationDays >= 12) {
+            if (vac>= 12) {
                 flag = true;
             } else {
                 flag = false;
