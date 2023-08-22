@@ -46,13 +46,13 @@
 
             <p:commandButton value="Return" icon="pi pi-arrow-down-left" actionListener="#{permitController.returnPermit}"
 
-                             styleClass="ui-button-success" style="margin-right: .10rem">
+                             styleClass="ui-button-success" style="margin: .25rem">
                 <p:resetInput target=":form:manage-user-content"/>
             </p:commandButton>
 
             <p:dataTable var="Permit" value="#{permitController.searchByStatus(14)}"  paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                          {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rendered="#{employeeController.isAdmin }"
-                         emptyMessage="No existen usuarios registrados" style="background-color: purple">
+                         emptyMessage="No Permits" style="background-color: purple">
                 <f:facet name="header"> Permits </f:facet>
 
                 <p:column headerText="Employee Id" sortBy="#{employeeController.idToStrStatus(Permit.idEmployee)}" filterBy="#{employeeController.idToStrStatus(Permit.idEmployee)}" filterMatchMode="contains">
@@ -86,7 +86,7 @@
             
             <p:dataTable var="Permit" value="#{permitController.searchBySupervisor(14, employeeController.id)}"  paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                          {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rendered="#{employeeController.isManager }"
-                         emptyMessage="No existen usuarios registrados" style="background-color: purple">
+                         emptyMessage="No Permits" style="background-color: purple">
                 <f:facet name="header"> Permits </f:facet>
 
                 <p:column headerText="Employee Id" sortBy="#{employeeController.idToStrStatus(Permit.idEmployee)}" filterBy="#{employeeController.idToStrStatus(Permit.idEmployee)}" filterMatchMode="contains">
@@ -134,12 +134,12 @@
                 </p:outputPanel>
                 <f:facet name="footer">
                     <p:commandButton value="Approve" icon="pi pi-check"   actionListener="#{permitController.approvePermit()}"
-                                     update="form manage-user-content" process="manage-user-content @this">
+                                     style="margin: .25rem" update="form manage-user-content" process="manage-user-content @this">
                         <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
                     </p:commandButton>
 
                     <p:commandButton value="Deny" icon="pi pi-check"   actionListener="#{permitController.denyPermit()}"
-                                     update="form manage-user-content" process="manage-user-content @this">
+                                     style="margin: .25rem" update="form manage-user-content" process="manage-user-content @this">
                         <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
                     </p:commandButton>
 
@@ -149,7 +149,7 @@
 
             <p:commandButton value="Permits History " icon="pi pi-eye" rendered="#{employeeController.isAdmin }"
                              update=":form:history-all-per-view" oncomplete="PF('AllDocsDialog').show()"
-                             styleClass="ui-button-success" style="margin-right: .5rem">
+                             styleClass="ui-button-success" style="margin: .25rem">
                 <p:resetInput target=":form:history-all-per-view"/>
             </p:commandButton>
 

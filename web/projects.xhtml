@@ -198,7 +198,7 @@
 
                             <p:dataTable var="EmployeeOfProyect" value="#{projectController.employeesOfProyect}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                                          {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                         rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados" style="background-color: chartreuse">
+                                         rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No projects" style="background-color: chartreuse">
 
                                 <p:column headerText="Name" sortBy="#{EmployeeOfProyect.fullName}" filterBy="#{EmployeeOfProyect.fullName}" filterMatchMode="contains">
                                     <h:outputText value="#{EmployeeOfProyect.fullName}"/>
@@ -244,7 +244,7 @@
 
                             <p:dataTable var="EmployeeNotOnProyect" value="#{projectController.employeesNotOnProyect}" paginator="true" rows="5" paginatorTemplate="{CurrentPageReport} 
                                          {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                         rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No existen usuarios registrados" style="background-color: chartreuse">
+                                         rowsPerPageTemplate="3,5,10,20,30,40,50" emptyMessage="No projects" style="background-color: chartreuse">
 
                                 <p:column headerText="Name" sortBy="#{EmployeeNotOnProyect.fullName}" filterBy="#{EmployeeNotOnProyect.fullName}" filterMatchMode="contains">
                                     <h:outputText value="#{EmployeeNotOnProyect.fullName}"/>
