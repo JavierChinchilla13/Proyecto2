@@ -49,14 +49,14 @@
 
                 <p:commandButton value="New User " icon="pi pi-plus" rendered="#{employeeController.isAdmin}" actionListener="#{employeeController.openNew}"
                                  update=":form:manage-user-content" oncomplete="PF('manageUserDialog').show()"
-                                 styleClass="ui-button-success" style="margin-right: .5rem">
+                                 styleClass="ui-button-success" style="margin: .50rem">
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
 
 
                 <p:commandButton value="View subordinates" icon="pi pi-eye" actionListener="#{employeeController.openNew}" rendered="#{employeeController.isAdmin || employeeController.isManager}"
                                  update=":form:subordinates-all-per-view" oncomplete="PF('Subordinates').show()"
-                                 styleClass="ui-button-success" style="margin-right: .5rem">
+                                 styleClass="ui-button-success" style="margin: .25rem">
                     <p:resetInput target=":form:subordinates-all-per-view"/>
                 </p:commandButton>
 
@@ -145,19 +145,19 @@
 
                             <p:commandButton icon="pi pi-pencil" update=":form:manage-user-content2" 
                                              oncomplete="PF('manageUserDialog2').show()"
-                                             value="Edit"
+                                             value="Edit" style="margin: .25rem"
                                              styleClass="edit-button rounded-button ui-button-success" process="@this">
                                 <p:resetInput target=":form:manage-user-content2"/>
                             </p:commandButton>
 
                             <p:commandButton icon="pi pi-times" update="form" styleClass="rounded-button ui-button-danger"
-                                             value="Suspend"
+                                             value="Suspend" style="margin: .25rem"
                                              actionListener="#{employeeController.deleteUser(employeeController.selectedEmployee.id)}">
                                 <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
                             </p:commandButton>
 
                             <p:commandButton icon="pi pi-eye" update="form:feedback-options" styleClass="rounded-button ui-button-info"
-                                             value="Feedback"
+                                             value="Feedback" style="margin: .25rem"
                                              oncomplete="PF('feedbackOptionsDialog').show()" process="@this">
                             </p:commandButton>
 
@@ -173,7 +173,7 @@
 
                             <p:commandButton value="Add feedback" icon="pi pi-plus" rendered="#{employeeController.isAdmin || employeeController.isManager}" 
                                              update=":form:feedback-options" oncomplete="PF('addPEFeedback').show()"
-                                             styleClass="ui-button-success" process="@this">
+                                             styleClass="ui-button-success" process="@this" style="margin: .25rem">
 
                             </p:commandButton>
 
@@ -200,7 +200,7 @@
                                 </p:column>
                                 <p:column headerText="Edit">
                                     <p:commandButton icon="pi pi-pencil" update=":form:update-pe-feedback" 
-                                                     oncomplete="PF('updatePEFeedback').show()"
+                                                     oncomplete="PF('updatePEFeedback').show()" style="margin: .25rem"
                                                      styleClass="edit-button rounded-button ui-button-success" process="@this">
                                         <f:setPropertyActionListener value="#{Feedback}" target="#{projectController.selectedFeedback}"/>
                                         <p:resetInput target=":form:update-pe-feedback"/>
@@ -208,7 +208,7 @@
                                 </p:column>
                                 <p:column headerText="Delete">
                                     <p:commandButton icon="pi pi-times" update=":form:feedback-options" styleClass="rounded-button ui-button-danger"
-                                                     actionListener="#{projectController.deleteEmpFeedback(Feedback.id)}">
+                                                     actionListener="#{projectController.deleteEmpFeedback(Feedback.id)}" style="margin: .25rem">
                                         <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
                                     </p:commandButton>
                                 </p:column>
@@ -256,7 +256,7 @@
                     <f:facet name="footer">
 
                         <p:commandButton value="Add" icon="pi pi-check"  actionListener="#{projectController.saveEFeedBack(employeeController.id)}" 
-                                         update="form add-pe-feedback" process="add-pe-feedback @this"/>
+                                         update="form add-pe-feedback" process="add-pe-feedback @this" style="margin: .25rem"/>
 
 
 
@@ -293,7 +293,7 @@
                     <f:facet name="footer">
 
                         <p:commandButton value="Save" icon="pi pi-check"  actionListener="#{projectController.updateEFeedback(employeeController.id)}" 
-                                         update="form update-pe-feedback" process="update-pe-feedback @this"/>
+                                         update="form update-pe-feedback" process="update-pe-feedback @this" style="margin: .25rem"/>
 
 
 
@@ -307,7 +307,7 @@
 
 
                 <p:commandButton value="View suspended" icon="pi pi-check" rendered="#{employeeController.isAdmin}" actionListener="#{employeeController.viewSuspended()}"
-                                 update="form manage-user-content" styleClass="ui-button-success" style="margin-right: .10rem">
+                                 update="form manage-user-content" styleClass="ui-button-success" style="margin: .25rem">
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
 
@@ -377,13 +377,13 @@
                     </p:outputPanel>
                     <f:facet name="footer">
                         <p:commandButton value="Add" icon="pi pi-check"   actionListener="#{employeeController.saveUser()}" 
-                                         update="form manage-user-content" process="manage-user-content @this">
+                                         update="form manage-user-content" style="margin: .25rem" process="manage-user-content @this">
                             <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
 
 
                         <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageUserDialog').hide()" actionListener="#{employeeController.setEsNuevo(false)}"
-                                         class="ui-button-secondary"/>
+                                         style="margin: .25rem" class="ui-button-secondary"/>
                     </f:facet>
 
                 </p:dialog>
@@ -453,12 +453,12 @@
 
 
                         <p:commandButton value="Save" icon="pi pi-check"  actionListener="#{employeeController.updateUser()}"
-                                         update="form manage-user-content2" process="manage-user-content2 @this">
+                                         update="form manage-user-content2" style="margin: .25rem" process="manage-user-content2 @this">
                             <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
 
                         <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageUserDialog2').hide()" actionListener="#{employeeController.setEsNuevo(false)}"
-                                         class="ui-button-secondary"/>
+                                         style="margin: .25rem" class="ui-button-secondary"/>
                     </f:facet>
 
                 </p:dialog>
@@ -509,7 +509,7 @@
 
                             <p:column headerText="Edit">
                                 <p:commandButton icon="pi pi-pencil" update=":form:manage-user-content2" 
-                                                 oncomplete="PF('manageUserDialog2').show()"
+                                                 oncomplete="PF('manageUserDialog2').show()" style="margin: .25rem"
                                                  styleClass="edit-button rounded-button ui-button-success" process="@this">
                                     <f:setPropertyActionListener value="#{Employee}" target="#{employeeController.selectedEmployee}"/>
                                     <p:resetInput target=":form:manage-user-content2"/>
@@ -518,7 +518,7 @@
 
                             <p:column headerText="Suspend">
                                 <p:commandButton icon="pi pi-times" update="form" styleClass="rounded-button ui-button-danger"
-                                                 actionListener="#{employeeController.deleteUser(Employee.id)}">
+                                                 style="margin: .25rem" actionListener="#{employeeController.deleteUser(Employee.id)}">
                                     <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
                                 </p:commandButton>
                             </p:column>

@@ -59,7 +59,7 @@
                 </p:commandButton>
 
                 <p:commandButton value="Review Vacation Request" icon="pi pi-check" rendered="#{employeeController.isAdmin || employeeController.isManager}" actionListener="#{vacationController.reviewVacationRequest()}"
-                                 styleClass="ui-button-success" style="margin-right: .10rem">
+                                 styleClass="ui-button-success" style="margin: .25rem">
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
 
