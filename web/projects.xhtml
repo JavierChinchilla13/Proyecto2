@@ -48,7 +48,7 @@
 
                 <p:commandButton value="New Project" icon="pi pi-plus" rendered="#{employeeController.isAdmin || employeeController.isManager}" actionListener="#{projectController.openNew}"
                                  update=":form:manage-user-content2" oncomplete="PF('manageUserDialog2').show()"
-                                 styleClass="ui-button-success" style="margin-right: .5rem">
+                                 styleClass="ui-button-success" style="margin: .25rem">
                     <p:resetInput target=":form:manage-user-content2"/>
                 </p:commandButton>
 
@@ -130,13 +130,13 @@
 
                             <p:commandButton icon="pi pi-pencil" update=":form:manage-user-content" 
                                              oncomplete="PF('manageUserDialog').show()"
-                                             value="Edit Project"
+                                             value="Edit Project" style="margin: .25rem"
                                              styleClass="edit-button rounded-button ui-button-success" process="@this">
                                 <p:resetInput target=":form:manage-user-content"/>
                             </p:commandButton>
 
                             <p:commandButton icon="pi pi-users" update=":form:manage-members" 
-                                             value="Members"
+                                             value="Members" style="margin: .25rem"
                                              actionListener="#{projectController.viewProject()}"
                                              styleClass="rounded-button ui-button-info" process="@this" >
 
@@ -144,7 +144,7 @@
                             </p:commandButton>
 
                             <p:commandButton icon="pi pi-times" update="form" styleClass="rounded-button ui-button-danger"
-                                             value ="Delete" rendered="#{employeeController.isAdmin }"
+                                             value ="Delete" rendered="#{employeeController.isAdmin }" style="margin: .25rem"
                                              actionListener="#{projectController.deleteProject(projectController.selectedProject.id)}">
                                 <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
                             </p:commandButton>
@@ -227,12 +227,12 @@
                     <f:facet name="footer">
                         <p:commandButton value="Add person to project" icon="pi pi-plus" update=":form:manage-membersToAdd" 
                                          oncomplete="PF('manageProjectMembersToAddDialog').show()"
-                                         styleClass="ui-button-success" process="@this"
+                                         styleClass="ui-button-success" process="@this" style="margin: .25rem"
                                          rendered="#{employeeController.isAdmin || employeeController.isManager}">
                         </p:commandButton>
 
                         <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageProjectMembersDialog').hide()"
-                                         styleClass="ui-button-secondary"/>
+                                         styleClass="ui-button-secondary" style="margin: .25rem"/>
                     </f:facet>
                 </p:dialog>
 
@@ -270,7 +270,7 @@
 
                             <f:facet name="footer">
                                 <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageProjectMembersToAddDialog').hide()"
-                                                 styleClass="ui-button-secondary"/>
+                                                 style="margin: .25rem" styleClass="ui-button-secondary"/>
                             </f:facet>
 
                         </p:outputPanel>
@@ -309,7 +309,7 @@
                     </p:outputPanel>
                     <f:facet name="footer">
                         <p:commandButton value="Update Project" icon="pi pi-check"   actionListener="#{projectController.updateProject()}"
-                                         update="form manage-user-content" process="manage-user-content @this">
+                                         style="margin: .25rem" update="form manage-user-content" process="manage-user-content @this">
                             <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
 
@@ -352,7 +352,7 @@
                     <f:facet name="footer">
                         
                         <p:commandButton value="Create Project" icon="pi pi-check"   actionListener="#{projectController.saveProject()}"
-                                         update="form:manage-user-content2" process="manage-user-content2 @this">
+                                         style="margin: .25rem" update="form:manage-user-content2" process="manage-user-content2 @this">
                             <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
                         
