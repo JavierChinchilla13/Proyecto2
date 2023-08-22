@@ -48,20 +48,20 @@
 
                 <p:commandButton value="Add person" icon="pi pi-plus" update="form" 
                                  oncomplete="PF('manageProjectMembersToAddDialog').show()"
-                                 styleClass="ui-button-success" process="@this" style="margin-right: .5rem"
+                                 styleClass="ui-button-success" process="@this" style="margin: .25rem"
                                  rendered="#{employeeController.isAdmin || employeeController.isManager}">
                 </p:commandButton>
 
                 <p:commandButton value="Create activity" icon="pi pi-plus" rendered="#{employeeController.isAdmin || employeeController.isManager}"
                                  actionListener="#{employeeController.openNew}"
                                  update=":form:create-activity" oncomplete="PF('createActivityToAddDialog').show()"
-                                 styleClass="ui-button-success" style="margin-right: .5rem">
+                                 styleClass="ui-button-success" style="margin: .25rem">
                     <p:resetInput target=":form:create-activity"/>
                 </p:commandButton>
 
                 <p:commandButton value="General Feedback" 
                                  update="form:feedback-options2" oncomplete="PF('feedbackOptionsDialog2').show()"
-                                 styleClass="ui-button-success" style="margin-right: .5rem">
+                                 styleClass="ui-button-success" style="margin: .25rem">
                     <p:resetInput target=":form:feedback-options2"/>
 
                 </p:commandButton>
@@ -73,7 +73,7 @@
 
                 <p:commandButton value="Return"  actionListener="#{projectController.returnToProjectPage()}"
 
-                                 styleClass="ui-button-success" style="margin-right: .10rem">
+                                 styleClass="ui-button-success" style="margin: .25rem">
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
 
@@ -254,21 +254,21 @@
 
                             <p:commandButton icon="pi pi-star" update="form:activity-options" styleClass="rounded-button ui-button-info"
                                              oncomplete="PF('activityOptionsDialog').show()" process="@this"
-                                             value="Activity" >
+                                             style="margin: .25rem" value="Activity" >
                                 <p:resetInput target=":form:activity-options"/>
                             </p:commandButton>
 
 
                             <p:commandButton icon="pi pi-comment" update="form:feedback-options" styleClass="rounded-button ui-button-info"
                                              oncomplete="PF('feedbackOptionsDialog').show()" process="@this"
-                                             value="Feedback" >
+                                             style="margin: .25rem" value="Feedback" >
                                 <p:resetInput target=":form:feedback-options"/>
                             </p:commandButton>
 
                             <p:commandButton icon="pi pi-times" update="form" styleClass="rounded-button ui-button-danger"
                                              value ="Delete" rendered="#{employeeController.isAdmin || employeeController.isManager}"
                                              action="#{projectController.deleteEmployeeFromProject(EmployeeOfProyect.id)}" 
-                                             process="@this">
+                                             style="margin: .25rem" process="@this">
                                 <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
                             </p:commandButton>
 
@@ -329,13 +329,13 @@
 
                 <p:commandButton value="View All Activities" icon="pi pi-eye" 
                                  update=":form:history-all-per-view" oncomplete="PF('AllDocsDialog').show()"
-                                 styleClass="ui-button-success" style="margin-right: .5rem">
+                                 styleClass="ui-button-success" style="margin: .25rem">
                     <p:resetInput target=":form:history-all-per-view"/>
                 </p:commandButton>
                 
                 <p:commandButton value="Manage your activities" icon="pi pi-eye" 
                                  update=":form:activity-options" oncomplete="PF('activityOptionsDialog').show()"
-                                 styleClass="ui-button-info" style="margin-right: .5rem" rendered="#{employeeController.isEmployee}">
+                                 styleClass="ui-button-info" style="margin: .25rem" rendered="#{employeeController.isEmployee}">
                     <p:resetInput target=":form:activity-options"/>
                 </p:commandButton>
                 
@@ -359,7 +359,7 @@
 
                                 <p:column headerText="Add hours">
                                     <p:commandButton icon="pi pi-clock" update=":form:activity-options" oncomplete="PF('addHoursDialog').show()"
-                                                     styleClass="ui-button-info" style="margin-right: .5rem">
+                                                     styleClass="ui-button-info" style="margin: .25rem">
                                         <f:setPropertyActionListener value="#{ActivityE}" target="#{projectController.selectedActivity}"/>
                                         <p:resetInput target=":form:activity-options"/>
                                     </p:commandButton>
@@ -369,7 +369,7 @@
                                     <p:commandButton icon="pi pi-times" update=":form:activity-options" 
                                                      styleClass="ui-button-danger" process="@this"
                                                      actionListener="#{projectController.removeActivity(ActivityE.id)}"
-                                                     rendered="#{employeeController.isAdmin || employeeController.isManager}">
+                                                     style="margin: .25rem" rendered="#{employeeController.isAdmin || employeeController.isManager}">
                                         <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
                                     </p:commandButton>
                                 </p:column>
@@ -379,7 +379,7 @@
                             <p:commandButton value="Assign Activity" icon="pi pi-check" update=":form:assign-activity" 
                                              styleClass="ui-button-success" process="@this"
                                              oncomplete="PF('AssingActivityDialog').show()"
-                                             rendered="#{employeeController.isAdmin || employeeController.isManager}">
+                                             style="margin: .25rem" rendered="#{employeeController.isAdmin || employeeController.isManager}">
                                 <p:resetInput target=":form:assign-activity"/>
                             </p:commandButton>
 
@@ -408,14 +408,14 @@
                             <p:column headerText="Edit" rendered="#{employeeController.isAdmin || employeeController.isManager}">
                                 <p:commandButton icon="pi pi-pencil" update=":form:create-activity2" 
                                                  oncomplete="PF('createActivityToAddDialog2').show()"
-                                                 styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                                 style="margin: .25rem" styleClass="edit-button rounded-button ui-button-success" process="@this">
                                     <f:setPropertyActionListener value="#{Activity}" target="#{projectController.selectedCreateActivity}"/>
                                     <p:resetInput target=":form:create-activity2"/>
                                 </p:commandButton>
                             </p:column>
                             <p:column headerText="Delete" rendered="#{employeeController.isAdmin || employeeController.isManager}">
                                 <p:commandButton icon="pi pi-times" update="form:history-all-per-view" styleClass="rounded-button ui-button-danger"
-                                                 actionListener="#{projectController.deleteCActivity(Activity.id)}">
+                                                 style="margin: .25rem" actionListener="#{projectController.deleteCActivity(Activity.id)}">
                                     <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
                                 </p:commandButton>
                             </p:column>
@@ -507,7 +507,7 @@
 
                                 <p:column headerText="Add hours">
                                     <p:commandButton icon="pi pi-clock" update=":form:activity-options" oncomplete="PF('addHoursDialog').show()"
-                                                     styleClass="ui-button-info" style="margin-right: .5rem">
+                                                     styleClass="ui-button-info" style="margin: .25rem">
                                         <f:setPropertyActionListener value="#{Activity}" target="#{projectController.selectedActivity}"/>
                                         <p:resetInput target=":form:activity-options"/>
                                     </p:commandButton>
@@ -517,7 +517,7 @@
                                     <p:commandButton icon="pi pi-times" update=":form:activity-options" 
                                                      styleClass="ui-button-danger" process="@this"
                                                      actionListener="#{projectController.removeActivity(Activity.id)}"
-                                                     rendered="#{employeeController.isAdmin || employeeController.isManager}">
+                                                     style="margin: .25rem" rendered="#{employeeController.isAdmin || employeeController.isManager}">
                                         <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
                                     </p:commandButton>
                                 </p:column>
@@ -527,7 +527,7 @@
                             <p:commandButton value="Assign Activity" icon="pi pi-check" update=":form:assign-activity" 
                                              styleClass="ui-button-success" process="@this"
                                              oncomplete="PF('AssingActivityDialog').show()"
-                                             rendered="#{employeeController.isAdmin || employeeController.isManager}">
+                                             style="margin: .25rem" rendered="#{employeeController.isAdmin || employeeController.isManager}">
                                 <p:resetInput target=":form:assign-activity"/>
                             </p:commandButton>
 

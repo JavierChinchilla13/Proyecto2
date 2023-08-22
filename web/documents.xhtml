@@ -89,7 +89,7 @@
 
                 <p:commandButton value="Show all Documnets " icon="pi pi-eye" rendered="#{employeeController.isAdmin}"
                                  update=":form:select-person-docs-view" oncomplete="PF('SelectPersonDialog').show()"
-                                 styleClass="ui-button-success" style="margin-right: .5rem">
+                                 styleClass="ui-button-success" style="margin: .25rem">
                     <p:resetInput target=":form:select-person-docs-view"/>
                 </p:commandButton>
 
@@ -148,14 +148,14 @@
 
                             <p:column headerText="Download">
                                 <p:commandButton value="Download" icon="pi pi-arrow-down" styleClass="rounded-button" 
-                                                 actionListener="#{employeeController.prepareFileSC(Document.id)}">
+                                                 style="margin: .25rem" actionListener="#{employeeController.prepareFileSC(Document.id)}">
                                     <p:fileDownload value="#{employeeController.fileSC}"/>
                                 </p:commandButton>
                             </p:column>
 
                             <p:column headerText="Delete">
                                 <p:commandButton value="Delete" icon="pi pi-trash" update="form" actionListener="#{employeeController.deleteDocument(Document.id)}" 
-                                                 styleClass="rounded-button ui-button-danger">
+                                                 style="margin: .25rem" styleClass="rounded-button ui-button-danger">
                                 </p:commandButton>
                             </p:column>
 

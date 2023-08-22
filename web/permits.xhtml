@@ -48,13 +48,13 @@
 
                 <p:commandButton value="Request permit" icon="pi pi-plus" actionListener="#{permitController.openNew}"
                                  update=":form:manage-user-content" oncomplete="PF('manageUserDialog').show()"
-                                 styleClass="ui-button-success" style="margin-right: .5rem">
+                                 styleClass="ui-button-success" style="margin: .25rem">
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
 
                 <p:commandButton value="Review permits" icon="pi pi-check" rendered="#{employeeController.isAdmin || employeeController.isManager}" actionListener="#{permitController.reiviewPermit}"
 
-                                 styleClass="ui-button-success" style="margin-right: .10rem">
+                                 styleClass="ui-button-success" style="margin: .25rem">
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
                 
@@ -113,7 +113,7 @@
                     </p:outputPanel>
                     <f:facet name="footer">
                         <p:commandButton value="Request" icon="pi pi-check"   actionListener="#{permitController.savePermit(employeeController.id)}"
-                                         update="form manage-user-content" process="manage-user-content @this">
+                                         style="margin: .25rem" update="form manage-user-content" process="manage-user-content @this">
                             <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
 
@@ -124,7 +124,7 @@
 
                 <p:commandButton value="Previews permits" icon="pi pi-eye" 
                                  update=":form:history-all-per-view" oncomplete="PF('AllDocsDialog').show()"
-                                 styleClass="ui-button-success" style="margin-right: .5rem">
+                                 styleClass="ui-button-success" style="margin: .25rem">
                     <p:resetInput target=":form:history-all-per-view"/>
                 </p:commandButton>
 

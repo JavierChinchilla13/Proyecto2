@@ -20,7 +20,7 @@
                 </p:confirmDialog>
 
                 <p:commandButton value="Return to Vacation Page" icon="pi pi-arrow-down-left" actionListener="#{vacationController.returnToVacationPage}"
-                                 styleClass="ui-button-success" style="margin: .15rem">
+                                 styleClass="ui-button-success" style="margin: .25rem">
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
 
@@ -112,12 +112,12 @@
 
                     <f:facet name="footer">
                         <p:commandButton value="Approve" icon="pi pi-check"   actionListener="#{vacationController.approveVacation()}"
-                                         update="form approve-deny-vacation" process="approve-deny-vacation @this">
+                                         style="margin: .25rem" update="form approve-deny-vacation" process="approve-deny-vacation @this">
                             <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
 
                         <p:commandButton value="Deny" icon="pi pi-check"   actionListener="#{vacationController.denyVacation()}"
-                                         update="form approve-deny-vacation" process="approve-deny-vacation @this">
+                                         style="margin: .25rem" update="form approve-deny-vacation" process="approve-deny-vacation @this">
                             <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
                     </f:facet>

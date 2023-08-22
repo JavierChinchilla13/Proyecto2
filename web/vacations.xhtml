@@ -54,7 +54,7 @@
 
                 <p:commandButton value="Ask for Vacations" icon="pi pi-plus" actionListener="#{vacationController.openNew()}"
                                  update=":form:manage-user-content" oncomplete="PF('manageUserDialog').show()"
-                                 styleClass="ui-button-success" style="margin-right: .5rem; margin-top: .5rem">
+                                 styleClass="ui-button-success" style="margin: .25rem">
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
 
@@ -83,7 +83,7 @@
 
                     <f:facet name="footer">
                         <p:commandButton value="Request Vacation" icon="pi pi-check" actionListener="#{vacationController.saveSchedueleVacation(employeeController.id)}"
-                                         update="form manage-user-content" process="manage-user-content @this">
+                                         style="margin: .25rem" update="form manage-user-content" process="manage-user-content @this">
                             <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
                     </f:facet>
@@ -120,13 +120,13 @@
 
                 <p:commandButton value="Show all Vacation Request" icon="pi pi-eye" rendered="#{employeeController.isAdmin}"
                                  update=":form:admin-all-vacations-view" oncomplete="PF('allVacationsDialog').show()"
-                                 styleClass="ui-button-info" style="margin-right: .5rem; margin-top: .75rem" >
+                                 styleClass="ui-button-info" style="margin: .25rem" >
                     <p:resetInput target=":form:admin-all-vacations-view"/>
                 </p:commandButton>
 
                 <p:commandButton value="Show all your request" icon="pi pi-eye" 
                                  update=":form:admin-all-vacations-view2" oncomplete="PF('allVacationsDialog2').show()"
-                                 styleClass="ui-button-info" style="margin-right: .5rem; margin-top: .75rem" >
+                                 styleClass="ui-button-info" style="margin: .25rem" >
                     <p:resetInput target=":form:admin-all-vacations-view2"/>
                 </p:commandButton>
 

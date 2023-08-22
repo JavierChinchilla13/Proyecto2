@@ -45,7 +45,7 @@
 
                 <p:commandButton value="Return" icon="pi pi-arrow-down-left" actionListener="#{employeeController.returnUser()}"
 
-                                 styleClass="ui-button-success" style="margin-right: .10rem">
+                                 styleClass="ui-button-success" style="margin: .25rem">
                     <p:resetInput target=":form:manage-user-content"/>
                 </p:commandButton>
 
@@ -145,7 +145,7 @@
                     <f:facet name="footer">
 
                         <p:commandButton value="Rehire" icon="pi pi-check"   actionListener="#{employeeController.rehire(employeeController.selectedEmployee.id)}" 
-                                         update="form manage-user-content" process="manage-user-content @this">
+                                         style="margin: .25rem" update="form manage-user-content" process="manage-user-content @this">
                             <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
 
