@@ -124,6 +124,10 @@
                     <p:column headerText="Supervisor" sortBy="#{employeeController.getEmployeeName(Employee.idSupervisor)}" filterBy="#{employeeController.getEmployeeName(Employee.idSupervisor)}" filterMatchMode="contains">
                         <h:outputText value="#{employeeController.getEmployeeName(Employee.idSupervisor)}"/>
                     </p:column>
+                    
+                    <p:column headerText="Vacations" sortBy="#{vacationController.getVacationDaysOff(Employee.id) + vacationController.getVacationDaysOfEmployee(Employee.id)}" filterBy="#{vacationController.getVacationDaysOff(Employee.id) + vacationController.getVacationDaysOfEmployee(Employee.id)}" filterMatchMode="contains">
+                        <h:outputText value="#{vacationController.getVacationDaysOff(Employee.id) + vacationController.getVacationDaysOfEmployee(Employee.id)}"/>
+                    </p:column>
 
 
 
@@ -504,7 +508,9 @@
                             <p:column headerText="Layoff Date" sortBy="#{Employee.layoffDate}" filterBy="#{Employee.layoffDate}" filterMatchMode="contains">
                                 <h:outputText value="#{Employee.layoffDate}"/>
                             </p:column>
-
+                            <p:column headerText="Vacations" sortBy="#{vacationController.getVacationDaysOff(Employee.id) + vacationController.getVacationDaysOfEmployee(Employee.id)}" filterBy="#{vacationController.getVacationDaysOff(Employee.id) + vacationController.getVacationDaysOfEmployee(Employee.id)}" filterMatchMode="contains">
+                                <h:outputText value="#{vacationController.getVacationDaysOff(Employee.id) + vacationController.getVacationDaysOfEmployee(Employee.id)}"/>
+                            </p:column>
 
 
                             <p:column headerText="Edit">
