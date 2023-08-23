@@ -506,7 +506,7 @@ public class ProjectController implements Serializable {
     
     public List<ActivityTO> getActivitiesFromPK(int pk) throws Exception{
          try {
-            return actService.getSearchActivity(pk , CAId);
+            return actService.getSearchActivity(pk , selectedProject.getId());
         } catch (Exception e) {
             e.printStackTrace();
             FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Error in retriving the list of employees of the project"));

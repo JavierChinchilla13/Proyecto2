@@ -334,9 +334,9 @@
                 </p:commandButton>
                 
                 <p:commandButton value="Manage your activities" icon="pi pi-eye" 
-                                 update=":form:activity-options" oncomplete="PF('activityOptionsDialog').show()"
+                                 update=":form:activity-options-employee" oncomplete="PF('activityOptionsDialogEmployee').show()"
                                  styleClass="ui-button-info" style="margin: .25rem" rendered="#{employeeController.isEmployee}">
-                    <p:resetInput target=":form:activity-options"/>
+                    <p:resetInput target=":form:activity-options-employee"/>
                 </p:commandButton>
                 
                 <p:dialog  showEffect="fade" modal="true" header="Activities" 
@@ -362,15 +362,6 @@
                                                      styleClass="ui-button-info" style="margin: .25rem">
                                         <f:setPropertyActionListener value="#{ActivityE}" target="#{projectController.selectedActivity}"/>
                                         <p:resetInput target=":form:activity-options"/>
-                                    </p:commandButton>
-                                </p:column>
-
-                                <p:column headerText="Remove Activity">
-                                    <p:commandButton icon="pi pi-times" update=":form:activity-options" 
-                                                     styleClass="ui-button-danger" process="@this"
-                                                     actionListener="#{projectController.removeActivity(ActivityE.id)}"
-                                                     style="margin: .25rem" rendered="#{employeeController.isAdmin || employeeController.isManager}">
-                                        <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>
                                     </p:commandButton>
                                 </p:column>
 

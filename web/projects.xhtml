@@ -183,7 +183,7 @@
                                          value="Enter"
                                          actionListener="#{projectController.viewProject()}"
                                          styleClass="rounded-button ui-button-info" process="@this" >
-
+                                         <f:setPropertyActionListener value="#{Project}" target="#{projectController.selectedProject}"/>
                             <p:resetInput target=":form:manage-members"/>
                         </p:commandButton>
 
