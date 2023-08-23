@@ -411,7 +411,14 @@ public class EmployeeController implements Serializable {
         if (flag) {
             System.out.println("Estoy salvando al usuario");
             this.service.insert(this.selectedEmployee);
-
+            if (this.selectedEmployee.getType() == 1) {
+                EmployeeTO temp = service.searchByIdentification(this.selectedEmployee.getIdentification());
+                this.selectedEmployee.setIdSupervisor(temp.getId());
+                System.out.println("\n\n\n\nID: " + this.selectedEmployee.getIdSupervisor());
+                service.update(this.selectedEmployee, this.selectedEmployee.getFirstName(), this.selectedEmployee.getLastName(), this.selectedEmployee.getIdentification(), this.selectedEmployee.getEmail(),
+                                            this.selectedEmployee.getPhone(), this.selectedEmployee.getType(), this.selectedEmployee.getStatus(), this.selectedEmployee.getPassword(),
+                                            this.selectedEmployee.getEmploymentDate(), this.selectedEmployee.getLayoffDate(), this.selectedEmployee.getIdSupervisor());
+            }
             this.esNuevo = false;
             this.selectedEmployee = new EmployeeTO();
             PrimeFaces.current().executeScript("PF('manageUserDialog').hide()");
@@ -881,8 +888,8 @@ public class EmployeeController implements Serializable {
     public int getIdSupervisor() {
         return em.getIdSupervisor();
     }
-    
-    public int getIdCurrentEmployee() throws Exception{
+
+    public int getIdCurrentEmployee() throws Exception {
         return service.searchIdByEmailPass(user, pasword);
     }
 
