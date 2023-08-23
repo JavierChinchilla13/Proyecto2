@@ -55,7 +55,7 @@
                          emptyMessage="No Permits" style="background-color: purple">
                 <f:facet name="header"> Permits </f:facet>
 
-                <p:column headerText="Employee Id" sortBy="#{employeeController.idToStrStatus(Permit.idEmployee)}" filterBy="#{employeeController.idToStrStatus(Permit.idEmployee)}" filterMatchMode="contains">
+                <p:column headerText="Employee" sortBy="#{employeeController.idToStrStatus(Permit.idEmployee)}" filterBy="#{employeeController.idToStrStatus(Permit.idEmployee)}" filterMatchMode="contains">
                     <h:outputText value="#{employeeController.idToStrStatus(Permit.idEmployee)}"/>
                 </p:column>
 
